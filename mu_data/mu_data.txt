@@ -1,0 +1,10 @@
+This folder contains the mu data for several common elements in materials used in optics and filters.
+
+All elements have data in .csv format (comma separated values, spreadsheet) and .pkl format (python pickling, serialized array)
+
+Mu is a constant based on material and energy, the intensity of light that passes through a material of thickness t is
+I=I0*e^(-mu t)
+
+Xx is a test element, for all energies, mu=0 (perfect transmission)
+
+Only elements are supported, no chemical compounds allowed

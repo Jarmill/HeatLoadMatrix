@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>280</width>
+    <height>178</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>280</width>
+     <height>178</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Material</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="material_1"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="material_2"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="material_3"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="material_4"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="material_5"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Thickness (μm)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="thickness_1"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="thickness_2"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="thickness_3"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="thickness_4"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="thickness_5"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QDialogButtonBox" name="buttonBox">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="standardButtons">
+       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>material_1</tabstop>
+  <tabstop>thickness_1</tabstop>
+  <tabstop>material_2</tabstop>
+  <tabstop>thickness_2</tabstop>
+  <tabstop>material_3</tabstop>
+  <tabstop>thickness_3</tabstop>
+  <tabstop>material_4</tabstop>
+  <tabstop>thickness_4</tabstop>
+  <tabstop>material_5</tabstop>
+  <tabstop>thickness_5</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>249</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>278</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

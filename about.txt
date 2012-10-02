@@ -1,0 +1,16 @@
+This program, heatbump.py, finds the power load applied to an rectangluar object when exposed to a high-energy synchrotron beam. A .csv file is outputted to the "heatbump_output" folder, under either a custom file name or "output.csv". This file (assuming the output is in power density, W/m^3) is bound to a CAD model and simulation by a macro in ANSYS, thereby solving the steady-state 3d heat map of the object. This can be used for predictive safety analysis.
+ 
+Currently, two insertion devices for x-rays are supported, undulators and wigglers. Bending magnets will be added in the future.
+
+Heatbump.py is a python rewrite of existing MATLAB code, with a front end/GUI and other features. The MATLAB code was written by Emmet Windisch (REU) and Aaron Lyndacker in 2007. Heatbump was written in 2012 by Jared Miller, Aaron Lyndacker, and Jim Savino, with help from the Cornell High Energy Synchrotron Source (CHESS)
+
+There are multiple features still in the pipeline, including improved first-time setup, multiprocessing, progress bars, progressive meshing, improved UI/uploading source data, bending magnet support, and further optimization. As of now, an interpolation guard has been added (additional near-edge sample points), to improve accuracy and prevent ANSYS interpolation errors.
+
+Software Used:
+\tPython 3.2
+\tAptana (IDE)
+\tXOP 2.3 (X-ray Oriented Programming) by esrf (European Synchrotron Radiation Facility)
+\t\tws.exe (wiggler spectra)
+\t\tus.exe (undulator spectra)
+\t\txPower (material/mu data)
+\tPyQt4 (Riverbank Computing), includes Qt which was originally developed by Nokia in c++
