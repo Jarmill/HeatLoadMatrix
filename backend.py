@@ -83,34 +83,7 @@ class Back(rectangle_grid.pc):
         #other        
         self.source=source
         
-        #Load in user entered values from gui, for use in build series
-        if source=="und":
-            self.title=self.ui.und_title.text()
-            self.energy=self.ui.und_energy.text()
-            self.current=self.ui.und_current.text()
-            self.period=self.ui.und_period.text()
-            self.num=self.ui.und_nperiods.text()
-            self.sigx=self.ui.und_sigx.text()
-            self.sigy=self.ui.und_sigy.text()
-            self.sigx1=self.ui.und_sigx1.text()
-            self.sigy1=self.ui.und_sigy1.text()
-            self.kx=self.ui.und_kx.text()
-            self.ky=self.ui.und_ky.text()
         
-        elif source=="wig":
-            self.title=self.ui.wig_title.text()
-            self.energy=self.ui.wig_energy.text()
-            self.current=self.ui.wig_current.text()
-            self.period=self.ui.wig_periods.text()
-            self.num=self.ui.wig_nperiods.text()
-            self.kx=self.ui.wig_kx.text()
-            self.ky=self.ui.wig_ky.text()
-        
-        else:
-            raise NameError("Invalid source (not undulator nor wiggler)")
-        
-        if self.title=="":
-            self.title="output"
         #intrinsic parameters DO NOT TOUCH! Only for undulators
         self.mode=int(adv["mode"])
         self.method=int(adv["method"])
@@ -141,6 +114,36 @@ class Back(rectangle_grid.pc):
         #self.pout=adv["power"]
         self.pout="testing"
     
+    def back_gui_values(self):
+        #"""Read entered gui values"""
+        if self.source=="und":
+            self.title=self.ui.und_title.text()
+            self.energy=self.ui.und_energy.text()
+            self.current=self.ui.und_current.text()
+            self.period=self.ui.und_period.text()
+            self.num=self.ui.und_nperiods.text()
+            self.sigx=self.ui.und_sigx.text()
+            self.sigy=self.ui.und_sigy.text()
+            self.sigx1=self.ui.und_sigx1.text()
+            self.sigy1=self.ui.und_sigy1.text()
+            self.kx=self.ui.und_kx.text()
+            self.ky=self.ui.und_ky.text()
+        
+        elif self.source=="wig":
+            self.title=self.ui.wig_title.text()
+            self.energy=self.ui.wig_energy.text()
+            self.current=self.ui.wig_current.text()
+            self.period=self.ui.wig_periods.text()
+            self.num=self.ui.wig_nperiods.text()
+            self.kx=self.ui.wig_kx.text()
+            self.ky=self.ui.wig_ky.text()
+            
+        else:
+            raise NameError("Invalid source (not undulator nor wiggler)")
+        
+        if self.title=="":
+            self.title="output"
+        
     def buildusmatrix(self,x_offset=0,y_offset=0):
         """Builds the xop-formatted undulator matrix from user-entered values"""
         xpos=str(x_offset)
@@ -278,8 +281,8 @@ class Back(rectangle_grid.pc):
         tstart=time()
         if path.exists("job"):
             rmtree(".\\job")
-        
-        title=self.title
+        self.back_gui_values()
+        print(self.title)
 
         s_flux=self.source_flux() #calculate flux in each pixel before filtering, xop
         txop=time()-tstart
@@ -322,13 +325,13 @@ class Back(rectangle_grid.pc):
         #print(s_flux[self.vd-1][self.hd-1][3000:3005])
         
         if self.pout=="density":
-            self.write_slice_to_table(voxel_absorbed_power_densityv,title)
+            self.write_slice_to_table(voxel_absorbed_power_densityv,self.title)
         elif self.pout=="power":
-            self.write_slice_to_table(voxel_absorbed_powerv, title)
+            self.write_slice_to_table(voxel_absorbed_powerv, self.title)
         elif self.pout=="testing":
             #custom testing
-            self.write_slice_to_table(voxel_absorbed_power_densityv, title+"_density")
-            self.write_slice_to_table(voxel_absorbed_powerv,title+"_power")
+            self.write_slice_to_table(voxel_absorbed_power_densityv, self.title+"_density")
+            self.write_slice_to_table(voxel_absorbed_powerv,self.title+"_power")
         #print("write_slice_to_table ",time()-tstart)
         
         # Problem here with multiple layers
@@ -883,8 +886,7 @@ class Back(rectangle_grid.pc):
         #There might be an error here in the cube writing to file, y instead of z split.
         st=""
         vd=voxel_absorbed_power_density
-        
-        
+
         #Axis definitions
         hr=[0]+self.rect_center_x()+[self.h]
         vr=[0]+self.rect_center_y()+[self.v]

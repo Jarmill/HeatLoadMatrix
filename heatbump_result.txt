@@ -4,6 +4,6 @@ Integrated source power after filtering: 96.8030921367098 W
 Integrated power absorbed in the object: 96.78768930746628 W
 Integrated power transmitted through the object: 0.015402828246058166 W
 Integrated power error: 9.974547177798998e-10 W
-XOP/Flux time: 13.315999984741211 s
-Processing time: 3.9619998931884766 s
-Elapsed time: 17.277999877929688 s
+XOP/Flux time: 13.41100001335144 s
+Processing time: 3.7279999256134033 s
+Elapsed time: 17.138999938964844 s
