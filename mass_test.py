@@ -52,8 +52,8 @@ class MassTest(backend.Back):
         
         self.h=1
         self.v=.5
-        self.hd=3
-        self.vd=3
+        self.hd=4
+        self.vd=6
         self.mat="Si"
         self.thickness=[10.0]
         self.dist=20.0
