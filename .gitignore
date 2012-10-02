@@ -1,6 +1,8 @@
 *.class
 *.pyc
 *.pyo
-*.class
-*.pyc
-*.pyo
+*.pkl
+*.csv
+*.txt
+*.inp
+*.out

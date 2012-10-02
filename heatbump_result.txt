@@ -1,9 +1,9 @@
 
-Integrated Source Power without filtering: 100.25175893865728 W
-Integrated source power after filtering: 100.25040840764684 W
-Integrated power absorbed in the object: 100.22410480348827 W
-Integrated power transmitted through the object: 0.02630360257783734 W
-Integrated power error: 1.5807333532402712e-09 W
-XOP/Flux time: 23.14799976348877 s
-Processing time: 8.160000085830688 s
-Elapsed time: 31.307999849319458 s
+Integrated Source Power without filtering: 100.24780869705616 W
+Integrated source power after filtering: 96.80063272144052 W
+Integrated power absorbed in the object: 96.78523114120765 W
+Integrated power transmitted through the object: 0.015401579234322308 W
+Integrated power error: 9.985534361184323e-10 W
+XOP/Flux time: 11.141000032424927 s
+Processing time: 3.796999931335449 s
+Elapsed time: 14.937999963760376 s
