@@ -30,6 +30,8 @@ Multiprocessing added. This update later included "overdrive", where if half the
 There were a series of numerical errors, which included large errors in p=a+t, when multiple slices were implemented. There was also a difference in power values when the slices were (100,10)mm,(110)mm,(10,100)mm, or (10)mmx11. This was due to reference errors, and fixed by using deepcopy
 The write_slice_to_table function was rehauled, in order to implement changes as due to rectangle_grid.
 There are still some index naming errors, these are of low priority and will be fixed in next release.
+Inner loop optimization has been added. This cuts down the time through less indexing.
+Memory errors are present, for a 102x102 matrix (100x100 with lip), the source_flux array is about 750 MB. Broke my laptop. Need big machine.
 
 Next Release:
 Creating/figuring out progress bar
