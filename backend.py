@@ -282,7 +282,6 @@ class Back(rectangle_grid.pc):
         if path.exists("job"):
             rmtree(".\\job")
         self.back_gui_values()
-        print(self.title)
 
         s_flux=self.source_flux() #calculate flux in each pixel before filtering, xop
         txop=time()-tstart
@@ -290,7 +289,8 @@ class Back(rectangle_grid.pc):
         integrated_s_power=self.integrated_source_power(s_flux)
 
         #print("s_flux assignment " ,time()-tstart)
-        s="\nIntegrated Source Power without filtering: "+str(integrated_s_power)+" W\n"
+        s="Title: "+self.title
+        s+="\nIntegrated Source Power without filtering: "+str(integrated_s_power)+" W\n"
         
         #export f_flux resutlts for testing
 

@@ -1,3 +1,7 @@
 *.class
 *.pyc
 *.pyo
+*.pkl
+*.xls
+*.csv
+*.txt
