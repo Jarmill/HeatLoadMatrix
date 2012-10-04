@@ -1,9 +1,9 @@
-Title: output
-Integrated Source Power without filtering: 100.25114367753127 W
-Integrated source power after filtering: 96.80396548820005 W
-Integrated power absorbed in the object: 96.78856221217673 W
-Integrated power transmitted through the object: 0.015403275026638576 W
-Integrated power error: 9.96682123985404e-10 W
-XOP/Flux time: 18.371999979019165 s
-Processing time: 5.646999835968018 s
-Elapsed time: 24.018999814987183 s
+Title: 10x20 big fat test russo 1
+Integrated Source Power without filtering: 528.6592362791203 W
+Integrated source power after filtering: 501.6786266709277 W
+Integrated power absorbed in the object: 501.6339122456282 W
+Integrated power transmitted through the object: 0.04471442255411068 W
+Integrated power error: 2.7453924134057672e-09 W
+XOP/Flux time: 125.37100005149841 s
+Processing time: 45.973000049591064 s
+Elapsed time: 171.34400010108948 s

@@ -109,6 +109,9 @@ class Back(rectangle_grid.pc):
         #THE NUCLEAR OPTION. Do you want to enable rmtree to wipe the "job" folder after each run?
         self.NUKE_JOBS_AT_END=True
         
+        #garbage collect variables in intermediate steps?
+        self.NUKE_VARS=True
+        
         #file path (only good for specuser). First time setup will need to be implemented in order for this to work universally
         self.xop_path="C:\\xop2.3\\bin.x86\\"
         #self.pout=adv["power"]
@@ -230,7 +233,7 @@ class Back(rectangle_grid.pc):
         flt=self.flt_list
         
         #calculate filtered flux through layer
-        #deepcopy required, may lead to issues with memory management. f
+        #deepcopy required, may lead to issues with memory management.
         f_flux=deepcopy(s_flux)
         assert len(ea)==len(s_flux[0][0])
         
@@ -295,7 +298,9 @@ class Back(rectangle_grid.pc):
         #export f_flux resutlts for testing
 
         f_flux=self.filter_flux(s_flux)
-
+        
+        if self.NUKE_VARS==True: del s_flux
+        
         integrated_power_after_filtering=self.integrated_source_power(f_flux)
 
         s+="Integrated source power after filtering: "+str(integrated_power_after_filtering)+" W\n"
@@ -307,7 +312,9 @@ class Back(rectangle_grid.pc):
         slice_transmissionv=self.slice_transmission()
         
         voxel_absorbed_fluxv=self.voxel_absorbed_flux(f_flux,slice_transmissionv)
-
+        
+        if self.NUKE_VARS==True: del f_flux
+        
         #print("voxel_absorbed_fluxv ",time()-tstart)
 
         voxel_absorbed_powerv=self.voxel_flux_to_power(voxel_absorbed_fluxv)
@@ -334,6 +341,7 @@ class Back(rectangle_grid.pc):
             self.write_slice_to_table(voxel_absorbed_powerv,self.title+"_power")
         #print("write_slice_to_table ",time()-tstart)
         
+        
         # Problem here with multiple layers
         total_integrated_absorbed_power=self.total_integrated_power(voxel_absorbed_powerv)        
 
@@ -346,6 +354,8 @@ class Back(rectangle_grid.pc):
         tend=time()
         dt=tend-tstart
         tpython=dt-txop
+        if self.NUKE_VARS==True:
+            del voxel_absorbed_powerv, voxel_absorbed_power_densityv, slice_volumesv,
         
         s+="Integrated power absorbed in the object: "+str(total_integrated_absorbed_power)+" W\n"
         s+="Integrated power transmitted through the object: "+str(integrated_power_after_region)+" W\n"
