@@ -1,9 +1,9 @@
-Title: 10x20 big fat test russo 1
-Integrated Source Power without filtering: 528.6592362791203 W
-Integrated source power after filtering: 501.6786266709277 W
-Integrated power absorbed in the object: 501.6339122456282 W
-Integrated power transmitted through the object: 0.04471442255411068 W
-Integrated power error: 2.7453924134057672e-09 W
-XOP/Flux time: 125.37100005149841 s
-Processing time: 45.973000049591064 s
-Elapsed time: 171.34400010108948 s
+Title: gc test mini
+Integrated Source Power without filtering: 528.6373200225813 W
+Integrated source power after filtering: 501.6571118116103 W
+Integrated power absorbed in the object: 501.6123975320615 W
+Integrated power transmitted through the object: 0.04471427664836363 W
+Integrated power error: 2.9004639315322045e-09 W
+XOP/Flux time: 19.073999881744385 s
+Processing time: 5.569000005722046 s
+Elapsed time: 24.64299988746643 s
