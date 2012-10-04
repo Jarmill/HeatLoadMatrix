@@ -15,6 +15,7 @@ import subprocess
 from os import path, makedirs
 #THE NUCLEAR OPTION
 from shutil import rmtree
+import gc
 
 """
 Always remember to check that total power=power absorbed+power transmitted. If it does not, sign of a deep error in computation. now abbreviated as p=a+t
@@ -378,6 +379,7 @@ class Back(rectangle_grid.pc):
         #    rmtree(".\\job")
         if path.exists("job"):
             rmtree(".\\job")
+        gc.collect()
             
     def integrated_source_power(self,s_flux):
         """Finds total power in region, triple integral of power flux. 3d->scalar. Only uses interior points for power calculation. Exterior points used for interpolation correction"""

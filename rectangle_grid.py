@@ -104,7 +104,7 @@ class pc():
         
         if not path.exists(outputfile_d):
             makedirs(outputfile_d)
-            
+        """    
         fgrid=open("grid_data\\grid.pkl","wb")
         pickle.dump(grid2,fgrid)
         fgrid.close()
@@ -124,7 +124,7 @@ class pc():
         fareas=open("grid_data\\areas.pkl","wb")
         pickle.dump(areas,fareas)
         fareas.close()
-
+        """
         
     def rect_centers(self): return self.centers
 
