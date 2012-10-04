@@ -5,6 +5,7 @@
 *.xls
 *.csv
 *.txt
-/grid_data/*
-/heatbump_output/*
-heatbump_result.txt
+*.tar
+grid_data/*
+heatbump_output/*
+/heatbump_result.txt
