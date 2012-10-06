@@ -2,6 +2,7 @@
 *.pyc
 *.pyo
 *.pkl
+pickle/*
 *.xls
 *.csv
 *.txt

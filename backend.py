@@ -224,6 +224,8 @@ class Back(rectangle_grid.pc):
     
     def filter_flux(self,s_flux):
         """Finds the transmission through a filter,#I=I0*e^(-mu*t). 3d->3d"""
+        #WARNING! s_flux will be destroyed coming out of this function. 
+        #This prevents the time-intensive deepcopy of s_flux->f_flux, though.
 
         if self.print_matrix_sums:
             print_sum_matrix(s_flux, 'filter_flux s_flux')
@@ -235,7 +237,7 @@ class Back(rectangle_grid.pc):
         
         #calculate filtered flux through layer
         #deepcopy required, may lead to issues with memory management.
-        f_flux=deepcopy(s_flux)
+        #f_flux=deepcopy(s_flux)
         assert len(ea)==len(s_flux[0][0])
         
         #This handles multiple filters. Filters multiply together, and order does not matter
@@ -248,20 +250,20 @@ class Back(rectangle_grid.pc):
             f.close()
             elem_energy=[i[0] for i in edata]
             elem_flux=[i[1] for i in edata]
-            for i in range(0,len(f_flux)):
-                fi=f_flux[i]
-                for j in range(0,len(f_flux[0])):
-                    fij=fi[j]
+            for i in range(0,len(s_flux)):
+                si=s_flux[i]
+                for j in range(0,len(s_flux[0])):
+                    sij=si[j]
                     #I=I0*e^(-mu*t)
                     for m in range(0,len(ea)):
-                        fij[m]*=math.exp(-1*mu3(elem_energy,elem_flux,ea[m])*(matthick))             
+                        sij[m]*=math.exp(-1*mu3(elem_energy,elem_flux,ea[m])*(matthick))             
 
         if self.print_matrix_sums:
-            print_sum_matrix_by_layer(f_flux, 'filter_flux f_flux')
+            print_sum_matrix_by_layer(s_flux, 'filter_flux f_flux')
             if len(self.thickness) > 1:
-                print_sum_matrix(f_flux, 'filter_flux f_flux')
+                print_sum_matrix(s_flux, 'filter_flux f_flux')
 
-        return f_flux
+        return s_flux
            
     def generate_energy_axis(self):
         """returns x axis energy values"""

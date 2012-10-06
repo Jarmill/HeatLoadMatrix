@@ -1,9 +1,9 @@
-Title: output
-Integrated Source Power without filtering: 528.6373200225813 W
-Integrated source power after filtering: 501.6571118116103 W
-Integrated power absorbed in the object: 501.6123975320615 W
-Integrated power transmitted through the object: 0.04471427664836363 W
-Integrated power error: 2.9004639315322045e-09 W
-XOP/Flux time: 18.513999938964844 s
-Processing time: 5.88100004196167 s
-Elapsed time: 24.394999980926514 s
+Title: leak fix after smaller
+Integrated Source Power without filtering: 90.27805148176716 W
+Integrated source power after filtering: 86.840300693962 W
+Integrated power absorbed in the object: 86.8294664620782 W
+Integrated power transmitted through the object: 0.010834231176468694 W
+Integrated power error: 7.073368071819353e-10 W
+XOP/Flux time: 8.748000144958496 s
+Processing time: 1.0079998970031738 s
+Elapsed time: 9.75600004196167 s
