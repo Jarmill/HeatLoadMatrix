@@ -1,5 +1,5 @@
 import rectangle_grid
-from basic_functions import cell1, list_str
+from basic_functions import cell1, list_str,depth
 from copy import deepcopy
 from os import makedirs, path
 
@@ -49,9 +49,22 @@ class bump_output(rectangle_grid.pc):
         f=open(outputfile,"w")
         f.write(s)
         f.close()
+    def write_to_mathematica(self):
+        """writes to a mathematica ListPlot3D format"""
+        hr=self.rect_center_x()
+        vr=self.rect_center_y()
+        print(hr)
+        print(vr)
+        print(self.power_grid)
+        print(len(hr),len(vr), len(self.power_grid[0]),len(self.power_grid[0][0]))
+        s=[("{"+str(hr[j])+","+str(vr[i])+","+str(self.power_grid[0][i][j])+"}") for i in range(0,len(vr)) for j in range(len(hr))]
+        sl="{"+",".join(s)+"}"
+        f=open("mathematica_output.txt","w")
+        f.write(sl)
+        f.close()
     
 if __name__=="__main__":
     b=bump_output()
     b.output_initialize()
     b.rect_setup()
-    b.write_slice_to_table()
+    b.write_to_mathematica()

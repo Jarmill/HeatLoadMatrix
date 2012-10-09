@@ -113,11 +113,14 @@ class Back(rectangle_grid.pc):
         #garbage collect variables in intermediate steps?
         self.NUKE_VARS=True
         
+        #output to mathematica
+        self.MATHEMATICA_OUTPUT=True
+        
         #file path (only good for specuser). First time setup will need to be implemented in order for this to work universally
         self.xop_path="C:\\xop2.3\\bin.x86\\"
         #self.pout=adv["power"]
         self.pout="testing"
-    
+        self.back_gui_values()
     def back_gui_values(self):
         #"""Read entered gui values"""
         if self.source=="und":
@@ -904,12 +907,13 @@ class Back(rectangle_grid.pc):
         #Axis definitions
         hr=[0]+self.rect_center_x()+[self.h]
         vr=[0]+self.rect_center_y()+[self.v]
-        
+        hr_old=self.rect_center_x()
+        vr_old=self.rect_center_y()
         #voxel dimensions
         zlen=len(vd)
         ylen=len(vd[0])
         xlen=len(vd[0][0])
-        
+        ms="{"
         for k in range(0,zlen):
             #thickness loop
             s=""
@@ -941,8 +945,15 @@ class Back(rectangle_grid.pc):
             power_temp_s=[list(map(str,i)) for i in power_temp]
             
             s+="\n".join([",".join(i) for i in power_temp_s])
-            
-            
+            if self.MATHEMATICA_OUTPUT==True:
+                print(vd[k])
+                print(hr_old)
+                print(vr_old)
+                print([len(vr_old),len(vd[k])],[len(hr_old),len(vd[k][0])])
+                mls=[("{"+str(hr_old[j])+","+str(vr_old[i])+","+str(vd[k][i][j])+"}") for i in range(0,len(vr_old)) for j in range(0,len(hr_old))]
+                ms+="{"+",".join(mls)+"}"
+                if k!=(zlen-1):
+                    ms+=""
             if k==0:
                 st+=s
             else:
@@ -958,6 +969,11 @@ class Back(rectangle_grid.pc):
         f=open(outputfile,"w")
         f.write(st)
         f.close()
+        if self.MATHEMATICA_OUTPUT==True:
+            ms+="}"
+            f2=open("heatbump_output\\"+self.title+"_mathematica.txt","w")
+            f2.write(ms)
+            f2.close()
 
     def ws(self,x_offset=0,y_offset=0,phase=0,jobdir=""):
         return self.run_xop('ws', x_offset, y_offset, phase, jobdir)

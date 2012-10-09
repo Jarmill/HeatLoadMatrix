@@ -1,9 +1,9 @@
-Title: leak fix after smaller
-Integrated Source Power without filtering: 90.27805148176716 W
-Integrated source power after filtering: 86.840300693962 W
-Integrated power absorbed in the object: 86.8294664620782 W
-Integrated power transmitted through the object: 0.010834231176468694 W
-Integrated power error: 7.073368071819353e-10 W
-XOP/Flux time: 8.748000144958496 s
-Processing time: 1.0079998970031738 s
-Elapsed time: 9.75600004196167 s
+Title: big mathematica test 8x8 2x2
+Integrated Source Power without filtering: 528.6544761497242 W
+Integrated source power after filtering: 528.6434103519169 W
+Integrated power absorbed in the object: 528.6434103520702 W
+Integrated power transmitted through the object: 1.3285803629487355e-21 W
+Integrated power error: 1.53249857250067e-10 W
+XOP/Flux time: 47.592000007629395 s
+Processing time: 6.040999889373779 s
+Elapsed time: 53.632999897003174 s

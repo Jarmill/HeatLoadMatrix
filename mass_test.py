@@ -21,7 +21,7 @@ class MassTest(backend.Back):
         self.XOP_Processes = []
         self.XOP_run_at_one_time = cpu_count()
         
-        self.title="test 4 by 4 loop optimize standard parameters"
+        self.title="big mathematica test 8x8 2x2"
         
         self.source="wig"
         
@@ -50,10 +50,10 @@ class MassTest(backend.Back):
         else:
             raise NameError("Invalid source (not undulator nor wiggler)")
         
-        self.h=1
-        self.v=.5
-        self.hd=1
-        self.vd=2
+        self.h=2
+        self.v=2
+        self.hd=8
+        self.vd=8
         self.mat="Si"
         self.thickness=[110.0]
         self.dist=20.0
@@ -88,7 +88,10 @@ class MassTest(backend.Back):
         self.rect_setup()
         
         #THE NUCLEAR OPTION. Do you want to enable rmtree to wipe the "job" folder after each run?
-        self.NUKE_JOBS=True
+        #self.NUKE_JOBS=True
+        self.NUKE_VARS=True
+        self.MATHEMATICA_OUTPUT=True
+        
         
         #file path (only good for specuser). First time setup will need to be implemented in order for this to work universally
         self.xop_path="C:\\xop2.3\\bin.x86\\"
@@ -96,7 +99,8 @@ class MassTest(backend.Back):
         self.pout="power"
     def file_param(self,f_name):
         print("Hi! You are using ",f_name,".")
-        
+    def back_gui_values(self):
+        print("NO GUI ALLOWED!")
 if __name__=="__main__":
     mt=MassTest(None,"wig")
     mt.heat_load_matrix()
