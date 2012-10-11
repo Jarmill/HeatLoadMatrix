@@ -1,6 +1,6 @@
 #import sys
 from PyQt4 import QtGui, QtCore
-from ui.advancedoptions_ui import Ui_Dialog
+from ui.advancedoptions_ui import Ui_AdvancedOptions
 import _pickle as pickle
 import sys
 
@@ -8,7 +8,7 @@ class ADialog(QtGui.QDialog):
     """sets up advanced options function, activiated through undulator"""
     def __init__(self):
         super(ADialog,self).__init__()
-        self.ui=Ui_Dialog()
+        self.ui=Ui_AdvancedOptions()
         self.ui.setupUi(self)
         self.adv_load_values()
         #Button Box connections (OK/Cancel)

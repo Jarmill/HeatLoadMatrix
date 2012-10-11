@@ -1,9 +1,9 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 # Form implementation generated from reading ui file 'advancedoptions_ui.ui'
 #
-# Created: Thu Aug  9 15:34:03 2012
-#      by: PyQt4 UI code generator 4.9.4
+# Created: Thu Oct 11 17:13:56 2012
+#      by: PyQt4 UI code generator 4.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -14,21 +14,21 @@ try:
 except AttributeError:
     _fromUtf8 = lambda s: s
 
-class Ui_Dialog(object):
+class Ui_AdvancedOptions(object):
     def setupUi(self, AdvancedOptions):
         AdvancedOptions.setObjectName(_fromUtf8("AdvancedOptions"))
-        AdvancedOptions.resize(493, 507)
-        self.widget = QtGui.QWidget(AdvancedOptions)
-        self.widget.setGeometry(QtCore.QRect(0, 2, 495, 506))
-        self.widget.setObjectName(_fromUtf8("widget"))
-        self.verticalLayout_17 = QtGui.QVBoxLayout(self.widget)
+        AdvancedOptions.resize(493, 512)
+        self.layoutWidget = QtGui.QWidget(AdvancedOptions)
+        self.layoutWidget.setGeometry(QtCore.QRect(0, 2, 495, 512))
+        self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
+        self.verticalLayout_17 = QtGui.QVBoxLayout(self.layoutWidget)
         self.verticalLayout_17.setMargin(0)
         self.verticalLayout_17.setObjectName(_fromUtf8("verticalLayout_17"))
         self.horizontalLayout_5 = QtGui.QHBoxLayout()
         self.horizontalLayout_5.setObjectName(_fromUtf8("horizontalLayout_5"))
         self.verticalLayout_12 = QtGui.QVBoxLayout()
         self.verticalLayout_12.setObjectName(_fromUtf8("verticalLayout_12"))
-        self.groupBox = QtGui.QGroupBox(self.widget)
+        self.groupBox = QtGui.QGroupBox(self.layoutWidget)
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.groupBox)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
@@ -55,7 +55,7 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.mode_6)
         self.verticalLayout_2.addLayout(self.verticalLayout)
         self.verticalLayout_12.addWidget(self.groupBox)
-        self.groupBox_3 = QtGui.QGroupBox(self.widget)
+        self.groupBox_3 = QtGui.QGroupBox(self.layoutWidget)
         self.groupBox_3.setObjectName(_fromUtf8("groupBox_3"))
         self.verticalLayout_6 = QtGui.QVBoxLayout(self.groupBox_3)
         self.verticalLayout_6.setObjectName(_fromUtf8("verticalLayout_6"))
@@ -83,7 +83,7 @@ class Ui_Dialog(object):
         self.horizontalLayout_5.addLayout(self.verticalLayout_12)
         self.verticalLayout_11 = QtGui.QVBoxLayout()
         self.verticalLayout_11.setObjectName(_fromUtf8("verticalLayout_11"))
-        self.groupBox_4 = QtGui.QGroupBox(self.widget)
+        self.groupBox_4 = QtGui.QGroupBox(self.layoutWidget)
         self.groupBox_4.setObjectName(_fromUtf8("groupBox_4"))
         self.verticalLayout_10 = QtGui.QVBoxLayout(self.groupBox_4)
         self.verticalLayout_10.setObjectName(_fromUtf8("verticalLayout_10"))
@@ -142,7 +142,7 @@ class Ui_Dialog(object):
         self.verticalLayout_9.addLayout(self.horizontalLayout)
         self.verticalLayout_10.addLayout(self.verticalLayout_9)
         self.verticalLayout_11.addWidget(self.groupBox_4)
-        self.groupBox_2 = QtGui.QGroupBox(self.widget)
+        self.groupBox_2 = QtGui.QGroupBox(self.layoutWidget)
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
         self.verticalLayout_4 = QtGui.QVBoxLayout(self.groupBox_2)
         self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
@@ -162,7 +162,7 @@ class Ui_Dialog(object):
         self.verticalLayout_11.addWidget(self.groupBox_2)
         self.horizontalLayout_5.addLayout(self.verticalLayout_11)
         self.verticalLayout_17.addLayout(self.horizontalLayout_5)
-        self.groupBox_6 = QtGui.QGroupBox(self.widget)
+        self.groupBox_6 = QtGui.QGroupBox(self.layoutWidget)
         self.groupBox_6.setObjectName(_fromUtf8("groupBox_6"))
         self.horizontalLayout_4 = QtGui.QHBoxLayout(self.groupBox_6)
         self.horizontalLayout_4.setObjectName(_fromUtf8("horizontalLayout_4"))
@@ -176,7 +176,7 @@ class Ui_Dialog(object):
         self.label_20.setObjectName(_fromUtf8("label_20"))
         self.verticalLayout_28.addWidget(self.label_20)
         self.estart = QtGui.QLineEdit(self.groupBox_6)
-        self.estart.setEnabled(True)
+        self.estart.setEnabled(False)
         self.estart.setObjectName(_fromUtf8("estart"))
         self.verticalLayout_28.addWidget(self.estart)
         self.horizontalLayout_3.addLayout(self.verticalLayout_28)
@@ -186,7 +186,7 @@ class Ui_Dialog(object):
         self.label_21.setObjectName(_fromUtf8("label_21"))
         self.verticalLayout_27.addWidget(self.label_21)
         self.eend = QtGui.QLineEdit(self.groupBox_6)
-        self.eend.setEnabled(True)
+        self.eend.setEnabled(False)
         self.eend.setObjectName(_fromUtf8("eend"))
         self.verticalLayout_27.addWidget(self.eend)
         self.horizontalLayout_3.addLayout(self.verticalLayout_27)
@@ -228,7 +228,7 @@ class Ui_Dialog(object):
         self.verticalLayout_17.addWidget(self.groupBox_6)
         self.horizontalLayout_7 = QtGui.QHBoxLayout()
         self.horizontalLayout_7.setObjectName(_fromUtf8("horizontalLayout_7"))
-        self.groupBox_5 = QtGui.QGroupBox(self.widget)
+        self.groupBox_5 = QtGui.QGroupBox(self.layoutWidget)
         self.groupBox_5.setTitle(_fromUtf8(""))
         self.groupBox_5.setObjectName(_fromUtf8("groupBox_5"))
         self.verticalLayout_16 = QtGui.QVBoxLayout(self.groupBox_5)
@@ -242,13 +242,16 @@ class Ui_Dialog(object):
         self.power_2.setChecked(True)
         self.power_2.setObjectName(_fromUtf8("power_2"))
         self.horizontalLayout_6.addWidget(self.power_2)
-        self.verticalLayout_16.addLayout(self.horizontalLayout_6)
-        self.horizontalLayout_7.addWidget(self.groupBox_5)
-        self.buttonBox = QtGui.QDialogButtonBox(self.widget)
+        self.power_3 = QtGui.QRadioButton(self.groupBox_5)
+        self.power_3.setObjectName(_fromUtf8("power_3"))
+        self.horizontalLayout_6.addWidget(self.power_3)
+        self.buttonBox = QtGui.QDialogButtonBox(self.groupBox_5)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
-        self.horizontalLayout_7.addWidget(self.buttonBox)
+        self.horizontalLayout_6.addWidget(self.buttonBox)
+        self.verticalLayout_16.addLayout(self.horizontalLayout_6)
+        self.horizontalLayout_7.addWidget(self.groupBox_5)
         self.verticalLayout_17.addLayout(self.horizontalLayout_7)
 
         self.retranslateUi(AdvancedOptions)
@@ -320,4 +323,5 @@ class Ui_Dialog(object):
         self.yint.setText(QtGui.QApplication.translate("AdvancedOptions", "10", None, QtGui.QApplication.UnicodeUTF8))
         self.power_1.setText(QtGui.QApplication.translate("AdvancedOptions", "Power", None, QtGui.QApplication.UnicodeUTF8))
         self.power_2.setText(QtGui.QApplication.translate("AdvancedOptions", "Power Density", None, QtGui.QApplication.UnicodeUTF8))
+        self.power_3.setText(QtGui.QApplication.translate("AdvancedOptions", "Both", None, QtGui.QApplication.UnicodeUTF8))
 

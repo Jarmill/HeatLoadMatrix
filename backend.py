@@ -17,26 +17,62 @@ from os import path, makedirs
 from shutil import rmtree
 import gc
 
+
 """
-Always remember to check that total power=power absorbed+power transmitted. If it does not, sign of a deep error in computation. now abbreviated as p=a+t
+Always remember to check that total power=power absorbed+power transmitted. 
+If it does not, sign of a deep error in computation. now abbreviated as p=a+t
 
 Version 1.0
-The centipede has been caught! This error turned values of source_flux from 10^12 --> 10^-21, due to a "=" instead of a "==" in region_filtered flux
+The centipede has been caught! This error turned values of source_flux from 
+10^12 --> 10^-21, due to a "=" instead of a "==" in region_filtered flux
+
 Version 1.1
-Interpolation guard is now implemented. The previous implementation did not work well, working on now. Created a new class and rectangle handling function to deal with this error.
+Interpolation guard is now implemented. The previous implementation did not 
+work well, working on now. Created a new class and rectangle handling function 
+to deal with this error.
+
 Version 1.2
-A speed boost was added while filtering (instead of using a sequential search to find mu values, a binary search is now used) cut processing time in python from 300s to 5s
+A speed boost was added while filtering (instead of using a sequential search 
+to find mu values, a binary search is now used) cut processing time in python 
+from 300s to 5s
+
 Version 2.0
-Multiprocessing added. This update later included "overdrive", where if half the cores are finished, a new dispatch occurs. Instead of time being cut by a factor of N, now it is cut by 1.5N (N=number of cores)
-There were a series of numerical errors, which included large errors in p=a+t, when multiple slices were implemented. There was also a difference in power values when the slices were (100,10)mm,(110)mm,(10,100)mm, or (10)mmx11. This was due to reference errors, and fixed by using deepcopy
-The write_slice_to_table function was rehauled, in order to implement changes as due to rectangle_grid.
-There are still some index naming errors, these are of low priority and will be fixed in next release.
-Inner loop optimization has been added. This cuts down the time through less indexing.
-Memory errors are present, for a 102x102 matrix (100x100 with lip), the source_flux array is about 750 MB. Broke my laptop. Need big machine.
+Multiprocessing added. This update later included "overdrive", where if half 
+the cores are finished, a new dispatch occurs. Instead of time being cut by a 
+factor of N, now it is cut by 1.5N (N=number of cores)
+
+There were a series of numerical errors, which included large errors in p=a+t, 
+when multiple slices were implemented. There was also a difference in power 
+values when the slices were (100,10)mm,(110)mm,(10,100)mm, or (10)mmx11. 
+This was due to reference errors, and fixed by using deepcopy
+The write_slice_to_table function was rehauled, in order to implement changes 
+as due to rectangle_grid.
+
+There are still some index naming errors, these are of low priority and will 
+
+be fixed in next release.
+Inner loop optimization has been added. This cuts down the time through less 
+indexing.
+Memory errors are present, for a 102x102 matrix (100x100 with lip), the 
+source_flux array is about 396 MB. Broke my laptop. Need big machine.
+
+Version 2.1
+There were several unnecessary deepcopies of s_flux that have been removed.
+In the filter_flux function, s_flux gets edited and destroyed, cannot be recovered.
+Attempted numpy handling, does not work on laptop. Will try harder, had to use
+unofficial binaries.
+Fixed a series of bugs, finally got good results. The density is finally a smooth
+function, while the power is properly discontinuous. This was due to the composition
+of two bugs, not changing the width and height of cells in build?matrix, and a series
+of other computation errors in s_flux.
 
 Next Release:
+Better mathematica output for testing only
+Preserving the index convention for the grid, without using the transpose cheat
 Creating/figuring out progress bar
 Progressive meshing
+Complete cancel button, terminate all processes mid-run
+Saving runs and parameters, uploading data
 """
 
 class Back(rectangle_grid.pc):
@@ -151,10 +187,12 @@ class Back(rectangle_grid.pc):
         if self.title=="":
             self.title="output"
         
-    def buildusmatrix(self,x_offset=0,y_offset=0):
+    def buildusmatrix(self,x_offset=0,y_offset=0, x_dim=0, y_dim=0):
         """Builds the xop-formatted undulator matrix from user-entered values"""
         xpos=str(x_offset)
         ypos=str(y_offset)
+        xdim=str(x_dim)
+        ydim=str(y_dim)
 
         matrix=[[str(self.title),"0","0","0","0","0","0"],\
                 [str(self.energy), str(self.current), "0","0","0","0","0"],\
@@ -162,22 +200,26 @@ class Back(rectangle_grid.pc):
                 [str(self.period),str(self.num),str(self.kx),str(self.ky),"0","0","0"],\
                 #ediv-1 Must replace ediv, that's the way xop wants undulator formatting.
                 [str(self.estart),str(self.eend),str(int(self.ediv)-1),"0","0","0","0"],\
-                [str(self.dist),xpos,ypos,str(self.h/self.hd),str(self.v/self.vd),str(self.xint),str(self.yint)],\
+                #[str(self.dist),xpos,ypos,str(self.h/self.hd),str(self.v/self.vd),str(self.xint),str(self.yint)],\
+                [str(self.dist),xpos,ypos,xdim,ydim,str(self.xint),str(self.yint)],\
                 [str(self.mode),str(self.method),str(self.harmonic),"0","0","0","0"],\
                 [str(self.nphi),str(self.nalpha),str(self.calpha2),str(self.nomega),str(self.comega),str(self.nsigma),"0"]]
         
         return matrix
     
-    def buildwsmatrix(self,x_offset=0,y_offset=0):
+    def buildwsmatrix(self,x_offset=0,y_offset=0, x_dim=0, y_dim=0):
         """Builds the xop-formatted wiggler matrix from user-entered values"""
         xpos=str(x_offset)
         ypos=str(y_offset)
+        xdim=str(x_dim)
+        ydim=str(y_dim)
         
         matrix=[[str(self.title),"0","0","0","0","0","0"],\
                 [str(self.energy), str(self.current),"0","0","0","0","0"],\
                 [str(self.period),str(self.num),str(self.kx),str(self.ky),"0","0","0"],\
                 [str(self.estart),str(self.eend),str(self.ediv),"0","0","0","0"],\
-                [str(self.dist),xpos,ypos,str(self.h/self.hd),str(self.v/self.vd),str(self.xint),str(self.yint)],\
+                #[str(self.dist),xpos,ypos,str(self.h/self.hd),str(self.v/self.vd),str(self.xint),str(self.yint)],\
+                [str(self.dist),xpos,ypos,xdim,ydim,str(self.xint),str(self.yint)],\
                 ["4","0","0","0","0","0","0"]]
         
         return matrix
@@ -239,8 +281,8 @@ class Back(rectangle_grid.pc):
         flt=self.flt_list
         
         #calculate filtered flux through layer
-        #deepcopy required, may lead to issues with memory management.
-        #f_flux=deepcopy(s_flux)
+        #deepcopy required, may lead to issues with memory management. f
+        f_flux=s_flux  #deepcopy(s_flux)  -- Need to delete after usage
         assert len(ea)==len(s_flux[0][0])
         
         #This handles multiple filters. Filters multiply together, and order does not matter
@@ -253,20 +295,21 @@ class Back(rectangle_grid.pc):
             f.close()
             elem_energy=[i[0] for i in edata]
             elem_flux=[i[1] for i in edata]
-            for i in range(0,len(s_flux)):
-                si=s_flux[i]
-                for j in range(0,len(s_flux[0])):
-                    sij=si[j]
+            for i in range(0,len(f_flux)):
+                fi=f_flux[i]
+                for j in range(0,len(f_flux[0])):
+                    fij=fi[j]
                     #I=I0*e^(-mu*t)
+                    mua=[-1*mu3(elem_energy,elem_flux,ea[m]) for m in range(0,len(ea))]
                     for m in range(0,len(ea)):
-                        sij[m]*=math.exp(-1*mu3(elem_energy,elem_flux,ea[m])*(matthick))             
+                        fij[m]*=math.exp(mua[m]*(matthick))             
 
         if self.print_matrix_sums:
-            print_sum_matrix_by_layer(s_flux, 'filter_flux f_flux')
+            print_sum_matrix_by_layer(f_flux, 'filter_flux f_flux')
             if len(self.thickness) > 1:
-                print_sum_matrix(s_flux, 'filter_flux f_flux')
+                print_sum_matrix(f_flux, 'filter_flux f_flux')
 
-        return s_flux
+        return f_flux
            
     def generate_energy_axis(self):
         """returns x axis energy values"""
@@ -300,14 +343,16 @@ class Back(rectangle_grid.pc):
         #print("s_flux assignment " ,time()-tstart)
         s="Title: "+self.title
         s+="\nIntegrated Source Power without filtering: "+str(integrated_s_power)+" W\n"
+        #print("Title: "+self.title+"\nIntegrated Source Power without filtering: "+str(integrated_s_power))
         
         #export f_flux resutlts for testing
 
         f_flux=self.filter_flux(s_flux)
-        
-        if self.NUKE_VARS==True: del s_flux
-        
+        s_flux = None
+        gc.collect()
+
         integrated_power_after_filtering=self.integrated_source_power(f_flux)
+        #print('integrated_power_after_filtering', integrated_power_after_filtering)
 
         s+="Integrated source power after filtering: "+str(integrated_power_after_filtering)+" W\n"
         #print("f_flux assignment ",time()-tstart)
@@ -318,16 +363,19 @@ class Back(rectangle_grid.pc):
         slice_transmissionv=self.slice_transmission()
         
         voxel_absorbed_fluxv=self.voxel_absorbed_flux(f_flux,slice_transmissionv)
-        
-        if self.NUKE_VARS==True: del f_flux
-        
         #print("voxel_absorbed_fluxv ",time()-tstart)
 
+        f_flux = None
+        gc.collect()
+
+
         voxel_absorbed_powerv=self.voxel_flux_to_power(voxel_absorbed_fluxv)
+        #print('voxel_absorbed_powerv', voxel_absorbed_powerv)
 
         #print("voxel_absorbed_power ",time()-tstart)        
 
-        slice_volumesv=self.calc_slice_volumes()        
+        slice_volumesv=self.calc_slice_volumes()
+        #print ('slice_volumesv', slice_volumesv)
 
         #print("calc_slice_volume ",time()-tstart)
 
@@ -339,12 +387,21 @@ class Back(rectangle_grid.pc):
         
         if self.pout=="density":
             self.write_slice_to_table(voxel_absorbed_power_densityv,self.title)
+            #display_chart("heatbump_output\\"+self.title+".csv")    
+
         elif self.pout=="power":
             self.write_slice_to_table(voxel_absorbed_powerv, self.title)
+            #display_chart("heatbump_output\\"+self.title+".csv")
+            
         elif self.pout=="testing":
             #custom testing
             self.write_slice_to_table(voxel_absorbed_power_densityv, self.title+"_density")
             self.write_slice_to_table(voxel_absorbed_powerv,self.title+"_power")
+            
+            #display_chart("heatbump_output\\"+self.title+"_density"+".csv")
+            
+            #display_chart("heatbump_output\\"+self.title+"_power"+".csv")
+            
         #print("write_slice_to_table ",time()-tstart)
         
         
@@ -360,8 +417,8 @@ class Back(rectangle_grid.pc):
         tend=time()
         dt=tend-tstart
         tpython=dt-txop
-        if self.NUKE_VARS==True:
-            del voxel_absorbed_powerv, voxel_absorbed_power_densityv, slice_volumesv,
+
+
         
         s+="Integrated power absorbed in the object: "+str(total_integrated_absorbed_power)+" W\n"
         s+="Integrated power transmitted through the object: "+str(integrated_power_after_region)+" W\n"
@@ -384,7 +441,7 @@ class Back(rectangle_grid.pc):
         #    rmtree(".\\job")
         if path.exists("job"):
             rmtree(".\\job")
-        gc.collect()
+        #gc.collect()
             
     def integrated_source_power(self,s_flux):
         """Finds total power in region, triple integral of power flux. 3d->scalar. Only uses interior points for power calculation. Exterior points used for interpolation correction"""
@@ -409,13 +466,13 @@ class Back(rectangle_grid.pc):
         return intpow
     
     
-    def patch_flux(self,x_offset=0,y_offset=0, phase=0, jobdir=''):
+    def patch_flux(self,x_offset=0,y_offset=0, phase=0, jobdir='', x_dim=0, y_dim=0):
         """Runs ws() and us() depending upon the source, outputs intensity data vector"""
         #should i keep the ws and build matrix functions in wig and und, or move them here? decisions, decisions. resolved, moved to backend.
         if self.source=="wig":
-            return self.ws(x_offset,y_offset, phase, jobdir)
+            return self.ws(x_offset,y_offset, phase, jobdir, x_dim, y_dim)
         elif self.source=="und":
-            return self.us(x_offset,y_offset, phase, jobdir)
+            return self.us(x_offset,y_offset, phase, jobdir, x_dim, y_dim)
         else: 
             raise NameError("unknown source")
         return
@@ -444,22 +501,23 @@ class Back(rectangle_grid.pc):
             si=s_flux[i]
             for j in range(0,len(s_flux[0])):
                 sij=si[j]
+                muexp=[-1*thickness*mu3(elem_energy,elem_flux,ea[m]) for m in range(0,len(ea))]
                 for m in range(0, len(ea)):
-                    reg_flux[i][j][m]=sij[m]*math.exp(-1*thickness*mu3(elem_energy,elem_flux,ea[m]))
+                    reg_flux[i][j][m]=sij[m]*math.exp(muexp[m])
         
         if self.print_matrix_sums:
             print_sum_matrix(s_flux, 'region_filtered_flux reg_flux')
             
         return reg_flux
     
-    def run_xop(self, xop_pgm, x_offset=0,y_offset=0, phase=0, jobdir=''):
+    def run_xop(self, xop_pgm, x_offset=0,y_offset=0, phase=0, jobdir='', x_dim=0, y_dim=0):
         """writes the matrix, runs xop program, and processes the result"""
         if phase==1:
             #Builds matrix/.inp file 
             if xop_pgm == 'us':
-                matrix=self.buildusmatrix(x_offset,y_offset)
+                matrix=self.buildusmatrix(x_offset,y_offset, x_dim, y_dim)
             elif xop_pgm == 'ws':
-                matrix=self.buildwsmatrix(x_offset,y_offset)
+                matrix=self.buildwsmatrix(x_offset,y_offset, x_dim, y_dim)
                  
             s=""
             for i in matrix: 
@@ -513,7 +571,14 @@ class Back(rectangle_grid.pc):
             for i, line in enumerate(f2):
                 if (xop_pgm == 'us' and i>=23) or (xop_pgm == 'ws' and i>=18):
                     g=line[0:26].split()
-                    xop_data.append(float(g[1]))
+                    nbr = g[1]
+                    # Sometimes, XOP does not put the 'E' in, so if it is not there, we do it
+                    if nbr.find('E') == -1:
+                        if nbr.find('-') != -1:
+                            nbr = nbr.replace('-','E-')
+                        else:
+                            nbr = nbr.replace('+','E+')
+                    xop_data.append(float(nbr))
             f2.close()
             return xop_data 
 
@@ -549,6 +614,7 @@ class Back(rectangle_grid.pc):
             uncorrected_flux=cell2(self.hd,self.vd)
         
         pc=self.rect_centers()
+        dimensions = self.rect_dimensions()
         ea=self.generate_energy_axis()
         dE=ea[1]-ea[0]
         
@@ -573,10 +639,12 @@ class Back(rectangle_grid.pc):
             for j in range(0,jlimit):
                 x_offset=pc[j][i][0]
                 y_offset=pc[j][i][1]
+                x_dim=dimensions[j][i][0]
+                y_dim=dimensions[j][i][1]
                 jobdir = jobdirroot + '\\' + str(i) + '-' + str(j)
                 if not path.exists(jobdir):
                     makedirs(jobdir)
-                self.patch_flux(x_offset,y_offset, 1, jobdir)
+                self.patch_flux(x_offset,y_offset, 1, jobdir, x_dim, y_dim)
 
         # Phase 2 - Run XOP programs, multi-processing           
         for i in range(0,ilimit):
@@ -584,7 +652,9 @@ class Back(rectangle_grid.pc):
                 x_offset=pc[j][i][0]
                 y_offset=pc[j][i][1]
                 jobdir = jobdirroot + '\\' + str(i) + '-' + str(j)
-                self.patch_flux(x_offset,y_offset, 2, jobdir)
+                x_dim=dimensions[j][i][0]
+                y_dim=dimensions[j][i][1]
+                self.patch_flux(x_offset,y_offset, 2, jobdir, x_dim, y_dim)
 
         self.patch_flux(0, 0, 2, 'waitforall')  # wait for remaining jobs to finish              
 
@@ -594,7 +664,9 @@ class Back(rectangle_grid.pc):
                 x_offset=pc[j][i][0]
                 y_offset=pc[j][i][1]
                 jobdir = jobdirroot + '\\' + str(i) + '-' + str(j)
-                s_flux[i][j]=self.patch_flux(x_offset,y_offset, 3, jobdir)
+                x_dim=dimensions[j][i][0]
+                y_dim=dimensions[j][i][1]
+                s_flux[i][j]=self.patch_flux(x_offset,y_offset, 3, jobdir, x_dim, y_dim)
                 uncorrected_flux[i][j]=s_flux[i][j]
                 
                 assert depth(s_flux)==3
@@ -669,15 +741,15 @@ class Back(rectangle_grid.pc):
                 pass   # Process if error
         self.XOP_Processes = new_process_list
     
-    def us(self,x_offset=0,y_offset=0,phase=0, jobdir=""):
+    def us(self,x_offset=0,y_offset=0,phase=0, jobdir="", x_dim=0, y_dim=0):
         """writes the matrix to us.inp, runs ws.exe, and processes the result"""
-        return self.run_xop('us', x_offset, y_offset, phase, jobdir)
+        return self.run_xop('us', x_offset, y_offset, phase, jobdir, x_dim, y_dim)
     
-    def voxel_absorbed_flux(self,s_flux, slice_t):
+    def voxel_absorbed_flux(self,f_flux, slice_t):
         """Finds the power flux from source and transmission through each layer. s_flux=3d, slice_t=2d"""
 
         if self.print_matrix_sums:
-            print_sum_matrix(s_flux, 'voxel_absorbed_flux s_flux')
+            print_sum_matrix(f_flux, 'voxel_absorbed_flux s_flux')
             print_sum_matrix(slice_t, 'voxel_absorbed_flux slice_t')
         
         #This is a troublesome, fickle beast (when processing undulators)
@@ -721,13 +793,13 @@ class Back(rectangle_grid.pc):
         #print(cumulative_transmission)
         
         for k in range(0, len(slice_t)):
-            temp_surface=deepcopy(s_flux)
+            temp_surface=matchdim(f_flux)
             #for i in range(0,len(s_flux[0])):
             #    for j in range(0, len(s_flux)-1):
-            for i in range(0,len(s_flux)):         ### TESTING FIX
-                for j in range(0, len(s_flux[0])): ### TESTING FIX
-                    #temp_surface[i][j]=mult(s_flux[i][j],cumulative_transmission[k])
-                    temp_surface[i][j]=mult(temp_surface[i][j],cumulative_transmission[k])  ### TESTING FIX
+            for i in range(0,len(f_flux)):         ### TESTING FIX
+                for j in range(0, len(f_flux[0])): ### TESTING FIX
+                    #temp_surface[i][j]=mult(f_flux[i][j],cumulative_transmission[k])
+                    temp_surface[i][j]=mult(f_flux[i][j],cumulative_transmission[k])  ### TESTING FIX
             voxel_impinging_flux[k]=temp_surface
         
         if self.print_matrix_sums:
@@ -907,13 +979,11 @@ class Back(rectangle_grid.pc):
         #Axis definitions
         hr=[0]+self.rect_center_x()+[self.h]
         vr=[0]+self.rect_center_y()+[self.v]
-        hr_old=self.rect_center_x()
-        vr_old=self.rect_center_y()
+        
         #voxel dimensions
         zlen=len(vd)
         ylen=len(vd[0])
         xlen=len(vd[0][0])
-        ms="{"
         for k in range(0,zlen):
             #thickness loop
             s=""
@@ -945,15 +1015,7 @@ class Back(rectangle_grid.pc):
             power_temp_s=[list(map(str,i)) for i in power_temp]
             
             s+="\n".join([",".join(i) for i in power_temp_s])
-            if self.MATHEMATICA_OUTPUT==True:
-                print(vd[k])
-                print(hr_old)
-                print(vr_old)
-                print([len(vr_old),len(vd[k])],[len(hr_old),len(vd[k][0])])
-                mls=[("{"+str(hr_old[j])+","+str(vr_old[i])+","+str(vd[k][i][j])+"}") for i in range(0,len(vr_old)) for j in range(0,len(hr_old))]
-                ms+="{"+",".join(mls)+"}"
-                if k!=(zlen-1):
-                    ms+=""
+            
             if k==0:
                 st+=s
             else:
@@ -969,14 +1031,13 @@ class Back(rectangle_grid.pc):
         f=open(outputfile,"w")
         f.write(st)
         f.close()
-        if self.MATHEMATICA_OUTPUT==True:
-            ms+="}"
-            f2=open("heatbump_output\\"+self.title+"_mathematica.txt","w")
-            f2.write(ms)
-            f2.close()
+        
+    def ws(self,x_offset=0,y_offset=0,phase=0,jobdir="", x_dim=0, y_dim=0):
+        return self.run_xop('ws', x_offset, y_offset, phase, jobdir, x_dim, y_dim)
 
-    def ws(self,x_offset=0,y_offset=0,phase=0,jobdir=""):
-        return self.run_xop('ws', x_offset, y_offset, phase, jobdir)
+# Standalone functions, not in a class
         
 if __name__=="__main__":
+    #display_chart("c:\project\python\heat load\heatbump_output\output_power.csv")    
+    #display_chart("c:\project\python\heat load\heatbump_output\output_density.csv")    
     print("Please, don't run me from here! Run heatbump through heatbump.py")

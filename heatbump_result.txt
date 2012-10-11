@@ -1,9 +1,9 @@
-Title: big mathematica test 8x8 2x2
-Integrated Source Power without filtering: 528.6544761497242 W
-Integrated source power after filtering: 528.6434103519169 W
-Integrated power absorbed in the object: 528.6434103520702 W
-Integrated power transmitted through the object: 1.3285803629487355e-21 W
-Integrated power error: 1.53249857250067e-10 W
-XOP/Flux time: 47.592000007629395 s
-Processing time: 6.040999889373779 s
-Elapsed time: 53.632999897003174 s
+Title: v2_1 deepcopy fix 3 layers
+Integrated Source Power without filtering: 528.6500258461814 W
+Integrated source power after filtering: 501.6695860040763 W
+Integrated power absorbed in the object: 501.6248716295744 W
+Integrated power transmitted through the object: 0.0447143715670604 W
+Integrated power error: 2.9348330154999047e-09 W
+XOP/Flux time: 29.47699999809265 s
+Processing time: 3.8589999675750732 s
+Elapsed time: 33.335999965667725 s
