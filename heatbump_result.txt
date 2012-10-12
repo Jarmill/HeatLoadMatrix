@@ -1,9 +1,9 @@
-Title: v2_1 deepcopy fix 3 layers
-Integrated Source Power without filtering: 528.6500258461814 W
-Integrated source power after filtering: 501.6695860040763 W
-Integrated power absorbed in the object: 501.6248716295744 W
-Integrated power transmitted through the object: 0.0447143715670604 W
-Integrated power error: 2.9348330154999047e-09 W
-XOP/Flux time: 29.47699999809265 s
-Processing time: 3.8589999675750732 s
-Elapsed time: 33.335999965667725 s
+Title: v2_1_1 test 1
+Integrated Source Power without filtering: 528.637317877984 W
+Integrated source power after filtering: 501.6571097581377 W
+Integrated power absorbed in the object: 501.6123954787677 W
+Integrated power transmitted through the object: 0.044714276435177676 W
+Integrated power error: 2.934820490796408e-09 W
+XOP/Flux time: 20.67799997329712 s
+Processing time: 4.361000061035156 s
+Elapsed time: 25.039000034332275 s

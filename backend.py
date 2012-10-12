@@ -154,9 +154,9 @@ class Back(rectangle_grid.pc):
         
         #file path (only good for specuser). First time setup will need to be implemented in order for this to work universally
         self.xop_path="C:\\xop2.3\\bin.x86\\"
-        #self.pout=adv["power"]
-        self.pout="testing"
+        self.pout=adv["power"]
         self.back_gui_values()
+    
     def back_gui_values(self):
         #"""Read entered gui values"""
         if self.source=="und":
@@ -393,7 +393,7 @@ class Back(rectangle_grid.pc):
             self.write_slice_to_table(voxel_absorbed_powerv, self.title)
             #display_chart("heatbump_output\\"+self.title+".csv")
             
-        elif self.pout=="testing":
+        elif self.pout=="both":
             #custom testing
             self.write_slice_to_table(voxel_absorbed_power_densityv, self.title+"_density")
             self.write_slice_to_table(voxel_absorbed_powerv,self.title+"_power")

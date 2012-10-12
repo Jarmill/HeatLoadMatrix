@@ -50,6 +50,7 @@ class ADialog(QtGui.QDialog):
         #power output preference
         if self.ui.power_1.isChecked():     power="power"
         elif self.ui.power_2.isChecked():   power="density"
+        elif self.ui.power_3.isChecked():   power="both"
         else:   power="density"
         
         #scan parameters
@@ -109,6 +110,7 @@ class ADialog(QtGui.QDialog):
         #power
         if power=="power":      self.ui.power_1.setChecked(True)
         elif power=="density":  self.ui.power_2.setChecked(True)
+        elif (power=="both" or power=="testing"): self.ui.power_3.setChecked(True)
         else:                   self.ui.power_2.setChecked(True)
         
         #harmonic
