@@ -73,6 +73,7 @@ Creating/figuring out progress bar
 Progressive meshing
 Complete cancel button, terminate all processes mid-run
 Saving runs and parameters, uploading data
+Reworking UI to a more workflow oriented layout
 """
 
 class Back(rectangle_grid.pc):
@@ -139,7 +140,7 @@ class Back(rectangle_grid.pc):
         #self.LIP=False #TURN ON AFTER TESTING!
         
         #intepolation guard length
-        self.d=10**-9
+        self.d=10**-6
         #set up rectangle handling
         self.rect_setup()
         
@@ -150,7 +151,7 @@ class Back(rectangle_grid.pc):
         self.NUKE_VARS=True
         
         #output to mathematica
-        self.MATHEMATICA_OUTPUT=True
+        self.MATHEMATICA_OUTPUT=False
         
         #file path (only good for specuser). First time setup will need to be implemented in order for this to work universally
         self.xop_path="C:\\xop2.3\\bin.x86\\"
@@ -203,7 +204,7 @@ class Back(rectangle_grid.pc):
                 #[str(self.dist),xpos,ypos,str(self.h/self.hd),str(self.v/self.vd),str(self.xint),str(self.yint)],\
                 [str(self.dist),xpos,ypos,xdim,ydim,str(self.xint),str(self.yint)],\
                 [str(self.mode),str(self.method),str(self.harmonic),"0","0","0","0"],\
-                [str(self.nphi),str(self.nalpha),str(self.calpha2),str(self.nomega),str(self.comega),str(self.nsigma),"0"]]
+                [str(int(self.nphi)),str(int(self.nalpha)),str(self.calpha2),str(int(self.nomega)),str(int(self.comega)),str(int(self.nsigma)),"0"]]
         
         return matrix
     
@@ -437,9 +438,7 @@ class Back(rectangle_grid.pc):
         print(s)
         sleep(2.0)
         
-        #if self.NUKE_JOBS_AT_END==True:
-        #    rmtree(".\\job")
-        if path.exists("job"):
+        if self.NUKE_JOBS_AT_END and path.exists("job"):
             rmtree(".\\job")
         #gc.collect()
             
@@ -668,6 +667,8 @@ class Back(rectangle_grid.pc):
                 y_dim=dimensions[j][i][1]
                 s_flux[i][j]=self.patch_flux(x_offset,y_offset, 3, jobdir, x_dim, y_dim)
                 uncorrected_flux[i][j]=s_flux[i][j]
+
+                #print(len(s_flux),len(s_flux[i]),len(s_flux[i][j]),len(ea))
                 
                 assert depth(s_flux)==3
                 if self.LIP:
@@ -677,8 +678,8 @@ class Back(rectangle_grid.pc):
                     assert ilimit==self.vd 
                     assert jlimit==self.hd 
                 assert ilimit==len(s_flux)
-                assert jlimit==len(s_flux[0])
-                assert len(ea)==len(s_flux[0][0])
+                assert jlimit==len(s_flux[i])
+                assert len(ea)==len(s_flux[i][j])
 
                 for m in range(0,len(ea)):
                     #convert from bandpass to raw flux(ph/s/.1%BW -> ph/s)

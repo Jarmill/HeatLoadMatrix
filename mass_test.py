@@ -10,7 +10,7 @@ class MassTest(backend.Back):
             self.no_file_param()
         else:
             self.file_param(f_name)
-        self.rect_setup()
+        
         
     def no_file_param(self):
         #debugging
@@ -21,7 +21,7 @@ class MassTest(backend.Back):
         self.XOP_Processes = []
         self.XOP_run_at_one_time = cpu_count()
         
-        self.title="big mathematica test 8x8 2x2"
+        self.title="wiggler 2x2mm 8x8 l div"
         
         self.source="wig"
         
@@ -90,13 +90,14 @@ class MassTest(backend.Back):
         #THE NUCLEAR OPTION. Do you want to enable rmtree to wipe the "job" folder after each run?
         #self.NUKE_JOBS=True
         self.NUKE_VARS=True
-        self.MATHEMATICA_OUTPUT=True
-        
+        self.MATHEMATICA_OUTPUT=False
+
+        self.rect_setup()
         
         #file path (only good for specuser). First time setup will need to be implemented in order for this to work universally
         self.xop_path="C:\\xop2.3\\bin.x86\\"
         #self.pout=adv["power"]
-        self.pout="power"
+        self.pout="both"
     def file_param(self,f_name):
         print("Hi! You are using ",f_name,".")
     def back_gui_values(self):

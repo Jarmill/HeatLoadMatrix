@@ -24,11 +24,11 @@ class pc():
     def rect_initialize(self):
         """only used for testing, if run through rectangle_grid.py"""
         self.h=1
-        self.v=.5
-        self.d=.01
-        self.hd=3
+        self.v=1
+        self.d=.1
+        self.hd=4
         #self.hd=5
-        self.vd=2
+        self.vd=4
         #self.vd=4
         self.LIP=True
         self.thickness=[1,2]

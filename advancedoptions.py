@@ -110,7 +110,7 @@ class ADialog(QtGui.QDialog):
         #power
         if power=="power":      self.ui.power_1.setChecked(True)
         elif power=="density":  self.ui.power_2.setChecked(True)
-        elif (power=="both" or power=="testing"): self.ui.power_3.setChecked(True)
+        elif power=="both":     self.ui.power_3.setChecked(True)
         else:                   self.ui.power_2.setChecked(True)
         
         #harmonic
