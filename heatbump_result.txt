@@ -1,9 +1,9 @@
-Title: t2
-Integrated Source Power without filtering: 2873.4431070313162 W
-Integrated source power after filtering: 2196.726727095994 W
-Integrated power absorbed in the object: 2057.4887202532736 W
-Integrated power transmitted through the object: 139.23800478222162 W
-Integrated power error: 2.0604989288131037e-06 W
-XOP/Flux time: 26.651000022888184 s
-Processing time: 6.997999906539917 s
-Elapsed time: 33.6489999294281 s
+Title: wiggler beam area mathematica
+Integrated Source Power without filtering: 4078.688134612532 W
+Integrated source power after filtering: 4077.6672024131144 W
+Integrated power absorbed in the object: 3982.9611658347535 W
+Integrated power transmitted through the object: 94.70603474089181 W
+Integrated power error: 1.8374690995415222e-06 W
+XOP/Flux time: 64.8309998512268 s
+Processing time: 16.555999994277954 s
+Elapsed time: 81.38699984550476 s

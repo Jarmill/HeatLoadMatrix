@@ -1,4 +1,3 @@
-                                                                         
 #The big import block
 #basic algorithms/operations
 from basic_functions import cell1, cell2, cell3, mult, mu3, depth, matchdim, print_sum_matrix_by_layer, print_number, print_sum_matrix
@@ -145,13 +144,14 @@ class Back(rectangle_grid.pc):
         self.rect_setup()
         
         #THE NUCLEAR OPTION. Do you want to enable rmtree to wipe the "job" folder after each run?
-        self.NUKE_JOBS_AT_END=True
+        self.NUKE_JOBS_AT_END=False
         
         #garbage collect variables in intermediate steps?
         self.NUKE_VARS=True
         
         #output to mathematica
         self.MATHEMATICA_OUTPUT=False
+        self.mathematica_sampling=[0,333,666,999,1999,2999,3999,4999]
         
         #file path (only good for specuser). First time setup will need to be implemented in order for this to work universally
         self.xop_path="C:\\xop2.3\\bin.x86\\"
@@ -266,8 +266,7 @@ class Back(rectangle_grid.pc):
                 print_sum_matrix(slice_volumes, 'calc_slice_volumes')
             
         return slice_volumes
-        
-    
+          
     def filter_flux(self,s_flux):
         """Finds the transmission through a filter,#I=I0*e^(-mu*t). 3d->3d"""
         #WARNING! s_flux will be destroyed coming out of this function. 
@@ -313,23 +312,15 @@ class Back(rectangle_grid.pc):
         return f_flux
            
     def generate_energy_axis(self):
-        """returns x axis energy values"""
-        
-        #if self.source=="wig":
-        #    sdata=pickle.load(open("pickle\\ws_data.pkl","rb"))
-        #elif self.source=="und":
-        #    sdata=pickle.load(open("pickle\\us_data.pkl","rb"))
-        #else:
-        #    raise NameError("unknown source")
+        """returns x axis energy values. Xx is a testing element, any element can be used to generate the divisions."""
         
         sdata=pickle.load(open("mu_data//Xx.pkl","rb"))   
         return [i[0] for i in sdata] 
-        """
-        return frange(self.estart,self.eend,self.ediv)
-        """
 
     def heat_load_matrix(self):
         """function wrapper"""
+        #if path.exists("mathematica_output"):
+        #    rmtree("mathematica_output")
         
         tstart=time()
         if path.exists("job"):
@@ -337,55 +328,42 @@ class Back(rectangle_grid.pc):
         self.back_gui_values()
 
         s_flux=self.source_flux() #calculate flux in each pixel before filtering, xop
+        if self.MATHEMATICA_OUTPUT: self.mathematica_output(s_flux, "source_flux")
         txop=time()-tstart
         
         integrated_s_power=self.integrated_source_power(s_flux)
 
-        #print("s_flux assignment " ,time()-tstart)
         s="Title: "+self.title
         s+="\nIntegrated Source Power without filtering: "+str(integrated_s_power)+" W\n"
-        #print("Title: "+self.title+"\nIntegrated Source Power without filtering: "+str(integrated_s_power))
-        
-        #export f_flux resutlts for testing
 
         f_flux=self.filter_flux(s_flux)
+        if self.MATHEMATICA_OUTPUT: self.mathematica_output(f_flux, "filter_flux")
         s_flux = None
         gc.collect()
 
         integrated_power_after_filtering=self.integrated_source_power(f_flux)
-        #print('integrated_power_after_filtering', integrated_power_after_filtering)
 
         s+="Integrated source power after filtering: "+str(integrated_power_after_filtering)+" W\n"
-        #print("f_flux assignment ",time()-tstart)
-        #DINGDINGDING! The bug is in one of these two functions. Phil thinks there is a faulty comparision somewhere, a = instead of an ==
-
+        
         region_filtered_fluxv=self.region_filtered_flux(f_flux)        
 
         slice_transmissionv=self.slice_transmission()
         
         voxel_absorbed_fluxv=self.voxel_absorbed_flux(f_flux,slice_transmissionv)
-        #print("voxel_absorbed_fluxv ",time()-tstart)
+        #if self.MATHEMATICA_OUTPUT: self.mathematica_output(voxel_absorbed_fluxv, "absorbed_flux")
 
         f_flux = None
         gc.collect()
 
 
         voxel_absorbed_powerv=self.voxel_flux_to_power(voxel_absorbed_fluxv)
-        #print('voxel_absorbed_powerv', voxel_absorbed_powerv)
-
-        #print("voxel_absorbed_power ",time()-tstart)        
-
-        slice_volumesv=self.calc_slice_volumes()
-        #print ('slice_volumesv', slice_volumesv)
-
-        #print("calc_slice_volume ",time()-tstart)
-
-        voxel_absorbed_power_densityv=self.voxel_absorbed_power_density(voxel_absorbed_powerv, slice_volumesv)
-
-        #print("voxel_absorbed_power_density ",time()-tstart)
-        #print("line 263\tvoxel series")
-        #print(s_flux[self.vd-1][self.hd-1][3000:3005])
+        if self.MATHEMATICA_OUTPUT: self.mathematica_output(voxel_absorbed_powerv, "power")
         
+        slice_volumesv=self.calc_slice_volumes()
+        
+        voxel_absorbed_power_densityv=self.voxel_absorbed_power_density(voxel_absorbed_powerv, slice_volumesv)
+        if self.MATHEMATICA_OUTPUT: self.mathematica_output(voxel_absorbed_power_densityv, "power_density")
+
         if self.pout=="density":
             self.write_slice_to_table(voxel_absorbed_power_densityv,self.title)
             #display_chart("heatbump_output\\"+self.title+".csv")    
@@ -402,24 +380,15 @@ class Back(rectangle_grid.pc):
             #display_chart("heatbump_output\\"+self.title+"_density"+".csv")
             
             #display_chart("heatbump_output\\"+self.title+"_power"+".csv")
-            
-        #print("write_slice_to_table ",time()-tstart)
         
         
-        # Problem here with multiple layers
         total_integrated_absorbed_power=self.total_integrated_power(voxel_absorbed_powerv)        
 
         integrated_power_after_region=self.integrated_source_power(region_filtered_fluxv)
 
-        #print("final power integrals ",time()-tstart)
-        
-        #print("line 275\twriting files")
-        #print(s_flux[self.vd-1][self.hd-1][3000:3005])
         tend=time()
         dt=tend-tstart
         tpython=dt-txop
-
-
         
         s+="Integrated power absorbed in the object: "+str(total_integrated_absorbed_power)+" W\n"
         s+="Integrated power transmitted through the object: "+str(integrated_power_after_region)+" W\n"
@@ -440,7 +409,7 @@ class Back(rectangle_grid.pc):
         
         if self.NUKE_JOBS_AT_END and path.exists("job"):
             rmtree(".\\job")
-        #gc.collect()
+        gc.collect()
             
     def integrated_source_power(self,s_flux):
         """Finds total power in region, triple integral of power flux. 3d->scalar. Only uses interior points for power calculation. Exterior points used for interpolation correction"""
@@ -464,7 +433,41 @@ class Back(rectangle_grid.pc):
 
         return intpow
     
-    
+    def mathematica_output(self, data, name):
+        """Output as a mathematica-compatible .dat file. 2d data (power, power density) is done straight, 3d data (source flux, filter flux etc.) takes sample points"""
+        
+        root="mathematica_output"
+        if not path.exists(root):
+            makedirs(root)
+            
+        hr=self.rect_center_x()
+        vr=self.rect_center_y()
+        ea=self.generate_energy_axis()
+        print(name+" "+str(depth(data)))
+        
+        #if depth(data)==2:
+        if len(data[0][0])==len(hr):
+            #2d data like power and power density
+            assert len(vr)==len(data[0])
+            assert len(hr)==len(data[0][0])
+            s=("\n".join([str(hr[i])+"\t"+str(vr[j])+"\t"+str(data[0][j][i]) for i in range(0,len(hr)-1) for j in range(0,len(vr))]))
+            f=open(root+"\\"+name+".dat","w")
+            f.write(s)
+            f.close()
+                
+        #elif depth(data)==3:
+        elif len(data[0][0])==len(ea):
+            #source_flux and related energy boxes
+            print([len(vr),len(data),len(hr),len(data[0]),len(ea),len(data[0][0])])
+            assert len(vr)==len(data)
+            assert len(hr)==len(data[0])
+            assert len(ea)==len(data[0][0])
+            for m in self.mathematica_sampling:
+                s=("\n".join([str(hr[i])+"\t"+str(vr[j])+"\t"+str(data[j][i][m]) for i in range(1,len(hr)-1) for j in range(1,len(vr)-1)]))
+                f=open(root+"\\"+name+"_"+str(m)+".dat","w")
+                f.write(s)
+                f.close()
+        
     def patch_flux(self,x_offset=0,y_offset=0, phase=0, jobdir='', x_dim=0, y_dim=0):
         """Runs ws() and us() depending upon the source, outputs intensity data vector"""
         #should i keep the ws and build matrix functions in wig and und, or move them here? decisions, decisions. resolved, moved to backend.
@@ -629,7 +632,7 @@ class Back(rectangle_grid.pc):
         self.jobs_completed = 0
         self.jobs_overcommit_at_end = 1.5
                 
-        jobdirroot = '.\\job'
+        jobdirroot = ".\\job"
         if not path.exists(jobdirroot):
             makedirs(jobdirroot)
 
@@ -1035,8 +1038,6 @@ class Back(rectangle_grid.pc):
         
     def ws(self,x_offset=0,y_offset=0,phase=0,jobdir="", x_dim=0, y_dim=0):
         return self.run_xop('ws', x_offset, y_offset, phase, jobdir, x_dim, y_dim)
-
-# Standalone functions, not in a class
         
 if __name__=="__main__":
     #display_chart("c:\project\python\heat load\heatbump_output\output_power.csv")    

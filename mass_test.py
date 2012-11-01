@@ -21,11 +21,11 @@ class MassTest(backend.Back):
         self.XOP_Processes = []
         self.XOP_run_at_one_time = cpu_count()
         
-        self.title="wiggler 2x2mm 8x8 l div"
+        self.title="wiggler beam area mathematica"
         
         self.source="wig"
         
-        self.flt_list=[["Be",.0100]]
+        self.flt_list=[["Be",.0500]]
         
         if self.source=="und":
             self.energy=5.3
@@ -50,12 +50,12 @@ class MassTest(backend.Back):
         else:
             raise NameError("Invalid source (not undulator nor wiggler)")
         
-        self.h=2
-        self.v=2
-        self.hd=8
-        self.vd=8
+        self.h=17 
+        self.v=4
+        self.hd=10
+        self.vd=10
         self.mat="Si"
-        self.thickness=[110.0]
+        self.thickness=[1.5]
         self.dist=20.0
         
         #scan values
@@ -83,15 +83,16 @@ class MassTest(backend.Back):
         #self.LIP=False #TURN ON AFTER TESTING!
         
         #intepolation guard length
-        self.d=10**-9
+        self.d=10**-6
         #set up rectangle handling
         self.rect_setup()
         
         #THE NUCLEAR OPTION. Do you want to enable rmtree to wipe the "job" folder after each run?
         #self.NUKE_JOBS=True
         self.NUKE_VARS=True
-        self.MATHEMATICA_OUTPUT=False
-
+        self.NUKE_JOBS_AT_END=False
+        self.MATHEMATICA_OUTPUT=True
+        self.mathematica_sampling=[0,333,666,999,1999,2999,3999,4999]
         self.rect_setup()
         
         #file path (only good for specuser). First time setup will need to be implemented in order for this to work universally
