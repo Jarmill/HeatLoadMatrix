@@ -46,9 +46,7 @@ values when the slices were (100,10)mm,(110)mm,(10,100)mm, or (10)mmx11.
 This was due to reference errors, and fixed by using deepcopy
 The write_slice_to_table function was rehauled, in order to implement changes 
 as due to rectangle_grid.
-
 There are still some index naming errors, these are of low priority and will 
-
 be fixed in next release.
 Inner loop optimization has been added. This cuts down the time through less 
 indexing.
@@ -65,8 +63,12 @@ function, while the power is properly discontinuous. This was due to the composi
 of two bugs, not changing the width and height of cells in build?matrix, and a series
 of other computation errors in s_flux.
 
+Version 2.1.2
+Mathematica output
+Fixing the "both" dialog in adv
+other optimizations/tests
+
 Next Release:
-Better mathematica output for testing only
 Preserving the index convention for the grid, without using the transpose cheat
 Creating/figuring out progress bar
 Progressive meshing
@@ -286,10 +288,10 @@ class Back(rectangle_grid.pc):
         assert len(ea)==len(s_flux[0][0])
         
         #This handles multiple filters. Filters multiply together, and order does not matter
-        #This calculation is as slow as hell, but there is no way around it
+        #Binary search is used in mu3 in order to speed up computation
         for p in range(0,len(flt)):
             mat=flt[p][0]
-            matthick=float(flt[p][1])/10000
+            matthick=float(flt[p][1])/10000 #here is the conversion from micron to centimeter
             f=open("mu_data\\"+mat+".pkl","rb")
             edata=pickle.load(f)
             f.close()

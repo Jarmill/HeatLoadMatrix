@@ -50,12 +50,12 @@ class MassTest(backend.Back):
         else:
             raise NameError("Invalid source (not undulator nor wiggler)")
         
-        self.h=17 
-        self.v=4
+        self.h=17 #mm
+        self.v=4  #mm
         self.hd=10
         self.vd=10
         self.mat="Si"
-        self.thickness=[1.5]
+        self.thickness=[1.5] #cm
         self.dist=20.0
         
         #scan values
