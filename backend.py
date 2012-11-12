@@ -148,12 +148,9 @@ class Back(rectangle_grid.pc):
         #THE NUCLEAR OPTION. Do you want to enable rmtree to wipe the "job" folder after each run?
         self.NUKE_JOBS_AT_END=False
         
-        #garbage collect variables in intermediate steps?
-        self.NUKE_VARS=True
-        
         #output to mathematica
-        self.MATHEMATICA_OUTPUT=False
-        self.mathematica_sampling=[0,333,666,999,1999,2999,3999,4999]
+        self.MATHEMATICA_OUTPUT=True
+        self.mathematica_sampling=[0,111,222,333,444,555,666,999,1999,2999,3999,4999]
         
         #file path (only good for specuser). First time setup will need to be implemented in order for this to work universally
         self.xop_path="C:\\xop2.3\\bin.x86\\"
@@ -161,7 +158,7 @@ class Back(rectangle_grid.pc):
         self.back_gui_values()
     
     def back_gui_values(self):
-        #"""Read entered gui values"""
+        """Read entered gui values"""
         if self.source=="und":
             self.title=self.ui.und_title.text()
             self.energy=self.ui.und_energy.text()
@@ -234,7 +231,7 @@ class Back(rectangle_grid.pc):
         #patch_height=self.v/self.vd
         #patch_width=self.h/self.hd
         
-        areas=self.rect_areas()
+        areas=self.areas
         #highly inefficient method to find slice volumes               
                 
         
@@ -328,9 +325,16 @@ class Back(rectangle_grid.pc):
         if path.exists("job"):
             rmtree(".\\job")
         self.back_gui_values()
-
+        
+        slice_volumesv=self.calc_slice_volumes()
+        
+        
         s_flux=self.source_flux() #calculate flux in each pixel before filtering, xop
-        if self.MATHEMATICA_OUTPUT: self.mathematica_output(s_flux, "source_flux")
+        
+        if self.MATHEMATICA_OUTPUT: 
+            self.mathematica_output(s_flux, "source_flux")
+            self.mathematica_output(self.voxel_absorbed_power_density(self.voxel_flux_to_power([s_flux]), slice_volumesv), "source_power_density")
+            
         txop=time()-tstart
         
         integrated_s_power=self.integrated_source_power(s_flux)
@@ -339,7 +343,10 @@ class Back(rectangle_grid.pc):
         s+="\nIntegrated Source Power without filtering: "+str(integrated_s_power)+" W\n"
 
         f_flux=self.filter_flux(s_flux)
-        if self.MATHEMATICA_OUTPUT: self.mathematica_output(f_flux, "filter_flux")
+        if self.MATHEMATICA_OUTPUT: 
+            self.mathematica_output(f_flux, "filter_flux")
+            filter_power_densityv=self.voxel_absorbed_power_density(self.voxel_flux_to_power([f_flux]), slice_volumesv)
+            self.mathematica_output(filter_power_densityv, "filter_power_density")
         s_flux = None
         gc.collect()
 
@@ -361,10 +368,20 @@ class Back(rectangle_grid.pc):
         voxel_absorbed_powerv=self.voxel_flux_to_power(voxel_absorbed_fluxv)
         if self.MATHEMATICA_OUTPUT: self.mathematica_output(voxel_absorbed_powerv, "power")
         
-        slice_volumesv=self.calc_slice_volumes()
-        
         voxel_absorbed_power_densityv=self.voxel_absorbed_power_density(voxel_absorbed_powerv, slice_volumesv)
-        if self.MATHEMATICA_OUTPUT: self.mathematica_output(voxel_absorbed_power_densityv, "power_density")
+        if self.MATHEMATICA_OUTPUT: 
+            self.mathematica_output(voxel_absorbed_power_densityv, "absorbed_power_density")
+            transmitted_power_densityv=matchdim(voxel_absorbed_power_densityv)
+            for k in range(0, len(transmitted_power_densityv)):
+                fk=filter_power_densityv[k]
+                vk=voxel_absorbed_power_densityv[k]
+                for i in range(0, len(transmitted_power_densityv[0])):
+                    fki=fk[i]
+                    vki=vk[i]
+                    for j in range(0, len(transmitted_power_densityv[0][0])):
+                        #will not index transmitted_power_densityv, not sure about reference agreement
+                        transmitted_power_densityv[k][i][j]=fki[j]-vki[j]
+            self.mathematica_output(transmitted_power_densityv, "transmitted_power_density")
 
         if self.pout=="density":
             self.write_slice_to_table(voxel_absorbed_power_densityv,self.title)
@@ -421,7 +438,7 @@ class Back(rectangle_grid.pc):
 
         intpow=0
         ea=self.generate_energy_axis()
-        areas=self.rect_areas()
+        areas=self.areas
         full_area=(self.h/self.hd)*(self.v/self.vd) #area of a complete center cell
         for i in range(0,len(s_flux)):
             si=s_flux[i]
@@ -437,7 +454,7 @@ class Back(rectangle_grid.pc):
     
     def mathematica_output(self, data, name):
         """Output as a mathematica-compatible .dat file. 2d data (power, power density) is done straight, 3d data (source flux, filter flux etc.) takes sample points"""
-        
+        print("evaluating "+name)
         root="mathematica_output"
         if not path.exists(root):
             makedirs(root)
@@ -464,12 +481,17 @@ class Back(rectangle_grid.pc):
             assert len(vr)==len(data)
             assert len(hr)==len(data[0])
             assert len(ea)==len(data[0][0])
+            area=self.areas
             for m in self.mathematica_sampling:
                 s=("\n".join([str(hr[i])+"\t"+str(vr[j])+"\t"+str(data[j][i][m]) for i in range(1,len(hr)-1) for j in range(1,len(vr)-1)]))
                 f=open(root+"\\"+name+"_"+str(m)+".dat","w")
                 f.write(s)
                 f.close()
-        
+                
+                s2=("\n".join([str(hr[i])+"\t"+str(vr[j])+"\t"+str(data[j][i][m]/area[i][j]) for i in range(1,len(hr)-1) for j in range(1,len(vr)-1)]))
+                f2=open(root+"\\"+name+"_"+str(m)+"unit.dat","w")
+                f2.write(s2)
+                f2.close()
     def patch_flux(self,x_offset=0,y_offset=0, phase=0, jobdir='', x_dim=0, y_dim=0):
         """Runs ws() and us() depending upon the source, outputs intensity data vector"""
         #should i keep the ws and build matrix functions in wig and und, or move them here? decisions, decisions. resolved, moved to backend.
@@ -695,7 +717,16 @@ class Back(rectangle_grid.pc):
 
         if self.print_matrix_sums:
             print_sum_matrix(s_flux, 'source_flux s_flux')
-        
+        s00=s_flux[1][1]
+        corner_area=self.areas[1][1]
+        sew=[[ea[i],s00[i]/corner_area] for i in range(0,len(ea))]
+        if self.source=="und":
+            with open("pickle\\us_data.pkl","wb") as f:
+                pickle.dump(sew,f)
+        if self.source=="wig":
+            with open("pickle\\ws_data.pkl","wb") as f:
+                pickle.dump(sew,open("pickle\\ws_data.pkl","wb"))
+            
         return s_flux     
 
     def total_integrated_power(self,v_power):
@@ -710,7 +741,7 @@ class Back(rectangle_grid.pc):
                 print_sum_matrix(v_power, 'total_integrated_power v_power')
 
 
-        areas=self.rect_areas()
+        areas=self.areas
         full_area=(self.h/self.hd)*(self.v/self.vd)
         total_integrated_power=0
         

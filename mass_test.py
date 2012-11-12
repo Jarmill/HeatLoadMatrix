@@ -25,7 +25,7 @@ class MassTest(backend.Back):
         
         self.source="wig"
         
-        self.flt_list=[["Be",.0500]]
+        self.flt_list=[["Be",.1]]
         
         if self.source=="und":
             self.energy=5.3
@@ -52,10 +52,10 @@ class MassTest(backend.Back):
         
         self.h=17 #mm
         self.v=4  #mm
-        self.hd=10
-        self.vd=10
+        self.hd=20
+        self.vd=20
         self.mat="Si"
-        self.thickness=[1.5] #cm
+        self.thickness=[.5] #cm
         self.dist=20.0
         
         #scan values

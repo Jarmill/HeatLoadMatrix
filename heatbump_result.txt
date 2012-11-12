@@ -1,9 +1,9 @@
-Title: full beam 1
+Title: mathematica update wig
 Integrated Source Power without filtering: 4078.851870803001 W
-Integrated source power after filtering: 3027.05217241334 W
-Integrated power absorbed in the object: 2934.9849971648946 W
-Integrated power transmitted through the object: 92.06717346565588 W
-Integrated power error: 1.7827895533173432e-06 W
-XOP/Flux time: 258.8489999771118 s
-Processing time: 31.258999824523926 s
-Elapsed time: 290.10799980163574 s
+Integrated source power after filtering: 1608.9720027919595 W
+Integrated power absorbed in the object: 1484.0314583810562 W
+Integrated power transmitted through the object: 124.94054253828767 W
+Integrated power error: 1.8726157122728182e-06 W
+XOP/Flux time: 208.40199995040894 s
+Processing time: 30.08299994468689 s
+Elapsed time: 238.48499989509583 s

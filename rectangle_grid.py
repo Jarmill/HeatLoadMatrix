@@ -1,5 +1,4 @@
 from basic_functions import chunks, matchdim
-import _pickle as pickle
 from os import path, makedirs
 
 def cusum(s):
