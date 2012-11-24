@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>HeatLoadMatrix</class>
- <widget class="QMainWindow" name="HeatLoadMatrix">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>657</width>
-    <height>547</height>
+    <width>660</width>
+    <height>565</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="">
+  <widget class="QWidget" name="HeatLoadMatrix_2">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>1</x>
       <y>1</y>
-      <width>651</width>
-      <height>508</height>
+      <width>661</width>
+      <height>526</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_15">
@@ -41,7 +41,7 @@
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <widget class="QWidget" name="">
+          <widget class="QWidget" name="layoutWidget">
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
              <widget class="QRadioButton" name="source_und">
@@ -100,34 +100,9 @@
              </spacer>
             </item>
             <item>
-             <widget class="QTextEdit" name="source_selected_text">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>20</height>
-               </size>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarAlwaysOff</enum>
-              </property>
-              <property name="horizontalScrollBarPolicy">
-               <enum>Qt::ScrollBarAlwaysOff</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-              <property name="html">
-               <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;No source selected.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <widget class="QLineEdit" name="imported_source">
+              <property name="text">
+               <string>No Source Selected</string>
               </property>
              </widget>
             </item>
@@ -175,44 +150,16 @@ p, li { white-space: pre-wrap; }
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType">
-                     <enum>QSizePolicy::Expanding</enum>
-                    </property>
                     <property name="sizeHint" stdset="0">
                      <size>
-                      <width>88</width>
+                      <width>40</width>
                       <height>20</height>
                      </size>
                     </property>
                    </spacer>
                   </item>
                   <item>
-                   <widget class="QTextEdit" name="mat">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>75</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter the elemental symbol of the object of interest. This is not case sensitive.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                    <property name="verticalScrollBarPolicy">
-                     <enum>Qt::ScrollBarAlwaysOff</enum>
-                    </property>
-                   </widget>
+                   <widget class="QLineEdit" name="mat"/>
                   </item>
                  </layout>
                 </item>
@@ -226,42 +173,7 @@ p, li { white-space: pre-wrap; }
                    </widget>
                   </item>
                   <item>
-                   <spacer name="horizontalSpacer_2">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>138</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <widget class="QTextEdit" name="dist">
-                    <property name="minimumSize">
-                     <size>
-                      <width>75</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>75</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter the distance from the object to the source in meters.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                    <property name="verticalScrollBarPolicy">
-                     <enum>Qt::ScrollBarAlwaysOff</enum>
-                    </property>
-                    <property name="horizontalScrollBarPolicy">
-                     <enum>Qt::ScrollBarAlwaysOff</enum>
-                    </property>
-                   </widget>
+                   <widget class="QLineEdit" name="dist"/>
                   </item>
                  </layout>
                 </item>
@@ -275,43 +187,22 @@ p, li { white-space: pre-wrap; }
                    </widget>
                   </item>
                   <item>
-                   <spacer name="horizontalSpacer_3">
+                   <spacer name="horizontalSpacer_2">
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
                     <property name="sizeHint" stdset="0">
                      <size>
-                      <width>138</width>
+                      <width>40</width>
                       <height>20</height>
                      </size>
                     </property>
                    </spacer>
                   </item>
                   <item>
-                   <widget class="QTextEdit" name="deg">
+                   <widget class="QLineEdit" name="deg">
                     <property name="enabled">
                      <bool>false</bool>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>75</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>75</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter the inclination with respect to the beam in degrees: 0 is parallel, 90 is normal.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                    <property name="verticalScrollBarPolicy">
-                     <enum>Qt::ScrollBarAlwaysOff</enum>
-                    </property>
-                    <property name="horizontalScrollBarPolicy">
-                     <enum>Qt::ScrollBarAlwaysOff</enum>
                     </property>
                    </widget>
                   </item>
@@ -402,7 +293,6 @@ p, li { white-space: pre-wrap; }
              </layout>
             </item>
            </layout>
-           <zorder>layoutWidget_3</zorder>
            <zorder></zorder>
           </widget>
          </item>
@@ -471,7 +361,7 @@ p, li { white-space: pre-wrap; }
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_3">
               <item>
-               <widget class="QPushButton" name="AddNewFilter_pushButton">
+               <widget class="QPushButton" name="a">
                 <property name="text">
                  <string>Add New Filter</string>
                 </property>
@@ -535,6 +425,9 @@ p, li { white-space: pre-wrap; }
                <property name="text">
                 <string>Power Density (W/m^3)</string>
                </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
              <item>
@@ -554,26 +447,7 @@ p, li { white-space: pre-wrap; }
                 </widget>
                </item>
                <item>
-                <widget class="QTextEdit" name="title">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="verticalScrollBarPolicy">
-                  <enum>Qt::ScrollBarAlwaysOff</enum>
-                 </property>
-                 <property name="horizontalScrollBarPolicy">
-                  <enum>Qt::ScrollBarAlwaysOff</enum>
-                 </property>
-                </widget>
+                <widget class="QLineEdit" name="title"/>
                </item>
               </layout>
              </item>
@@ -669,7 +543,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>657</width>
+     <width>660</width>
      <height>21</height>
     </rect>
    </property>
@@ -788,6 +662,29 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>source_und</tabstop>
+  <tabstop>source_wig</tabstop>
+  <tabstop>source_bend</tabstop>
+  <tabstop>config_source</tabstop>
+  <tabstop>mat</tabstop>
+  <tabstop>dist</tabstop>
+  <tabstop>deg</tabstop>
+  <tabstop>config_region</tabstop>
+  <tabstop>mesh_uniform</tabstop>
+  <tabstop>mesh_progressive</tabstop>
+  <tabstop>ConfigureMesh_pushButton_2</tabstop>
+  <tabstop>mesh_level</tabstop>
+  <tabstop>power_power</tabstop>
+  <tabstop>power_density</tabstop>
+  <tabstop>power_both</tabstop>
+  <tabstop>imported_source</tabstop>
+  <tabstop>FilterConfiguration_treeWidget</tabstop>
+  <tabstop>a</tabstop>
+  <tabstop>RemoveFilter_pushButton</tabstop>
+  <tabstop>config_go</tabstop>
+  <tabstop>config_abort</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

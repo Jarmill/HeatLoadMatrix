@@ -1,6 +1,6 @@
 #import basic and PyQt modules
 from PyQt4 import QtGui, QtCore
-import advancedoptions
+import workflow.advancedoptions_w
 import _pickle as pickle
 import sys
 
@@ -24,8 +24,9 @@ class UDialog(QtGui.QDialog):
         
     def adv_new_window(self):
         """Pops up Advanced Options"""
-        adv=advancedoptions.ADialog()
+        adv=workflow.advancedoptions_w.ADialog()
         adv.exec_()
+        
     def und_pickle(self):
         """write undulator parameters into .pkl for storage"""
         

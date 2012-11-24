@@ -84,7 +84,6 @@ class ADialog(QtGui.QDialog):
         #loading values
         method=int(adv["method"])
         mode=int(adv["mode"])
-        power=adv["power"]
         harmonic=int(adv["harmonic"])
         
         #method

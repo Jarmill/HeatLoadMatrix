@@ -6,7 +6,7 @@ import sys
 #wiggler layout
 from ui.wiggler_w_ui import Ui_Wiggler
 
-import advancedoptions
+import workflow.advancedoptions_w
 
 class WDialog(QtGui.QDialog):
     """Wiggler Functionailty"""
@@ -29,7 +29,7 @@ class WDialog(QtGui.QDialog):
         
     def adv_new_window(self):
         """Pops up Advanced Options"""
-        adv=advancedoptions.ADialog()
+        adv=workflow.advancedoptions_w.ADialog()
         adv.exec_()
         
     def wig_pickle(self):
@@ -45,6 +45,7 @@ class WDialog(QtGui.QDialog):
         wig["ky"]=self.ui.wig_ky.text()
         pickle.dump(wig,open("..\\pickle\\wig.pkl","wb"))
         self.reject()
+        
     def wig_load_values(self):
         """Loads default values from file, need to implement recalling numbers from last run"""
         f=open("..\\pickle\\wig.pkl","rb")

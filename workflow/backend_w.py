@@ -79,21 +79,26 @@ Reworking UI to a more workflow oriented layout
 
 class Back(rectangle_grid.pc):
     """This class contains all the misc functions that allow heatbump to run. The main event is heat_load_matrix()"""
-    def back_values(self,source):
+    def back_values(self):
         """pseudoglobal values. These are initialized as part of WDialog and UDialog's __init__() method, to avoid the diamond of death"""
 
         #advanced  values
-        advf=open("pickle\\adv.pkl","rb")
+        advf=open("..\\pickle\\adv.pkl","rb")
         adv=pickle.load(advf)
         advf.close()
         
         #region values
-        freg=open("pickle\\reg.pkl","rb")
+        freg=open("..\\pickle\\reg.pkl","rb")
         reg=pickle.load(freg)
         freg.close()
         
+        #run parameters
+        frun=open("..\\pickle\\run.pkl","rb")
+        run=pickle.load(frun)
+        frun.close()
+        
         #user submitted filters
-        ff=open("pickle\\flt.pkl","rb")
+        ff=open("..\\pickle\\flt.pkl","rb")
         flt_list_old=pickle.load(ff)
         ff.close()
         self.flt_list=[i for i in flt_list_old if i[0]!=None and i[1]!=None]
@@ -109,9 +114,7 @@ class Back(rectangle_grid.pc):
         self.v=float(reg["ylen"])
         self.hd=int(reg["xdiv"])
         self.vd=int(reg["ydiv"])
-        self.mat=str(reg["mat"])
         self.thickness=[float(i) for i in reg["thickness"]]
-        self.dist=float(reg["dist"])
         
         #scan values
         self.estart=int(adv["estart"])
@@ -119,9 +122,18 @@ class Back(rectangle_grid.pc):
         self.ediv=int(adv["ediv"])
         self.xint=int(adv["xint"])
         self.yint=int(adv["yint"])
-        #other        
-        self.source=source
         
+        #other        
+        self.source=run["source"]
+        
+        #run (main) parameters
+        self.pout=run["power"]
+        self.mat=run["mat"]
+        self.dist=run["dist"]
+        self.deg=run["deg"]
+        self.mesh=run["mesh"]
+        if run["title"]=="": self.title="output"
+        else: self.title=run["title"]
         
         #intrinsic parameters DO NOT TOUCH! Only for undulators
         self.mode=int(adv["mode"])
@@ -134,11 +146,33 @@ class Back(rectangle_grid.pc):
         self.comega=float(adv["comega"])
         self.nsigma=float(adv["nsigma"])
         
+        #source parameters
+        if self.source=="und":
+            und=pickle.load(open("..\\pickle\\und.pkl","rb"))
+            self.energy=und["energy"]
+            self.current=und["current"]
+            self.period=und["period"]
+            self.num=und["num"]
+            self.sigx=und["sigx"]
+            self.sigy=und["sigy"]
+            self.sigx1=und["sigx1"]
+            self.sigy1=und["sigy1"]
+            self.kx=und["kx"]
+            self.ky=und["ky"]
+        
+        elif self.source=="wig":
+            wig=pickle.load(open("..\\pickle\\wig.pkl","rb"))
+            self.energy=wig["energy"]
+            self.current=wig["current"]
+            self.period=wig["period"]
+            self.num=wig["period"]
+            self.kx=wig["kx"]
+            self.ky=wig["ky"]
+        
         #Interpolation guard/rectangle handling
         #interpolation guard on
         
         self.LIP=True #TURN ON AFTER TESTING!
-        #self.LIP=False #TURN ON AFTER TESTING!
         
         #intepolation guard length
         self.d=10**-6
@@ -146,46 +180,14 @@ class Back(rectangle_grid.pc):
         self.rect_setup()
         
         #THE NUCLEAR OPTION. Do you want to enable rmtree to wipe the "job" folder after each run?
-        self.NUKE_JOBS_AT_END=False
+        self.NUKE_JOBS_AT_END=True
         
         #output to mathematica
-        self.MATHEMATICA_OUTPUT=True
+        self.MATHEMATICA_OUTPUT=False
         self.mathematica_sampling=[0,111,222,333,444,555,666,999,1999,2999,3999,4999]
         
         #file path (only good for specuser). First time setup will need to be implemented in order for this to work universally
         self.xop_path="C:\\xop2.3\\bin.x86\\"
-        self.pout=adv["power"]
-        self.back_gui_values()
-    
-    def back_gui_values(self):
-        """Read entered gui values"""
-        if self.source=="und":
-            self.title=self.ui.und_title.text()
-            self.energy=self.ui.und_energy.text()
-            self.current=self.ui.und_current.text()
-            self.period=self.ui.und_period.text()
-            self.num=self.ui.und_nperiods.text()
-            self.sigx=self.ui.und_sigx.text()
-            self.sigy=self.ui.und_sigy.text()
-            self.sigx1=self.ui.und_sigx1.text()
-            self.sigy1=self.ui.und_sigy1.text()
-            self.kx=self.ui.und_kx.text()
-            self.ky=self.ui.und_ky.text()
-        
-        elif self.source=="wig":
-            self.title=self.ui.wig_title.text()
-            self.energy=self.ui.wig_energy.text()
-            self.current=self.ui.wig_current.text()
-            self.period=self.ui.wig_periods.text()
-            self.num=self.ui.wig_nperiods.text()
-            self.kx=self.ui.wig_kx.text()
-            self.ky=self.ui.wig_ky.text()
-            
-        else:
-            raise NameError("Invalid source (not undulator nor wiggler)")
-        
-        if self.title=="":
-            self.title="output"
         
     def buildusmatrix(self,x_offset=0,y_offset=0, x_dim=0, y_dim=0):
         """Builds the xop-formatted undulator matrix from user-entered values"""
@@ -289,7 +291,7 @@ class Back(rectangle_grid.pc):
         for p in range(0,len(flt)):
             mat=flt[p][0]
             matthick=float(flt[p][1])/10000 #here is the conversion from micron to centimeter
-            f=open("mu_data\\"+mat+".pkl","rb")
+            f=open("..\\mu_data\\"+mat+".pkl","rb")
             edata=pickle.load(f)
             f.close()
             elem_energy=[i[0] for i in edata]
@@ -313,7 +315,7 @@ class Back(rectangle_grid.pc):
     def generate_energy_axis(self):
         """returns x axis energy values. Xx is a testing element, any element can be used to generate the divisions."""
         
-        sdata=pickle.load(open("mu_data//Xx.pkl","rb"))   
+        sdata=pickle.load(open("..//mu_data//Si.pkl","rb"))   
         return [i[0] for i in sdata] 
 
     def heat_load_matrix(self):
@@ -322,9 +324,8 @@ class Back(rectangle_grid.pc):
         #    rmtree("mathematica_output")
         
         tstart=time()
-        if path.exists("job"):
-            rmtree(".\\job")
-        self.back_gui_values()
+        if path.exists("..\\job"):
+            rmtree("..\\job")
         
         slice_volumesv=self.calc_slice_volumes()
         
@@ -517,7 +518,7 @@ class Back(rectangle_grid.pc):
         
         reg_flux=matchdim(s_flux)
         
-        f=open("mu_data\\"+mat+".pkl","rb")
+        f=open("..\\mu_data\\"+mat+".pkl","rb")
         edata=pickle.load(f)
         f.close()
         elem_energy=[i[0] for i in edata]
@@ -614,7 +615,7 @@ class Back(rectangle_grid.pc):
         """Finds the amount of flux that passes though a each slice. slice_t[i][j] j direction: energies, i direction: thickness 2d. Energy divisions are locked into 5000""" 
         slice_t=[]
         #returns mu values for particular element (y values). Equivalent of filter_flux for region
-        f=open("mu_data\\"+self.mat+".pkl","rb")
+        f=open("..\\mu_data\\"+self.mat+".pkl","rb")
         mu_data=pickle.load(f)
         f.close()
         mu_raw=[i[1] for i in mu_data]
@@ -717,16 +718,17 @@ class Back(rectangle_grid.pc):
 
         if self.print_matrix_sums:
             print_sum_matrix(s_flux, 'source_flux s_flux')
+        """
         s00=s_flux[1][1]
         corner_area=self.areas[1][1]
         sew=[[ea[i],s00[i]/corner_area] for i in range(0,len(ea))]
         if self.source=="und":
-            with open("pickle\\us_data.pkl","wb") as f:
+            with open("..\\pickle\\us_data.pkl","wb") as f:
                 pickle.dump(sew,f)
         if self.source=="wig":
-            with open("pickle\\ws_data.pkl","wb") as f:
-                pickle.dump(sew,open("pickle\\ws_data.pkl","wb"))
-            
+            with open("..\\pickle\\ws_data.pkl","wb") as f:
+                pickle.dump(sew,f)
+        """ 
         return s_flux     
 
     def total_integrated_power(self,v_power):
@@ -1058,7 +1060,7 @@ class Back(rectangle_grid.pc):
             else:
                 st+="\n\n"+s
             del hr[0]
-        outputfile="heatbump_output\\"+title+".csv"
+        outputfile="..\\heatbump_output\\"+title+".csv"
         
         outputfile_d=path.dirname(outputfile)
         
