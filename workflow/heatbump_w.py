@@ -32,19 +32,59 @@ class HMainWindow(QtGui.QWidget, backend.Back):
         super(HMainWindow,self).__init__()
         self.ui=Ui_MainWindow()
         self.ui.setupUi(self)
-        self.setWindowTitle("Heat Load Matrix 3.0")
+        self.flt_load()
         self.main_load_values()
-        #back_values?
-        #connecting buttons to open up other windows
         
         self.connect(self.ui.config_source,QtCore.SIGNAL("clicked()"),self.source_set)
         self.connect(self.ui.config_region,QtCore.SIGNAL("clicked()"),self.region_set)
         self.connect(self.ui.config_go,QtCore.SIGNAL("clicked()"),self.run_begin)
         self.connect(self.ui.config_abort,QtCore.SIGNAL("clicked()"),self.guipass)
+        self.connect(self.ui.flt_remove,QtCore.SIGNAL("clicked()"),self.flt_del)
+        self.connect(self.ui.flt_add,QtCore.SIGNAL("clicked()"),self.flt_add)
     
     def guipass(self):
         pass
     
+    def flt_save(self):
+        """save qtreewidget data"""
+        flt=[]
+        root=self.ui.flt_list.invisibleRootItem()
+        child_count=root.childCount()
+        for i in range(0,child_count):
+            item=root.child(i)
+            mat=item.text(0)
+            thick=float(item.text(1))
+            flt.append([mat,thick])
+        with open("..\\pickle\\flt.pkl","wb") as f:
+            pickle.dump(flt, f)
+            
+    def flt_load(self):
+        """load values in flt.pkl into the filter qtreewidget"""
+        flt=pickle.load(open("..\\pickle\\flt.pkl","rb"))
+        
+        for i in flt:
+            if (i[0]and i[1])!=("" or None):
+                item=QtGui.QTreeWidgetItem([i[0], str(i[1])])
+                self.ui.flt_list.addTopLevelItem(item)
+    
+    def flt_add(self):
+        """adds widget to filter list"""
+        mat=self.ui.flt_newmat.text()
+        thick=self.ui.flt_newthick.text()
+        if (mat and thick)!=("" or None):
+            item=QtGui.QTreeWidgetItem([mat, thick])
+            self.ui.flt_list.addTopLevelItem(item)
+        self.flt_save()
+                
+    def flt_del(self):
+        """deletes selected value from filter list"""
+        item=self.ui.flt_list.currentItem()
+        if not item: return #None selected, do nothing
+        
+        #Finally delete the task
+        self.ui.flt_list.takeTopLevelItem(self.ui.flt_list.indexOfTopLevelItem(item))
+        self.flt_save()
+        
     def region_set(self):
         reg=region.RDialog()
         reg.exec_()

@@ -67,7 +67,6 @@ class FDialog(QtGui.QDialog):
             if flt[i][0]==None or flt[i][1]==None:
                 flt[i][0]=""
                 flt[i][1]=""
-                
             eval("self.ui.material_"+str(i+1)+".setText(\""+str(flt[i][0])+"\")")
             eval("self.ui.thickness_"+str(i+1)+".setText(\""+str(flt[i][1])+"\")")
             
