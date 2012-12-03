@@ -272,7 +272,7 @@
           <property name="title">
            <string>Method</string>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_3">
              <item>
@@ -444,6 +444,30 @@
         <layout class="QVBoxLayout" name="verticalLayout_16">
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QRadioButton" name="power_1">
+             <property name="text">
+              <string>Power</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="power_2">
+             <property name="text">
+              <string>Power Density</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="power_3">
+             <property name="text">
+              <string>Both</string>
+             </property>
+            </widget>
+           </item>
            <item>
             <widget class="QDialogButtonBox" name="buttonBox">
              <property name="orientation">

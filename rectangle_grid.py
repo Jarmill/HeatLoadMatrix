@@ -1,4 +1,5 @@
 from basic_functions import chunks, matchdim
+import _pickle as pickle
 from os import path, makedirs
 
 def cusum(s):
@@ -6,7 +7,7 @@ def cusum(s):
     for i in s:
         t+=i
         yield t
-                
+
 class pRect():
     def __init__(self,h,v,x,y):
         self.h=h
@@ -25,9 +26,9 @@ class pc():
         self.h=1
         self.v=1
         self.d=.1
-        self.hd=4
+        self.hd=5
         #self.hd=5
-        self.vd=4
+        self.vd=5
         #self.vd=4
         self.LIP=True
         self.thickness=[1,2]
@@ -51,17 +52,17 @@ class pc():
 
             #print('hl=', hl)
             #print('vl=', vl)
-                
+
             #sum lists up, find corners
             xl=list(cusum(hl))[:-2]
             yl=list(cusum(vl))[:-2]
-            
+
             #print('cusum(hl)=', list(cusum(hl)))
             #print('xl=', xl)
 
             #print('cusum(vl)', list(cusum(vl)))
             #print('yl=', yl)
-            
+
             #generate and partition rectangles
             grid=[pRect(hl[i+1],vl[j+1],xl[i],yl[j]) for i in range(0,len(xl)) for j in range(0,len(yl))]
             grid2=chunks(grid,self.hd+2)
@@ -71,13 +72,13 @@ class pc():
             grid=[pRect(l,w,i,j) for i in hl for j in vl]
             grid2=chunks(grid,self.vd)  ### TESTING FIX????? Make this HD?
         self.grid=grid2
-        
+
         #generate further arrays for storage, (corners, centers,areas,dimensions)
         centers=matchdim(grid2)
         corners=matchdim(grid2)
         areas=matchdim(grid2)
         dimensions=matchdim(grid2)
-        
+
         for i in range(0,len(grid2)):
             for j in range(0,len(grid2[0])):
                 r=grid2[i][j]
@@ -96,55 +97,56 @@ class pc():
         self.dimensions=dimensions
         self.areas=areas
         
+        """
         #dump the five arrays (pickled) into the grid_data folder
         outputfile="grid_data\\grid.pkl"
-        
+
         outputfile_d=path.dirname(outputfile)
-        
+
         if not path.exists(outputfile_d):
             makedirs(outputfile_d)
-        """    
+        
         fgrid=open("grid_data\\grid.pkl","wb")
         pickle.dump(grid2,fgrid)
         fgrid.close()
-        
+
         fcenters=open("grid_data\\centers.pkl","wb")
         pickle.dump(centers,fcenters)
         fcenters.close()
-        
+
         fcorners=open("grid_data\\corners.pkl","wb")
         pickle.dump(corners,fcorners)
         fcorners.close()
-        
+
         fdimensions=open("grid_data\\dimensions.pkl","wb")
         pickle.dump(dimensions,fdimensions)
         fdimensions.close()
-        
+
         fareas=open("grid_data\\areas.pkl","wb")
         pickle.dump(areas,fareas)
         fareas.close()
         """
-        
+
     def rect_centers(self): return self.centers
 
-    def rect_corners(self): return self.corners   
-    
+    def rect_corners(self): return self.corners
+
     def rect_dimensions(self): return self.dimensions
-    
-    def rect_areas(self): return self.areas   
-    
+
+    def rect_areas(self): return self.areas
+
     def rect_grid(self): return self.grid
-    
+
     def rect_center_x(self):
         #print(self.grid)
         #return [str(i[0]) for i in self.grid]
         return [i[0].cx for i in self.grid]
-        
+
     def rect_center_y(self):
         return [i.cy for i in self.grid[0]]
-    
-        
-        
+
+
+
 if __name__=="__main__":
     p=pc()
     p.rect_initialize()

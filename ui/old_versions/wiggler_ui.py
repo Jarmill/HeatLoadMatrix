@@ -1,9 +1,9 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'wiggler_w_ui.ui'
+# Form implementation generated from reading ui file 'wiggler_ui.ui'
 #
-# Created: Mon Nov 19 12:12:05 2012
-#      by: PyQt4 UI code generator 4.9.2
+# Created: Wed Aug  1 15:06:43 2012
+#      by: PyQt4 UI code generator 4.9.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -14,17 +14,26 @@ try:
 except AttributeError:
     _fromUtf8 = lambda s: s
 
-class Ui_Wiggler(object):
-    def setupUi(self, Wiggler):
-        Wiggler.setObjectName(_fromUtf8("Wiggler"))
-        Wiggler.resize(504, 257)
-        self.layoutWidget = QtGui.QWidget(Wiggler)
-        self.layoutWidget.setGeometry(QtCore.QRect(0, 2, 501, 251))
-        self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
-        self.verticalLayout_7 = QtGui.QVBoxLayout(self.layoutWidget)
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+        Dialog.setObjectName(_fromUtf8("Dialog"))
+        Dialog.resize(502, 320)
+        self.widget = QtGui.QWidget(Dialog)
+        self.widget.setGeometry(QtCore.QRect(0, 2, 501, 318))
+        self.widget.setObjectName(_fromUtf8("widget"))
+        self.verticalLayout_7 = QtGui.QVBoxLayout(self.widget)
         self.verticalLayout_7.setMargin(0)
         self.verticalLayout_7.setObjectName(_fromUtf8("verticalLayout_7"))
-        self.groupBox = QtGui.QGroupBox(self.layoutWidget)
+        self.groupBox_4 = QtGui.QGroupBox(self.widget)
+        self.groupBox_4.setObjectName(_fromUtf8("groupBox_4"))
+        self.verticalLayout_6 = QtGui.QVBoxLayout(self.groupBox_4)
+        self.verticalLayout_6.setObjectName(_fromUtf8("verticalLayout_6"))
+        self.wig_title = QtGui.QLineEdit(self.groupBox_4)
+        self.wig_title.setText(_fromUtf8(""))
+        self.wig_title.setObjectName(_fromUtf8("wig_title"))
+        self.verticalLayout_6.addWidget(self.wig_title)
+        self.verticalLayout_7.addWidget(self.groupBox_4)
+        self.groupBox = QtGui.QGroupBox(self.widget)
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.verticalLayout_25 = QtGui.QVBoxLayout(self.groupBox)
         self.verticalLayout_25.setObjectName(_fromUtf8("verticalLayout_25"))
@@ -74,7 +83,7 @@ class Ui_Wiggler(object):
         self.horizontalLayout.addLayout(self.verticalLayout_24)
         self.verticalLayout_25.addLayout(self.horizontalLayout)
         self.verticalLayout_7.addWidget(self.groupBox)
-        self.groupBox_2 = QtGui.QGroupBox(self.layoutWidget)
+        self.groupBox_2 = QtGui.QGroupBox(self.widget)
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
         self.verticalLayout_5 = QtGui.QVBoxLayout(self.groupBox_2)
         self.verticalLayout_5.setObjectName(_fromUtf8("verticalLayout_5"))
@@ -100,45 +109,51 @@ class Ui_Wiggler(object):
         self.horizontalLayout_2.addLayout(self.verticalLayout_4)
         self.verticalLayout_5.addLayout(self.horizontalLayout_2)
         self.verticalLayout_7.addWidget(self.groupBox_2)
+        self.label_23 = QtGui.QLabel(self.widget)
+        self.label_23.setObjectName(_fromUtf8("label_23"))
+        self.verticalLayout_7.addWidget(self.label_23)
         self.horizontalLayout_3 = QtGui.QHBoxLayout()
         self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
-        self.buttonBox = QtGui.QDialogButtonBox(self.layoutWidget)
+        self.buttonBox = QtGui.QDialogButtonBox(self.widget)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
         self.horizontalLayout_3.addWidget(self.buttonBox)
-        self.advanced_button = QtGui.QPushButton(self.layoutWidget)
+        self.advanced_button = QtGui.QPushButton(self.widget)
         self.advanced_button.setObjectName(_fromUtf8("advanced_button"))
         self.horizontalLayout_3.addWidget(self.advanced_button)
-        self.default_button = QtGui.QPushButton(self.layoutWidget)
+        self.default_button = QtGui.QPushButton(self.widget)
         self.default_button.setObjectName(_fromUtf8("default_button"))
         self.horizontalLayout_3.addWidget(self.default_button)
         self.verticalLayout_7.addLayout(self.horizontalLayout_3)
 
-        self.retranslateUi(Wiggler)
-        QtCore.QMetaObject.connectSlotsByName(Wiggler)
-        Wiggler.setTabOrder(self.wig_energy, self.wig_current)
-        Wiggler.setTabOrder(self.wig_current, self.wig_periods)
-        Wiggler.setTabOrder(self.wig_periods, self.wig_nperiods)
-        Wiggler.setTabOrder(self.wig_nperiods, self.wig_kx)
-        Wiggler.setTabOrder(self.wig_kx, self.wig_ky)
+        self.retranslateUi(Dialog)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        Dialog.setTabOrder(self.wig_title, self.wig_energy)
+        Dialog.setTabOrder(self.wig_energy, self.wig_current)
+        Dialog.setTabOrder(self.wig_current, self.wig_periods)
+        Dialog.setTabOrder(self.wig_periods, self.wig_nperiods)
+        Dialog.setTabOrder(self.wig_nperiods, self.wig_kx)
+        Dialog.setTabOrder(self.wig_kx, self.wig_ky)
 
-    def retranslateUi(self, Wiggler):
-        Wiggler.setWindowTitle(QtGui.QApplication.translate("Wiggler", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox.setTitle(QtGui.QApplication.translate("Wiggler", "Machine Parameters", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("Wiggler", "Beam Energy (GeV)", None, QtGui.QApplication.UnicodeUTF8))
-        self.wig_energy.setText(QtGui.QApplication.translate("Wiggler", "5.3", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_16.setText(QtGui.QApplication.translate("Wiggler", "Period Length (cm)", None, QtGui.QApplication.UnicodeUTF8))
-        self.wig_periods.setText(QtGui.QApplication.translate("Wiggler", "8", None, QtGui.QApplication.UnicodeUTF8))
-        self.wig_periods.setPlaceholderText(QtGui.QApplication.translate("Wiggler", "8", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("Wiggler", "Beam Current (mA)", None, QtGui.QApplication.UnicodeUTF8))
-        self.wig_current.setText(QtGui.QApplication.translate("Wiggler", "250", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_15.setText(QtGui.QApplication.translate("Wiggler", "Number of Periods", None, QtGui.QApplication.UnicodeUTF8))
-        self.wig_nperiods.setText(QtGui.QApplication.translate("Wiggler", "28", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox_2.setTitle(QtGui.QApplication.translate("Wiggler", "Wiggler Paramters", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_3.setText(QtGui.QApplication.translate("Wiggler", "Deflection Parameter Kx", None, QtGui.QApplication.UnicodeUTF8))
-        self.wig_kx.setText(QtGui.QApplication.translate("Wiggler", "0", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_4.setText(QtGui.QApplication.translate("Wiggler", "Deflection Parameter Ky", None, QtGui.QApplication.UnicodeUTF8))
-        self.wig_ky.setText(QtGui.QApplication.translate("Wiggler", "8.74", None, QtGui.QApplication.UnicodeUTF8))
-        self.advanced_button.setText(QtGui.QApplication.translate("Wiggler", "Advanced", None, QtGui.QApplication.UnicodeUTF8))
-        self.default_button.setText(QtGui.QApplication.translate("Wiggler", "Default Values", None, QtGui.QApplication.UnicodeUTF8))
+    def retranslateUi(self, Dialog):
+        Dialog.setWindowTitle("Wiggler")
+        self.groupBox_4.setTitle(QtGui.QApplication.translate("Dialog", "Title", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox.setTitle(QtGui.QApplication.translate("Dialog", "Machine Parameters", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("Dialog", "Beam Energy (GeV)", None, QtGui.QApplication.UnicodeUTF8))
+        self.wig_energy.setText(QtGui.QApplication.translate("Dialog", "5.3", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_16.setText(QtGui.QApplication.translate("Dialog", "Period Length (cm)", None, QtGui.QApplication.UnicodeUTF8))
+        self.wig_periods.setText(QtGui.QApplication.translate("Dialog", "8", None, QtGui.QApplication.UnicodeUTF8))
+        self.wig_periods.setPlaceholderText(QtGui.QApplication.translate("Dialog", "8", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setText(QtGui.QApplication.translate("Dialog", "Beam Current (mA)", None, QtGui.QApplication.UnicodeUTF8))
+        self.wig_current.setText(QtGui.QApplication.translate("Dialog", "250", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_15.setText(QtGui.QApplication.translate("Dialog", "Number of Periods", None, QtGui.QApplication.UnicodeUTF8))
+        self.wig_nperiods.setText(QtGui.QApplication.translate("Dialog", "28", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_2.setTitle(QtGui.QApplication.translate("Dialog", "Wiggler Paramters", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_3.setText(QtGui.QApplication.translate("Dialog", "Deflection Parameter Kx", None, QtGui.QApplication.UnicodeUTF8))
+        self.wig_kx.setText(QtGui.QApplication.translate("Dialog", "0", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_4.setText(QtGui.QApplication.translate("Dialog", "Deflection Parameter Ky", None, QtGui.QApplication.UnicodeUTF8))
+        self.wig_ky.setText(QtGui.QApplication.translate("Dialog", "8.74", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_23.setText(QtGui.QApplication.translate("Dialog", "To adjust filters, region definitions, and other options, press the respective buttons in the main window", None, QtGui.QApplication.UnicodeUTF8))
+        self.advanced_button.setText(QtGui.QApplication.translate("Dialog", "Advanced", None, QtGui.QApplication.UnicodeUTF8))
+        self.default_button.setText(QtGui.QApplication.translate("Dialog", "Default Values", None, QtGui.QApplication.UnicodeUTF8))
 

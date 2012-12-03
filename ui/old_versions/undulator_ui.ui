@@ -6,23 +6,39 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>505</width>
-    <height>283</height>
+    <width>503</width>
+    <height>351</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>501</width>
-     <height>281</height>
+     <height>351</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_15">
+    <item>
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="title">
+       <string>Title</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_11">
+       <item>
+        <widget class="QLineEdit" name="und_title">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
     <item>
      <widget class="QGroupBox" name="groupBox">
       <property name="title">
@@ -43,10 +59,7 @@
            <item>
             <widget class="QLineEdit" name="und_energy">
              <property name="inputMask">
-              <string/>
-             </property>
-             <property name="text">
-              <string>5.3</string>
+              <string>5.3; </string>
              </property>
             </widget>
            </item>
@@ -246,6 +259,13 @@
      </widget>
     </item>
     <item>
+     <widget class="QLabel" name="label_23">
+      <property name="text">
+       <string>To adjust filters, region definitions, and other options, press the respective buttons in the main window</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
        <widget class="QDialogButtonBox" name="buttonBox">
@@ -274,6 +294,7 @@
   </widget>
  </widget>
  <tabstops>
+  <tabstop>und_title</tabstop>
   <tabstop>und_energy</tabstop>
   <tabstop>und_current</tabstop>
   <tabstop>und_sigx</tabstop>

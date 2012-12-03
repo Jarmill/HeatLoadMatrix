@@ -6,23 +6,39 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>504</width>
-    <height>257</height>
+    <width>502</width>
+    <height>321</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>2</y>
      <width>501</width>
-     <height>251</height>
+     <height>318</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_7">
+    <item>
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="title">
+       <string>Title</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QLineEdit" name="wig_title">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
     <item>
      <widget class="QGroupBox" name="groupBox">
       <property name="title">
@@ -169,6 +185,13 @@
      </widget>
     </item>
     <item>
+     <widget class="QLabel" name="label_23">
+      <property name="text">
+       <string>To adjust filters, region definitions, and other options, press the respective buttons in the main window</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
        <widget class="QDialogButtonBox" name="buttonBox">
@@ -197,6 +220,7 @@
   </widget>
  </widget>
  <tabstops>
+  <tabstop>wig_title</tabstop>
   <tabstop>wig_energy</tabstop>
   <tabstop>wig_current</tabstop>
   <tabstop>wig_periods</tabstop>

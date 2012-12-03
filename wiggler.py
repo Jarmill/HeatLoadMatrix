@@ -4,29 +4,26 @@ import _pickle as pickle
 import sys
 
 #wiggler layout
-from ui.wiggler_ui import Ui_Dialog
-
-#import back-end functionailty. rectangle_grid is included.
-import backend as backend
+from ui.wiggler_ui import Ui_Wiggler
 
 import advancedoptions
 
-class WDialog(QtGui.QDialog,backend.Back):
+class WDialog(QtGui.QDialog):
     """Wiggler Functionailty"""
     def __init__(self):
         #set up GUI
         super(WDialog,self).__init__()
-        self.ui=Ui_Dialog()
+        self.ui=Ui_Wiggler()
         self.ui.setupUi(self)
         #may be phased out by self.load_values
-        self.default_values()
+        self.wig_load_values()
         #set "global" values
-        self.back_values("wig")
+        #self.back_values("wig")
         #Button Box connections (OK/Cancel)
-        QtCore.QObject.connect(self.ui.buttonBox, QtCore.SIGNAL("accepted()"), self.heat_load_matrix)
+        QtCore.QObject.connect(self.ui.buttonBox, QtCore.SIGNAL("accepted()"), self.wig_pickle)
         QtCore.QObject.connect(self.ui.buttonBox, QtCore.SIGNAL("rejected()"), self.reject)
         QtCore.QObject.connect(self.ui.advanced_button,QtCore.SIGNAL("clicked()"),self.adv_new_window)
-        QtCore.QObject.connect(self.ui.default_button,QtCore.SIGNAL("clicked()"),self.default_values)
+        QtCore.QObject.connect(self.ui.default_button,QtCore.SIGNAL("clicked()"),self.wig_load_values)
 
         #set "global" values, hopefully dodge diamond of death
         
@@ -34,10 +31,22 @@ class WDialog(QtGui.QDialog,backend.Back):
         """Pops up Advanced Options"""
         adv=advancedoptions.ADialog()
         adv.exec_()
-    
-    def default_values(self):
+        
+    def wig_pickle(self):
+        """write wiggler parameters into .pkl for storage"""
+        wig={}
+        wig["energy"]=self.ui.wig_energy.text()
+        wig["current"]=self.ui.wig_current.text()
+        wig["period"]=self.ui.wig_periods.text()
+        wig["num"]=self.ui.wig_nperiods.text()
+        wig["kx"]=self.ui.wig_kx.text()
+        wig["ky"]=self.ui.wig_ky.text()
+        pickle.dump(wig,open("pickle\\wig.pkl","wb"))
+        self.reject()
+        
+    def wig_load_values(self):
         """Loads default values from file, need to implement recalling numbers from last run"""
-        f=open("pickle\\wig_default.pkl","rb")
+        f=open("pickle\\wig.pkl","rb")
         wig=pickle.load(f)
         f.close()
         
@@ -47,7 +56,6 @@ class WDialog(QtGui.QDialog,backend.Back):
         self.ui.wig_ky.setText(wig["ky"])
         self.ui.wig_nperiods.setText(wig["num"])
         self.ui.wig_periods.setText(wig["period"])
-        self.ui.wig_title.setText(wig["title"])
 
 def main():
     """Runs wiggler without heatbump"""

@@ -1,9 +1,9 @@
-Title: mathematica update wig
-Integrated Source Power without filtering: 4078.851870803001 W
-Integrated source power after filtering: 1608.9720027919595 W
-Integrated power absorbed in the object: 1484.0314583810562 W
-Integrated power transmitted through the object: 124.94054253828767 W
-Integrated power error: 1.8726157122728182e-06 W
-XOP/Flux time: 208.40199995040894 s
-Processing time: 30.08299994468689 s
-Elapsed time: 238.48499989509583 s
+Title: w_wig_1
+Integrated Source Power without filtering: 366.5286301972559 W
+Integrated source power after filtering: 160.2227008983745 W
+Integrated power absorbed in the object: 144.99052675870144 W
+Integrated power transmitted through the object: 15.232173920966796 W
+Integrated power error: 2.1870628152953486e-07 W
+XOP/Flux time: 8.443000078201294 s
+Processing time: 1.872999906539917 s
+Elapsed time: 10.315999984741211 s

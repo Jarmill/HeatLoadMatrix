@@ -47,12 +47,6 @@ class ADialog(QtGui.QDialog):
         elif self.ui.harmonic_4.isChecked(): harmonic=self.ui.harmonic_4_custom.text()
         else: harmonic=0
         
-        #power output preference
-        if self.ui.power_1.isChecked():     power="power"
-        elif self.ui.power_2.isChecked():   power="density"
-        elif self.ui.power_3.isChecked():   power="both"
-        else:   power="density"
-        
         #scan parameters
         estart=self.ui.estart.text()
         eend=self.ui.eend.text()
@@ -62,7 +56,7 @@ class ADialog(QtGui.QDialog):
         
         #write into file
         f=open("pickle\\adv.pkl","wb")
-        adv_data={"power":str(power),"nphi":str(nphi), "nalpha":str(nalpha), "calpha2":str(calpha2), "nomega":str(nomega), "comega":str(comega),"nsigma":str(nsigma), "method":str(method), "mode":str(mode),"harmonic":str(harmonic), "estart":str(estart), "eend":str(eend),"ediv":str(ediv),"xint":str(xint),"yint":str(yint)}
+        adv_data={"nphi":str(nphi), "nalpha":str(nalpha), "calpha2":str(calpha2), "nomega":str(nomega), "comega":str(comega),"nsigma":str(nsigma), "method":str(method), "mode":str(mode),"harmonic":str(harmonic), "estart":str(estart), "eend":str(eend),"ediv":str(ediv),"xint":str(xint),"yint":str(yint)}
         pickle.dump(adv_data, f)
         f.close()
         self.reject()
@@ -90,7 +84,6 @@ class ADialog(QtGui.QDialog):
         #loading values
         method=int(adv["method"])
         mode=int(adv["mode"])
-        power=adv["power"]
         harmonic=int(adv["harmonic"])
         
         #method
@@ -106,12 +99,6 @@ class ADialog(QtGui.QDialog):
         elif mode==5:   self.ui.mode_5.setChecked(True)
         elif mode==6:   self.ui.mode_6.setChecked(True)
         else:           self.ui.mode_4.setChecked(True)
-        
-        #power
-        if power=="power":      self.ui.power_1.setChecked(True)
-        elif power=="density":  self.ui.power_2.setChecked(True)
-        elif power=="both":     self.ui.power_3.setChecked(True)
-        else:                   self.ui.power_2.setChecked(True)
         
         #harmonic
         if harmonic==0:     self.ui.harmonic_1.setChecked(True)

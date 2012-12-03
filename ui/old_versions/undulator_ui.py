@@ -1,9 +1,9 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'undulator_w_ui.ui'
+# Form implementation generated from reading ui file 'undulator_ui.ui'
 #
-# Created: Mon Nov 19 18:09:15 2012
-#      by: PyQt4 UI code generator 4.9.2
+# Created: Wed Aug  1 15:06:44 2012
+#      by: PyQt4 UI code generator 4.9.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -17,14 +17,23 @@ except AttributeError:
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(505, 283)
-        self.layoutWidget = QtGui.QWidget(Dialog)
-        self.layoutWidget.setGeometry(QtCore.QRect(0, 0, 501, 281))
-        self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
-        self.verticalLayout_15 = QtGui.QVBoxLayout(self.layoutWidget)
+        Dialog.resize(503, 351)
+        self.widget = QtGui.QWidget(Dialog)
+        self.widget.setGeometry(QtCore.QRect(0, 0, 501, 351))
+        self.widget.setObjectName(_fromUtf8("widget"))
+        self.verticalLayout_15 = QtGui.QVBoxLayout(self.widget)
         self.verticalLayout_15.setMargin(0)
         self.verticalLayout_15.setObjectName(_fromUtf8("verticalLayout_15"))
-        self.groupBox = QtGui.QGroupBox(self.layoutWidget)
+        self.groupBox_4 = QtGui.QGroupBox(self.widget)
+        self.groupBox_4.setObjectName(_fromUtf8("groupBox_4"))
+        self.verticalLayout_11 = QtGui.QVBoxLayout(self.groupBox_4)
+        self.verticalLayout_11.setObjectName(_fromUtf8("verticalLayout_11"))
+        self.und_title = QtGui.QLineEdit(self.groupBox_4)
+        self.und_title.setText(_fromUtf8(""))
+        self.und_title.setObjectName(_fromUtf8("und_title"))
+        self.verticalLayout_11.addWidget(self.und_title)
+        self.verticalLayout_15.addWidget(self.groupBox_4)
+        self.groupBox = QtGui.QGroupBox(self.widget)
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.verticalLayout_14 = QtGui.QVBoxLayout(self.groupBox)
         self.verticalLayout_14.setObjectName(_fromUtf8("verticalLayout_14"))
@@ -36,7 +45,6 @@ class Ui_Dialog(object):
         self.label.setObjectName(_fromUtf8("label"))
         self.verticalLayout.addWidget(self.label)
         self.und_energy = QtGui.QLineEdit(self.groupBox)
-        self.und_energy.setInputMask(_fromUtf8(""))
         self.und_energy.setObjectName(_fromUtf8("und_energy"))
         self.verticalLayout.addWidget(self.und_energy)
         self.horizontalLayout.addLayout(self.verticalLayout)
@@ -51,7 +59,7 @@ class Ui_Dialog(object):
         self.horizontalLayout.addLayout(self.verticalLayout_2)
         self.verticalLayout_14.addLayout(self.horizontalLayout)
         self.verticalLayout_15.addWidget(self.groupBox)
-        self.groupBox_2 = QtGui.QGroupBox(self.layoutWidget)
+        self.groupBox_2 = QtGui.QGroupBox(self.widget)
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
         self.verticalLayout_13 = QtGui.QVBoxLayout(self.groupBox_2)
         self.verticalLayout_13.setObjectName(_fromUtf8("verticalLayout_13"))
@@ -95,7 +103,7 @@ class Ui_Dialog(object):
         self.horizontalLayout_2.addLayout(self.verticalLayout_6)
         self.verticalLayout_13.addLayout(self.horizontalLayout_2)
         self.verticalLayout_15.addWidget(self.groupBox_2)
-        self.groupBox_3 = QtGui.QGroupBox(self.layoutWidget)
+        self.groupBox_3 = QtGui.QGroupBox(self.widget)
         self.groupBox_3.setObjectName(_fromUtf8("groupBox_3"))
         self.verticalLayout_12 = QtGui.QVBoxLayout(self.groupBox_3)
         self.verticalLayout_12.setObjectName(_fromUtf8("verticalLayout_12"))
@@ -139,22 +147,26 @@ class Ui_Dialog(object):
         self.horizontalLayout_3.addLayout(self.verticalLayout_10)
         self.verticalLayout_12.addLayout(self.horizontalLayout_3)
         self.verticalLayout_15.addWidget(self.groupBox_3)
+        self.label_23 = QtGui.QLabel(self.widget)
+        self.label_23.setObjectName(_fromUtf8("label_23"))
+        self.verticalLayout_15.addWidget(self.label_23)
         self.horizontalLayout_4 = QtGui.QHBoxLayout()
         self.horizontalLayout_4.setObjectName(_fromUtf8("horizontalLayout_4"))
-        self.buttonBox = QtGui.QDialogButtonBox(self.layoutWidget)
+        self.buttonBox = QtGui.QDialogButtonBox(self.widget)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
         self.horizontalLayout_4.addWidget(self.buttonBox)
-        self.advanced_button = QtGui.QPushButton(self.layoutWidget)
+        self.advanced_button = QtGui.QPushButton(self.widget)
         self.advanced_button.setObjectName(_fromUtf8("advanced_button"))
         self.horizontalLayout_4.addWidget(self.advanced_button)
-        self.default_button = QtGui.QPushButton(self.layoutWidget)
+        self.default_button = QtGui.QPushButton(self.widget)
         self.default_button.setObjectName(_fromUtf8("default_button"))
         self.horizontalLayout_4.addWidget(self.default_button)
         self.verticalLayout_15.addLayout(self.horizontalLayout_4)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+        Dialog.setTabOrder(self.und_title, self.und_energy)
         Dialog.setTabOrder(self.und_energy, self.und_current)
         Dialog.setTabOrder(self.und_current, self.und_sigx)
         Dialog.setTabOrder(self.und_sigx, self.und_sigy)
@@ -167,7 +179,8 @@ class Ui_Dialog(object):
         Dialog.setTabOrder(self.und_ky, self.advanced_button)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
+        Dialog.setWindowTitle("Undulator")
+        self.groupBox_4.setTitle(QtGui.QApplication.translate("Dialog", "Title", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox.setTitle(QtGui.QApplication.translate("Dialog", "Machine Parameters", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("Dialog", "Beam Energy (GeV)", None, QtGui.QApplication.UnicodeUTF8))
         self.und_energy.setText(QtGui.QApplication.translate("Dialog", "5.3", None, QtGui.QApplication.UnicodeUTF8))
@@ -191,6 +204,7 @@ class Ui_Dialog(object):
         self.und_kx.setText(QtGui.QApplication.translate("Dialog", "0", None, QtGui.QApplication.UnicodeUTF8))
         self.label_10.setText(QtGui.QApplication.translate("Dialog", "<html><head/><body><p>Deflection Parameter K<span style=\" vertical-align:sub;\">y</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.und_ky.setText(QtGui.QApplication.translate("Dialog", "2.760", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_23.setText(QtGui.QApplication.translate("Dialog", "To adjust filters, region definitions, and other options, press the respective buttons in the main window", None, QtGui.QApplication.UnicodeUTF8))
         self.advanced_button.setText(QtGui.QApplication.translate("Dialog", "Advanced", None, QtGui.QApplication.UnicodeUTF8))
         self.default_button.setText(QtGui.QApplication.translate("Dialog", "Default Values", None, QtGui.QApplication.UnicodeUTF8))
 

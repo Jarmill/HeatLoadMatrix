@@ -6,23 +6,55 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>401</width>
-    <height>97</height>
+    <width>623</width>
+    <height>99</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>401</width>
+     <width>622</width>
      <height>96</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_8">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Material</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="reg_material"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <item>
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Distance (m)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="reg_distance"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
@@ -131,8 +163,18 @@
     </item>
    </layout>
   </widget>
+  <zorder>buttonBox</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>reg_distance</zorder>
+  <zorder>reg_thickness</zorder>
+  <zorder>label_6</zorder>
+  <zorder>label_7</zorder>
+  <zorder>reg_ydivisions</zorder>
  </widget>
  <tabstops>
+  <tabstop>reg_material</tabstop>
+  <tabstop>reg_distance</tabstop>
   <tabstop>reg_xlength</tabstop>
   <tabstop>reg_ylength</tabstop>
   <tabstop>reg_xdivisions</tabstop>

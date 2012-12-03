@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'advancedoptions_w_ui.ui'
+# Form implementation generated from reading ui file 'advancedoptions_ui.ui'
 #
-# Created: Mon Nov 19 18:17:51 2012
+# Created: Thu Oct 11 17:13:56 2012
 #      by: PyQt4 UI code generator 4.9.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -235,6 +235,16 @@ class Ui_AdvancedOptions(object):
         self.verticalLayout_16.setObjectName(_fromUtf8("verticalLayout_16"))
         self.horizontalLayout_6 = QtGui.QHBoxLayout()
         self.horizontalLayout_6.setObjectName(_fromUtf8("horizontalLayout_6"))
+        self.power_1 = QtGui.QRadioButton(self.groupBox_5)
+        self.power_1.setObjectName(_fromUtf8("power_1"))
+        self.horizontalLayout_6.addWidget(self.power_1)
+        self.power_2 = QtGui.QRadioButton(self.groupBox_5)
+        self.power_2.setChecked(True)
+        self.power_2.setObjectName(_fromUtf8("power_2"))
+        self.horizontalLayout_6.addWidget(self.power_2)
+        self.power_3 = QtGui.QRadioButton(self.groupBox_5)
+        self.power_3.setObjectName(_fromUtf8("power_3"))
+        self.horizontalLayout_6.addWidget(self.power_3)
         self.buttonBox = QtGui.QDialogButtonBox(self.groupBox_5)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
@@ -311,4 +321,7 @@ class Ui_AdvancedOptions(object):
         self.xint.setText(QtGui.QApplication.translate("AdvancedOptions", "10", None, QtGui.QApplication.UnicodeUTF8))
         self.label_8.setText(QtGui.QApplication.translate("AdvancedOptions", "Integration Points y", None, QtGui.QApplication.UnicodeUTF8))
         self.yint.setText(QtGui.QApplication.translate("AdvancedOptions", "10", None, QtGui.QApplication.UnicodeUTF8))
+        self.power_1.setText(QtGui.QApplication.translate("AdvancedOptions", "Power", None, QtGui.QApplication.UnicodeUTF8))
+        self.power_2.setText(QtGui.QApplication.translate("AdvancedOptions", "Power Density", None, QtGui.QApplication.UnicodeUTF8))
+        self.power_3.setText(QtGui.QApplication.translate("AdvancedOptions", "Both", None, QtGui.QApplication.UnicodeUTF8))
 
