@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'advancedoptions_w_ui.ui'
+# Form implementation generated from reading ui file 'advancedoptions_ui.ui'
 #
-# Created: Mon Nov 19 18:17:51 2012
+# Created: Thu Dec  6 08:50:38 2012
 #      by: PyQt4 UI code generator 4.9.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -144,8 +144,8 @@ class Ui_AdvancedOptions(object):
         self.verticalLayout_11.addWidget(self.groupBox_4)
         self.groupBox_2 = QtGui.QGroupBox(self.layoutWidget)
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
-        self.verticalLayout_4 = QtGui.QVBoxLayout(self.groupBox_2)
-        self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
+        self.horizontalLayout_8 = QtGui.QHBoxLayout(self.groupBox_2)
+        self.horizontalLayout_8.setObjectName(_fromUtf8("horizontalLayout_8"))
         self.verticalLayout_3 = QtGui.QVBoxLayout()
         self.verticalLayout_3.setObjectName(_fromUtf8("verticalLayout_3"))
         self.method_1 = QtGui.QRadioButton(self.groupBox_2)
@@ -158,7 +158,7 @@ class Ui_AdvancedOptions(object):
         self.method_3.setChecked(True)
         self.method_3.setObjectName(_fromUtf8("method_3"))
         self.verticalLayout_3.addWidget(self.method_3)
-        self.verticalLayout_4.addLayout(self.verticalLayout_3)
+        self.horizontalLayout_8.addLayout(self.verticalLayout_3)
         self.verticalLayout_11.addWidget(self.groupBox_2)
         self.horizontalLayout_5.addLayout(self.verticalLayout_11)
         self.verticalLayout_17.addLayout(self.horizontalLayout_5)

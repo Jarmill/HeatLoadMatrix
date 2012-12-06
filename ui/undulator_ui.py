@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'undulator_w_ui.ui'
+# Form implementation generated from reading ui file 'undulator_ui.ui'
 #
-# Created: Mon Nov 19 18:09:15 2012
+# Created: Thu Dec  6 08:50:18 2012
 #      by: PyQt4 UI code generator 4.9.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -167,7 +167,7 @@ class Ui_Dialog(object):
         Dialog.setTabOrder(self.und_ky, self.advanced_button)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
+        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Undulator", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox.setTitle(QtGui.QApplication.translate("Dialog", "Machine Parameters", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("Dialog", "Beam Energy (GeV)", None, QtGui.QApplication.UnicodeUTF8))
         self.und_energy.setText(QtGui.QApplication.translate("Dialog", "5.3", None, QtGui.QApplication.UnicodeUTF8))

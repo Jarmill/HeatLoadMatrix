@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'wiggler_w_ui.ui'
+# Form implementation generated from reading ui file 'wiggler_ui.ui'
 #
-# Created: Mon Nov 19 12:12:05 2012
+# Created: Thu Dec  6 08:50:00 2012
 #      by: PyQt4 UI code generator 4.9.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -123,7 +123,7 @@ class Ui_Wiggler(object):
         Wiggler.setTabOrder(self.wig_kx, self.wig_ky)
 
     def retranslateUi(self, Wiggler):
-        Wiggler.setWindowTitle(QtGui.QApplication.translate("Wiggler", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
+        Wiggler.setWindowTitle(QtGui.QApplication.translate("Wiggler", "Wiggler", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox.setTitle(QtGui.QApplication.translate("Wiggler", "Machine Parameters", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("Wiggler", "Beam Energy (GeV)", None, QtGui.QApplication.UnicodeUTF8))
         self.wig_energy.setText(QtGui.QApplication.translate("Wiggler", "5.3", None, QtGui.QApplication.UnicodeUTF8))

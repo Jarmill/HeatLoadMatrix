@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//ui/advancedoptions_ui.py=utf-8
+encoding//ui/heatloadmatrix_ui.py=utf-8
 encoding//ui/region_ui.py=utf-8
 encoding//ui/undulator_ui.py=utf-8
 encoding//ui/wiggler_ui.py=utf-8

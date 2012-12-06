@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'region_w_ui.ui'
+# Form implementation generated from reading ui file 'region_ui.ui'
 #
-# Created: Mon Nov 19 12:12:36 2012
+# Created: Thu Dec  6 08:49:47 2012
 #      by: PyQt4 UI code generator 4.9.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -102,7 +102,7 @@ class Ui_Dialog(object):
         Dialog.setTabOrder(self.reg_thickness, self.buttonBox)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
+        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Region", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("Dialog", "x Length (mm)", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("Dialog", "y Length (mm)", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("Dialog", "x divisions", None, QtGui.QApplication.UnicodeUTF8))
