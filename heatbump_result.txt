@@ -1,9 +1,0 @@
-Title: w_wig_1
-Integrated Source Power without filtering: 366.5286301972559 W
-Integrated source power after filtering: 160.2227008983745 W
-Integrated power absorbed in the object: 144.99052675870144 W
-Integrated power transmitted through the object: 15.232173920966796 W
-Integrated power error: 2.1870628152953486e-07 W
-XOP/Flux time: 8.443000078201294 s
-Processing time: 1.872999906539917 s
-Elapsed time: 10.315999984741211 s

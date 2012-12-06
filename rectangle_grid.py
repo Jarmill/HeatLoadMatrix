@@ -1,7 +1,8 @@
 from basic_functions import chunks, matchdim
 import _pickle as pickle
 from os import path, makedirs
-
+#this wil become much simpler after numpy
+#need to implement progressive meshing.
 def cusum(s):
     t=0
     for i in s:
@@ -96,36 +97,6 @@ class pc():
         self.corners=corners
         self.dimensions=dimensions
         self.areas=areas
-        
-        """
-        #dump the five arrays (pickled) into the grid_data folder
-        outputfile="grid_data\\grid.pkl"
-
-        outputfile_d=path.dirname(outputfile)
-
-        if not path.exists(outputfile_d):
-            makedirs(outputfile_d)
-        
-        fgrid=open("grid_data\\grid.pkl","wb")
-        pickle.dump(grid2,fgrid)
-        fgrid.close()
-
-        fcenters=open("grid_data\\centers.pkl","wb")
-        pickle.dump(centers,fcenters)
-        fcenters.close()
-
-        fcorners=open("grid_data\\corners.pkl","wb")
-        pickle.dump(corners,fcorners)
-        fcorners.close()
-
-        fdimensions=open("grid_data\\dimensions.pkl","wb")
-        pickle.dump(dimensions,fdimensions)
-        fdimensions.close()
-
-        fareas=open("grid_data\\areas.pkl","wb")
-        pickle.dump(areas,fareas)
-        fareas.close()
-        """
 
     def rect_centers(self): return self.centers
 

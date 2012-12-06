@@ -6,6 +6,7 @@ from time import time, sleep
 from copy import deepcopy
 #reading and writing data
 import _pickle as pickle
+import json
 #grid functionality
 import rectangle_grid
 #subprocess modules
@@ -68,6 +69,12 @@ Mathematica output
 Fixing the "both" dialog in adv
 other optimizations/tests
 
+Version 3.0
+Importing and Exporting run data
+Importing and Exporting source data
+The workflow ui has been added
+Most pickle data have been replaced with json format
+
 Next Release:
 Preserving the index convention for the grid, without using the transpose cheat
 Creating/figuring out progress bar
@@ -83,23 +90,23 @@ class Back(rectangle_grid.pc):
         """pseudoglobal values. These are initialized as part of WDialog and UDialog's __init__() method, to avoid the diamond of death"""
 
         #advanced  values
-        advf=open("pickle\\adv.pkl","rb")
-        adv=pickle.load(advf)
+        advf=open("pickle\\adv.json","r")
+        adv=json.load(advf)
         advf.close()
         
         #region values
-        freg=open("pickle\\reg.pkl","rb")
-        reg=pickle.load(freg)
+        freg=open("pickle\\reg.json","r")
+        reg=json.load(freg)
         freg.close()
         
         #run parameters
-        frun=open("pickle\\run.pkl","rb")
-        run=pickle.load(frun)
+        frun=open("pickle\\run.json","r")
+        run=json.load(frun)
         frun.close()
         
         #user submitted filters
-        ff=open("pickle\\flt.pkl","rb")
-        flt_list_old=pickle.load(ff)
+        ff=open("pickle\\flt.json","r")
+        flt_list_old=json.load(ff)
         ff.close()
         self.flt_list=[i for i in flt_list_old if i[0]!=None and i[1]!=None]
         #debugging
@@ -126,6 +133,9 @@ class Back(rectangle_grid.pc):
         #other        
         self.source=run["source"]
         
+        #energy axis(default)
+        self.ea=self.generate_energy_axis()
+        
         #run (main) parameters
         self.pout=run["power"]
         self.mat=run["mat"]
@@ -148,7 +158,7 @@ class Back(rectangle_grid.pc):
         
         #source parameters
         if self.source=="und":
-            und=pickle.load(open("pickle\\und.pkl","rb"))
+            und=json.load(open("pickle\\und.json","r"))
             self.energy=und["energy"]
             self.current=und["current"]
             self.period=und["period"]
@@ -161,7 +171,7 @@ class Back(rectangle_grid.pc):
             self.ky=und["ky"]
         
         elif self.source=="wig":
-            wig=pickle.load(open("pickle\\wig.pkl","rb"))
+            wig=json.load(open("pickle\\wig.json","r"))
             self.energy=wig["energy"]
             self.current=wig["current"]
             self.period=wig["period"]
@@ -276,7 +286,7 @@ class Back(rectangle_grid.pc):
         if self.print_matrix_sums:
             print_sum_matrix(s_flux, 'filter_flux s_flux')
         
-        ea=self.generate_energy_axis()
+        ea=self.ea
         
 
         flt=self.flt_list
@@ -384,7 +394,7 @@ class Back(rectangle_grid.pc):
                         #will not index transmitted_power_densityv, not sure about reference agreement
                         transmitted_power_densityv[k][i][j]=fki[j]-vki[j]
             self.mathematica_output(transmitted_power_densityv, "transmitted_power_density")
-
+        print("\n")
         if self.pout=="density":
             self.write_slice_to_table(voxel_absorbed_power_densityv,self.title)
             #display_chart("heatbump_output\\"+self.title+".csv")    
@@ -422,7 +432,7 @@ class Back(rectangle_grid.pc):
         
         #temporary samples
         
-        f=open("heatbump_result.txt","w")
+        f=open("heatload_results.txt","w")
         f.write(s)
         f.close()
         print(s)
@@ -439,7 +449,7 @@ class Back(rectangle_grid.pc):
             print_sum_matrix(s_flux, 'integrated_source_power s_flux')
 
         intpow=0
-        ea=self.generate_energy_axis()
+        ea=self.ea
         areas=self.areas
         full_area=(self.h/self.hd)*(self.v/self.vd) #area of a complete center cell
         for i in range(0,len(s_flux)):
@@ -463,7 +473,7 @@ class Back(rectangle_grid.pc):
             
         hr=self.rect_center_x()
         vr=self.rect_center_y()
-        ea=self.generate_energy_axis()
+        ea=self.ea
         print(name+" "+str(depth(data)))
         
         #if depth(data)==2:
@@ -515,7 +525,7 @@ class Back(rectangle_grid.pc):
         thickness=sum(self.thickness) #in cm
 
         mat=self.mat        
-        ea=self.generate_energy_axis()        
+        ea=self.ea        
         
         reg_flux=matchdim(s_flux)
         
@@ -643,7 +653,7 @@ class Back(rectangle_grid.pc):
         
         pc=self.rect_centers()
         dimensions = self.rect_dimensions()
-        ea=self.generate_energy_axis()
+        ea=self.ea
         dE=ea[1]-ea[0]
         
         if self.LIP==True:
@@ -913,7 +923,7 @@ class Back(rectangle_grid.pc):
        
         #v_flux[slice][y][x][energy]
         v_power=matchdim(v_flux)
-        ea=self.generate_energy_axis()
+        ea=self.ea
         #initialize index limits
         klimit=len(self.thickness) #thickness, z
         #i:y
@@ -1050,7 +1060,7 @@ class Back(rectangle_grid.pc):
             else:
                 st+="\n\n"+s
             del hr[0]
-        outputfile="heatbump_output\\"+title+".csv"
+        outputfile="heatload_output\\"+title+".csv"
         
         outputfile_d=path.dirname(outputfile)
         

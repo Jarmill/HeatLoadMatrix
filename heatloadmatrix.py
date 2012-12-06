@@ -16,7 +16,7 @@ import sys
 from PyQt4 import QtGui, QtCore
 
 #other functions
-import _pickle as pickle
+import json
 from math import pi
 #heatbump layout
 from ui.heatloadmatrix_ui import Ui_MainWindow
@@ -55,12 +55,12 @@ class HMainWindow(QtGui.QWidget, backend.Back):
             mat=item.text(0)
             thick=float(item.text(1))
             flt.append([mat,thick])
-        with open("pickle\\flt.pkl","wb") as f:
-            pickle.dump(flt, f)
+        with open("pickle\\flt.json","w") as f:
+            json.dump(flt, f, indent=2)
             
     def flt_load(self):
-        """load values in flt.pkl into the filter qtreewidget"""
-        flt=pickle.load(open("pickle\\flt.pkl","rb"))
+        """load values in flt.json into the filter qtreewidget"""
+        flt=json.load(open("pickle\\flt.json","r"))
         
         for i in flt:
             if (i[0]and i[1])!=("" or None):
@@ -98,7 +98,7 @@ class HMainWindow(QtGui.QWidget, backend.Back):
             wig.exec_()
 
     def run_begin(self):
-        run=pickle.load(open("pickle\\run.pkl","rb"))
+        run=json.load(open("pickle\\run.json","r"))
         #source
         if self.ui.source_und.isChecked(): run["source"]="und"
         elif self.ui.source_wig.isChecked(): run["source"]="wig"
@@ -121,13 +121,13 @@ class HMainWindow(QtGui.QWidget, backend.Back):
         elif self.ui.power_both.isChecked():   run["power"]="both"
         else:   run["power"]="density"
         
-        pickle.dump(run,open("pickle\\run.pkl","wb"))
+        json.dump(run,open("pickle\\run.json","w"), indent=2)
         
         self.back_values()
         self.heat_load_matrix()
         
     def main_load_values(self):
-        run=pickle.load(open("pickle\\run.pkl","rb"))
+        run=json.load(open("pickle\\run.json","r"))
         
         #source
         if run["source"]=="und": self.ui.source_und.setChecked(True)

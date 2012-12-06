@@ -1,6 +1,6 @@
 #import basic and PyQt modules
 from PyQt4 import QtGui, QtCore
-import _pickle as pickle
+import json
 import sys
 
 #undulator layout
@@ -30,7 +30,7 @@ class UDialog(QtGui.QDialog):
     def und_pickle(self):
         """write undulator parameters into .pkl for storage"""
         
-        und=pickle.load(open("pickle\\und.pkl","rb"))
+        und=json.load(open("pickle\\und.json","r"))
         und["energy"]=self.ui.und_energy.text()
         und["current"]=self.ui.und_current.text()
         und["period"]=self.ui.und_period.text()
@@ -42,13 +42,13 @@ class UDialog(QtGui.QDialog):
         und["kx"]=self.ui.und_kx.text()
         und["ky"]=self.ui.und_ky.text()
         
-        pickle.dump(und,open("pickle\\und.pkl","wb"))
+        json.dump(und,open("pickle\\und.json","w"), indent=2)
         self.reject()
         
     def und_load_values(self):
         """Loads default values from file, need to implement recalling numbers from last run"""
-        f=open("pickle\\und.pkl","rb")
-        und=pickle.load(f)
+        f=open("pickle\\und.json","r")
+        und=json.load(f)
         f.close()
         
         self.ui.und_energy.setText(und["energy"])

@@ -1,6 +1,6 @@
 #import basic and PyQt modules
 from PyQt4 import QtGui, QtCore
-import _pickle as pickle
+import json
 import sys
 
 #wiggler layout
@@ -41,13 +41,13 @@ class WDialog(QtGui.QDialog):
         wig["num"]=self.ui.wig_nperiods.text()
         wig["kx"]=self.ui.wig_kx.text()
         wig["ky"]=self.ui.wig_ky.text()
-        pickle.dump(wig,open("pickle\\wig.pkl","wb"))
+        json.dump(wig,open("pickle\\wig.json","w"), indent=2)
         self.reject()
         
     def wig_load_values(self):
         """Loads default values from file, need to implement recalling numbers from last run"""
-        f=open("pickle\\wig.pkl","rb")
-        wig=pickle.load(f)
+        f=open("pickle\\wig.json","r")
+        wig=json.load(f)
         f.close()
         
         self.ui.wig_energy.setText(wig["energy"])

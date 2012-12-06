@@ -1,6 +1,6 @@
 #import basic and PyQt modules
 from PyQt4 import QtGui, QtCore
-import _pickle as pickle
+import json
 import sys
 
 #region layout
@@ -19,8 +19,8 @@ class RDialog(QtGui.QDialog):
         
     def regpickle(self):
         """Reads the value of the region data, and serializes it into a file"""
-        f=open("pickle\\reg.pkl","rb")
-        reg=pickle.load(f)
+        f=open("pickle\\reg.json","r")
+        reg=json.load(f)
         f.close()
         reg["xlen"]=self.ui.reg_xlength.text()
         reg["ylen"]=self.ui.reg_ylength.text()
@@ -29,16 +29,16 @@ class RDialog(QtGui.QDialog):
         thickness=self.ui.reg_thickness.text()
         reg["thickness"]=[.1* float(i) for i in thickness.split()] #unit conversion, mm->cm in order to agree with mu units
         
-        f=open("pickle\\reg.pkl","wb")
-        pickle.dump(reg, f)
+        f=open("pickle\\reg.json","w")
+        json.dump(reg, f,indent=2)
         f.close()
         #close window after submit is pressed
         self.reject()
     
     def regloadvalues(self):
         """Reads the values of the most recent region data, loads values"""
-        f=open("pickle\\reg.pkl","rb")
-        reg=pickle.load(f)
+        f=open("pickle\\reg.json","r")
+        reg=json.load(f)
         f.close()
 
         thickness=" ".join([str(10*i) for i in reg["thickness"]])

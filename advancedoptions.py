@@ -1,7 +1,7 @@
 #import sys
 from PyQt4 import QtGui, QtCore
 from ui.advancedoptions_ui import Ui_AdvancedOptions
-import _pickle as pickle
+import json
 import sys
 
 class ADialog(QtGui.QDialog):
@@ -55,15 +55,15 @@ class ADialog(QtGui.QDialog):
         yint=self.ui.yint.text()
         
         #write into file
-        f=open("pickle\\adv.pkl","wb")
+        f=open("pickle\\adv.json","w")
         adv_data={"nphi":str(nphi), "nalpha":str(nalpha), "calpha2":str(calpha2), "nomega":str(nomega), "comega":str(comega),"nsigma":str(nsigma), "method":str(method), "mode":str(mode),"harmonic":str(harmonic), "estart":str(estart), "eend":str(eend),"ediv":str(ediv),"xint":str(xint),"yint":str(yint)}
-        pickle.dump(adv_data, f)
+        json.dump(adv_data, f, indent=2)
         f.close()
         self.reject()
         
     def adv_load_values(self):
-        f=open("pickle\\adv.pkl","rb")
-        adv=pickle.load(f)
+        f=open("pickle\\adv.json","r")
+        adv=json.load(f)
         f.close()
         
         #intrinsic paramters
