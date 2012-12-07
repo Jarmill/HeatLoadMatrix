@@ -23,9 +23,10 @@ from ui.heatloadmatrix_ui import Ui_MainWindow
 
 #import other functions of heatbump.
 import region
-import  undulator
+import undulator
 import wiggler
 import backend
+import xop_config
 
 class HMainWindow(QtGui.QWidget, backend.Back):
     def __init__(self):
@@ -35,13 +36,25 @@ class HMainWindow(QtGui.QWidget, backend.Back):
         self.flt_load()
         self.main_load_values()
         
+        #gui linkage
         self.connect(self.ui.config_source,QtCore.SIGNAL("clicked()"),self.source_set)
         self.connect(self.ui.config_region,QtCore.SIGNAL("clicked()"),self.region_set)
         self.connect(self.ui.config_go,QtCore.SIGNAL("clicked()"),self.run_begin)
         self.connect(self.ui.config_abort,QtCore.SIGNAL("clicked()"),self.guipass)
         self.connect(self.ui.flt_remove,QtCore.SIGNAL("clicked()"),self.flt_del)
         self.connect(self.ui.flt_add,QtCore.SIGNAL("clicked()"),self.flt_add)
-    
+        
+        #menu linkage
+        self.connect(self.ui.action_go, QtCore.SIGNAL("triggered()"), self.run_begin)
+        self.connect(self.ui.action_abort, QtCore.SIGNAL("triggered()"), self.guipass)
+        self.connect(self.ui.action_view_results, QtCore.SIGNAL("triggered()"), self.guipass)
+        self.connect(self.ui.action_param_save, QtCore.SIGNAL("triggered()"), self.guipass)
+        self.connect(self.ui.action_param_open, QtCore.SIGNAL("triggered()"), self.guipass)
+        self.connect(self.ui.action_xop_config, QtCore.SIGNAL("triggered()"), self.xop_set)
+        self.connect(self.ui.action_help, QtCore.SIGNAL("triggered()"), self.guipass)
+        self.connect(self.ui.action_paper, QtCore.SIGNAL("triggered()"), self.guipass)
+        self.connect(self.ui.action_about, QtCore.SIGNAL("triggered()"), self.guipass)
+
     def guipass(self):
         pass
     
@@ -89,6 +102,10 @@ class HMainWindow(QtGui.QWidget, backend.Back):
         reg=region.RDialog()
         reg.exec_()
     
+    def xop_set(self):
+        xop=xop_config.XDialog()
+        xop.exec_()
+    
     def source_set(self):
         if self.ui.source_und.isChecked():
             und=undulator.UDialog()
@@ -99,6 +116,7 @@ class HMainWindow(QtGui.QWidget, backend.Back):
 
     def run_begin(self):
         run=json.load(open("pickle\\run.json","r"))
+        #run={}
         #source
         if self.ui.source_und.isChecked(): run["source"]="und"
         elif self.ui.source_wig.isChecked(): run["source"]="wig"

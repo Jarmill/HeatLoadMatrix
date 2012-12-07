@@ -156,6 +156,9 @@ class Back(rectangle_grid.pc):
         self.comega=float(adv["comega"])
         self.nsigma=float(adv["nsigma"])
         
+        #xop path
+        self.xop_path=run["xop_path"]
+        
         #source parameters
         if self.source=="und":
             und=json.load(open("pickle\\und.json","r"))
@@ -195,9 +198,7 @@ class Back(rectangle_grid.pc):
         #output to mathematica
         self.MATHEMATICA_OUTPUT=False
         self.mathematica_sampling=[0,111,222,333,444,555,666,999,1999,2999,3999,4999]
-        
-        #file path (only good for specuser). First time setup will need to be implemented in order for this to work universally
-        self.xop_path="C:\\xop2.3\\bin.x86\\"
+
         
     def buildusmatrix(self,x_offset=0,y_offset=0, x_dim=0, y_dim=0):
         """Builds the xop-formatted undulator matrix from user-entered values"""
