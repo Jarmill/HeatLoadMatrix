@@ -591,7 +591,7 @@ class Back(rectangle_grid.pc):
                     sleep(0.25)
                     self.update_process_list()
                     
-                p=subprocess.Popen(self.xop_path+xop_pgm+".exe", cwd=jobdir)
+                p=subprocess.Popen(self.xop_path+"\\"+xop_pgm+".exe", cwd=jobdir)
                 p.jobdir = jobdir
                 print('Starting %s for jobdir %s' % (xop_pgm, jobdir))
                 self.XOP_Processes.append(p)

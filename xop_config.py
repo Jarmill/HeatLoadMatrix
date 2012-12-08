@@ -26,12 +26,14 @@ class XDialog(QtGui.QDialog):
         f=open("pickle\\run.json","r")
         run=json.load(f)
         f.close()
-        filename=str(QtGui.QFileDialog.getExistingDirectory(self,"Select Directory"))
-        print(run)
+        fdia=QtGui.QFileDialog()
+        fdia.setDirectory(self.ui.xop_name.text())
+        filename=str(fdia.getExistingDirectory(self,"Select Directory"))
+        #print(run)
         self.ui.xop_name.setText(filename)
     
     def xopset(self):
-        filename=self.ui.xop_name.text()
+        filename=str(self.ui.xop_name.text())
         f=open("pickle\\run.json", "r")
         run=json.load(f)
         f.close()

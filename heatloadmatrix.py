@@ -13,6 +13,7 @@ this is the workflow variant of the ui
 """
 #import basic and PyQt modules
 import sys
+from os import path, makedirs
 from PyQt4 import QtGui, QtCore
 
 #other functions
@@ -48,7 +49,7 @@ class HMainWindow(QtGui.QWidget, backend.Back):
         self.connect(self.ui.action_go, QtCore.SIGNAL("triggered()"), self.run_begin)
         self.connect(self.ui.action_abort, QtCore.SIGNAL("triggered()"), self.guipass)
         self.connect(self.ui.action_view_results, QtCore.SIGNAL("triggered()"), self.guipass)
-        self.connect(self.ui.action_param_save, QtCore.SIGNAL("triggered()"), self.guipass)
+        self.connect(self.ui.action_param_save, QtCore.SIGNAL("triggered()"), self.param_save)
         self.connect(self.ui.action_param_open, QtCore.SIGNAL("triggered()"), self.guipass)
         self.connect(self.ui.action_xop_config, QtCore.SIGNAL("triggered()"), self.xop_set)
         self.connect(self.ui.action_help, QtCore.SIGNAL("triggered()"), self.guipass)
@@ -57,6 +58,40 @@ class HMainWindow(QtGui.QWidget, backend.Back):
 
     def guipass(self):
         pass
+    
+    def param_save(self):
+        """Save source data"""
+        dirroot="C:\\Python32\\HeatBumpGUI\\source_parameters"
+        if not path.exists(dirroot):
+            makedirs(dirroot)
+        fdia=QtGui.QFileDialog()
+        fdia.setDirectory("C:\\Python32\\HeatBumpGUI\\source_parameters")
+        filename=fdia.getSaveFileName(self, "Save File", ".json")
+        
+        #name=self.ui.imported_source.text()
+        s=json.load(open("pickle\\run.json"),"r")["source"]
+        
+        if s=="wig":
+            source=json.load(open("pickle\\wig.json","r"))
+        elif s=="und":
+            source=json.load(open("pickle\\und.json","r"))
+        
+        f=open(filename+".json","w")
+        json.dump(source,f,indent=2)
+        f.close()
+        
+    def param_open(self):
+        """Open source data"""
+        dirroot="C:\\Python32\\HeatBumpGUI\\source_parameters"
+        if not path.exists(dirroot):
+            makedirs(dirroot)
+        fdia=QtGui.QFileDialog()
+        fdia.setDirectory(dirroot)
+        filename=fdia.getOpenFileName(self, "Open File", ".json")
+        
+        s=json.load(open(filename+".json","r"))
+        print(s)
+        
     
     def flt_save(self):
         """save qtreewidget data"""
