@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'heatloadmatrix_ui.ui'
 #
-# Created: Thu Dec  6 08:59:23 2012
+# Created: Mon Dec 10 15:34:59 2012
 #      by: PyQt4 UI code generator 4.9.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(660, 565)
+        MainWindow.resize(660, 548)
         self.HeatLoadMatrix_2 = QtGui.QWidget(MainWindow)
         self.HeatLoadMatrix_2.setObjectName(_fromUtf8("HeatLoadMatrix_2"))
         self.layoutWidget = QtGui.QWidget(self.HeatLoadMatrix_2)
@@ -64,8 +64,6 @@ class Ui_MainWindow(object):
         self.SelectedSource_Label = QtGui.QLabel(self.layoutWidget_6)
         self.SelectedSource_Label.setObjectName(_fromUtf8("SelectedSource_Label"))
         self.horizontalLayout_2.addWidget(self.SelectedSource_Label)
-        spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem)
         self.imported_source = QtGui.QLineEdit(self.layoutWidget_6)
         self.imported_source.setObjectName(_fromUtf8("imported_source"))
         self.horizontalLayout_2.addWidget(self.imported_source)
@@ -97,8 +95,8 @@ class Ui_MainWindow(object):
         self.ObjectMaterial_label = QtGui.QLabel(self.layoutWidget_2)
         self.ObjectMaterial_label.setObjectName(_fromUtf8("ObjectMaterial_label"))
         self.horizontalLayout_5.addWidget(self.ObjectMaterial_label)
-        spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_5.addItem(spacerItem1)
+        spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem)
         self.mat = QtGui.QLineEdit(self.layoutWidget_2)
         self.mat.setObjectName(_fromUtf8("mat"))
         self.horizontalLayout_5.addWidget(self.mat)
@@ -117,8 +115,8 @@ class Ui_MainWindow(object):
         self.InclinationtotheBeam_label = QtGui.QLabel(self.layoutWidget_2)
         self.InclinationtotheBeam_label.setObjectName(_fromUtf8("InclinationtotheBeam_label"))
         self.horizontalLayout_7.addWidget(self.InclinationtotheBeam_label)
-        spacerItem2 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_7.addItem(spacerItem2)
+        spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem1)
         self.deg = QtGui.QLineEdit(self.layoutWidget_2)
         self.deg.setEnabled(False)
         self.deg.setObjectName(_fromUtf8("deg"))
@@ -222,8 +220,8 @@ class Ui_MainWindow(object):
         self.flt_clear = QtGui.QPushButton(self.FilterConfiguration_groupBox)
         self.flt_clear.setObjectName(_fromUtf8("flt_clear"))
         self.verticalLayout_3.addWidget(self.flt_clear)
-        spacerItem3 = QtGui.QSpacerItem(20, 78, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout_3.addItem(spacerItem3)
+        spacerItem2 = QtGui.QSpacerItem(20, 78, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout_3.addItem(spacerItem2)
         self.horizontalLayout_4.addLayout(self.verticalLayout_3)
         self.verticalLayout_12.addLayout(self.horizontalLayout_4)
         self.horizontalLayout_14.addWidget(self.FilterConfiguration_groupBox)
@@ -274,8 +272,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.addWidget(self.status_bar)
         self.horizontalLayout_9 = QtGui.QHBoxLayout()
         self.horizontalLayout_9.setObjectName(_fromUtf8("horizontalLayout_9"))
-        spacerItem4 = QtGui.QSpacerItem(198, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_9.addItem(spacerItem4)
+        spacerItem3 = QtGui.QSpacerItem(198, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_9.addItem(spacerItem3)
         self.status_label = QtGui.QLabel(self.layoutWidget)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -286,8 +284,8 @@ class Ui_MainWindow(object):
         self.status_label.setAlignment(QtCore.Qt.AlignCenter)
         self.status_label.setObjectName(_fromUtf8("status_label"))
         self.horizontalLayout_9.addWidget(self.status_label)
-        spacerItem5 = QtGui.QSpacerItem(218, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_9.addItem(spacerItem5)
+        spacerItem4 = QtGui.QSpacerItem(218, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_9.addItem(spacerItem4)
         self.verticalLayout_5.addLayout(self.horizontalLayout_9)
         self.verticalLayout_7.addLayout(self.verticalLayout_5)
         self.verticalLayout_15.addLayout(self.verticalLayout_7)
@@ -302,9 +300,6 @@ class Ui_MainWindow(object):
         self.menuRun = QtGui.QMenu(self.menubar)
         self.menuRun.setObjectName(_fromUtf8("menuRun"))
         #MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtGui.QStatusBar(MainWindow)
-        self.statusbar.setObjectName(_fromUtf8("statusbar"))
-        #MainWindow.setStatusBar(self.statusbar)
         self.actionClose = QtGui.QAction(MainWindow)
         self.actionClose.setObjectName(_fromUtf8("actionClose"))
         self.action_param_save = QtGui.QAction(MainWindow)
