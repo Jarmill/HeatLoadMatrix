@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'heatloadmatrix_ui.ui'
 #
-# Created: Mon Dec 10 15:34:59 2012
+# Created: Mon Dec 10 17:37:15 2012
 #      by: PyQt4 UI code generator 4.9.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -380,7 +380,7 @@ class Ui_MainWindow(object):
         MainWindow.setTabOrder(self.config_go, self.config_abort)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Heat Load Matrix 3.0", None, QtGui.QApplication.UnicodeUTF8))
+        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Heat Load Matrix", None, QtGui.QApplication.UnicodeUTF8))
         self.SourceConfiguration_groupBox.setTitle(QtGui.QApplication.translate("MainWindow", "Source Configuration", None, QtGui.QApplication.UnicodeUTF8))
         self.source_und.setText(QtGui.QApplication.translate("MainWindow", "Undulator", None, QtGui.QApplication.UnicodeUTF8))
         self.source_wig.setText(QtGui.QApplication.translate("MainWindow", "Wiggler", None, QtGui.QApplication.UnicodeUTF8))
@@ -423,7 +423,9 @@ class Ui_MainWindow(object):
         self.menuRun.setTitle(QtGui.QApplication.translate("MainWindow", "Run", None, QtGui.QApplication.UnicodeUTF8))
         self.actionClose.setText(QtGui.QApplication.translate("MainWindow", "Close", None, QtGui.QApplication.UnicodeUTF8))
         self.action_param_save.setText(QtGui.QApplication.translate("MainWindow", "Save Parameters", None, QtGui.QApplication.UnicodeUTF8))
+        self.action_param_save.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+S", None, QtGui.QApplication.UnicodeUTF8))
         self.action_param_open.setText(QtGui.QApplication.translate("MainWindow", "Open Parameters", None, QtGui.QApplication.UnicodeUTF8))
+        self.action_param_open.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+O", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSave_Spectral_Data.setText(QtGui.QApplication.translate("MainWindow", "Save Spectral Data", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSave_Spectral_Data_2.setText(QtGui.QApplication.translate("MainWindow", "Save Spectral Data", None, QtGui.QApplication.UnicodeUTF8))
         self.actionImport_Spectral_Data.setText(QtGui.QApplication.translate("MainWindow", "Import Spectral Data", None, QtGui.QApplication.UnicodeUTF8))
@@ -433,6 +435,7 @@ class Ui_MainWindow(object):
         self.action_paper.setText(QtGui.QApplication.translate("MainWindow", "Paper", None, QtGui.QApplication.UnicodeUTF8))
         self.action_about.setText(QtGui.QApplication.translate("MainWindow", "About", None, QtGui.QApplication.UnicodeUTF8))
         self.action_go.setText(QtGui.QApplication.translate("MainWindow", "Go", None, QtGui.QApplication.UnicodeUTF8))
+        self.action_go.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+G", None, QtGui.QApplication.UnicodeUTF8))
         self.action_abort.setText(QtGui.QApplication.translate("MainWindow", "Abort", None, QtGui.QApplication.UnicodeUTF8))
         self.action_view_results.setText(QtGui.QApplication.translate("MainWindow", "View Results", None, QtGui.QApplication.UnicodeUTF8))
         self.actionConfigure_XOP.setText(QtGui.QApplication.translate("MainWindow", "Configure XOP", None, QtGui.QApplication.UnicodeUTF8))

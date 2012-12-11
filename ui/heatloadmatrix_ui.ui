@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Heat Load Matrix 3.0</string>
+   <string>Heat Load Matrix</string>
   </property>
   <widget class="QWidget" name="HeatLoadMatrix_2">
    <widget class="QWidget" name="layoutWidget">
@@ -624,10 +624,16 @@
    <property name="text">
     <string>Save Parameters</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
   </action>
   <action name="action_param_open">
    <property name="text">
     <string>Open Parameters</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
   <action name="actionSave_Spectral_Data">
@@ -682,6 +688,9 @@
   <action name="action_go">
    <property name="text">
     <string>Go</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+G</string>
    </property>
   </action>
   <action name="action_abort">

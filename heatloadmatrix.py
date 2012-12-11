@@ -130,16 +130,16 @@ class HMainWindow(QtGui.QWidget, backend.Back):
         child_count=root.childCount()
         for i in range(0,child_count):
             item=root.child(i)
-            mat=item.text(0)
-            thick=float(item.text(1))
-            flt.append([mat,thick])
+            if (item.text(0) and item.text(1))!="":
+                mat=item.text(0)
+                thick=float(item.text(1))
+                flt.append([mat,thick])
         with open("pickle\\flt.json","w") as f:
             json.dump(flt, f, indent=2)
             
     def flt_load(self):
         """load values in flt.json into the filter qtreewidget"""
         flt=json.load(open("pickle\\flt.json","r"))
-        
         for i in flt:
             if (i[0]and i[1])!=("" or None):
                 item=QtGui.QTreeWidgetItem([i[0], str(i[1])])
@@ -188,6 +188,9 @@ class HMainWindow(QtGui.QWidget, backend.Back):
         if changed and not self.changed:
             self.ui.imported_source.setText("(unsaved) "+self.ui.imported_source.text())
             self.changed=True
+        if not changed and self.changed:
+            self.changed=False
+            self.ui.imported_source.setText(self.ui.imported_source.text()[10:])
 
     def run_begin(self):
         run=json.load(open("pickle\\run.json","r"))
