@@ -2,11 +2,14 @@
 *.pyc
 *.pyo
 *.pkl
+*.nb
+*.json
 pickle/*
 *.xls
+source_parameters/*
+heatload_output/*
 *.csv
 *.txt
 *.tar
 grid_data/*
-heatbump_output/*
-/heatbump_result.txt
+/heatload_results.txt

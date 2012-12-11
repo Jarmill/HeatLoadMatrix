@@ -429,7 +429,7 @@ class Back(rectangle_grid.pc):
         
         s+="XOP/Flux time: "+str(txop)+" s\n"
         s+="Processing time: "+str(tpython)+" s\n"
-        s+="Elapsed time: "+str(dt)+" s\n"
+        s+="Elapsed time: "+str(dt)+" s"
         
         #temporary samples
         
