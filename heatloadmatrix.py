@@ -13,12 +13,13 @@ this is the workflow variant of the ui
 """
 #import basic and PyQt modules
 import sys
-from os import path, makedirs
+from os import path, makedirs, getcwd
 from PyQt4 import QtGui, QtCore
 
 #other functions
 import json
 from math import pi
+
 #heatbump layout
 from ui.heatloadmatrix_ui import Ui_MainWindow
 
@@ -57,7 +58,11 @@ class HMainWindow(QtGui.QWidget, backend.Back):
         self.connect(self.ui.action_help, QtCore.SIGNAL("triggered()"), self.guipass)
         self.connect(self.ui.action_paper, QtCore.SIGNAL("triggered()"), self.guipass)
         self.connect(self.ui.action_about, QtCore.SIGNAL("triggered()"), self.guipass)
-
+        
+        #current working directory, used to initialize files
+        #self.cwd=s="\\".join(getcwd().split("\\")[:-1])+"\\"
+        self.cwd=getcwd()+"\\"
+        
     def guipass(self):
         pass
     
@@ -67,7 +72,7 @@ class HMainWindow(QtGui.QWidget, backend.Back):
         if not path.exists(dirroot):
             makedirs(dirroot)
         fdia=QtGui.QFileDialog()
-        fdia.setDirectory("C:\\Python32\\HeatBumpGUI\\source_parameters")
+        fdia.setDirectory(self.cwd+"source_parameters")
         filename=str(fdia.getSaveFileName(self, "Save File", "", "JSON Data (*.json)"))
         
         #print(filename)
@@ -99,7 +104,7 @@ class HMainWindow(QtGui.QWidget, backend.Back):
         if not path.exists(dirroot):
             makedirs(dirroot)
         fdia=QtGui.QFileDialog()
-        fdia.setDirectory("C:\\Python32\\HeatBumpGUI\\source_parameters")
+        fdia.setDirectory(self.cwd+"source_parameters")
         filename=str(fdia.getOpenFileName(self, "Open File", "", "JavaScript Object Notation (*.json)"))
         if filename=="": return
         
