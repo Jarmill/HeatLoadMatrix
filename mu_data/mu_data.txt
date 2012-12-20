@@ -4,6 +4,7 @@ All elements have data in .csv format (comma separated values, spreadsheet) and 
 
 Mu is a constant based on material and energy, the intensity of light that passes through a material of thickness t is
 I=I0*e^(-mu t)
+This is known as the mass attenuation constant, and is measured in 1/cm.
 
 Xx is a test element, for all energies, mu=0 (perfect transmission)
 
