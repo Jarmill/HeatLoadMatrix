@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'heatloadmatrix_ui.ui'
 #
-# Created: Mon Dec 10 17:37:15 2012
-#      by: PyQt4 UI code generator 4.9.2
+# Created: Thu Dec 20 18:58:15 2012
+#      by: PyQt4 UI code generator 4.9.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -350,9 +350,11 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuRun.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
+        self.SelectedSource_Label.setBuddy(self.imported_source)
         self.ObjectMaterial_label.setBuddy(self.mat)
         self.DistancetotheSource_label.setBuddy(self.dist)
         self.InclinationtotheBeam_label.setBuddy(self.deg)
+        self.label_2.setBuddy(self.mesh_level)
         self.label.setBuddy(self.flt_newmat)
         self.label_3.setBuddy(self.flt_newthick)
 
@@ -432,11 +434,13 @@ class Ui_MainWindow(object):
         self.actionSave_spectrum.setText(QtGui.QApplication.translate("MainWindow", "Save Spectrum", None, QtGui.QApplication.UnicodeUTF8))
         self.actionImport_Spectrum.setText(QtGui.QApplication.translate("MainWindow", "Import Spectrum", None, QtGui.QApplication.UnicodeUTF8))
         self.action_help.setText(QtGui.QApplication.translate("MainWindow", "Help", None, QtGui.QApplication.UnicodeUTF8))
+        self.action_help.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+H", None, QtGui.QApplication.UnicodeUTF8))
         self.action_paper.setText(QtGui.QApplication.translate("MainWindow", "Paper", None, QtGui.QApplication.UnicodeUTF8))
         self.action_about.setText(QtGui.QApplication.translate("MainWindow", "About", None, QtGui.QApplication.UnicodeUTF8))
         self.action_go.setText(QtGui.QApplication.translate("MainWindow", "Go", None, QtGui.QApplication.UnicodeUTF8))
         self.action_go.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+G", None, QtGui.QApplication.UnicodeUTF8))
         self.action_abort.setText(QtGui.QApplication.translate("MainWindow", "Abort", None, QtGui.QApplication.UnicodeUTF8))
+        self.action_abort.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Q", None, QtGui.QApplication.UnicodeUTF8))
         self.action_view_results.setText(QtGui.QApplication.translate("MainWindow", "View Results", None, QtGui.QApplication.UnicodeUTF8))
         self.actionConfigure_XOP.setText(QtGui.QApplication.translate("MainWindow", "Configure XOP", None, QtGui.QApplication.UnicodeUTF8))
         self.action_xop_config.setText(QtGui.QApplication.translate("MainWindow", "Configure XOP", None, QtGui.QApplication.UnicodeUTF8))

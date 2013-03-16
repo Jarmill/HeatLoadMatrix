@@ -84,9 +84,6 @@
               <property name="text">
                <string>Selected Source:</string>
               </property>
-              <property name="buddy">
-               <cstring>imported_source</cstring>
-              </property>
              </widget>
             </item>
             <item>
@@ -275,9 +272,6 @@
                    <widget class="QLabel" name="label_2">
                     <property name="text">
                      <string>Mesh Levels</string>
-                    </property>
-                    <property name="buddy">
-                     <cstring>mesh_level</cstring>
                     </property>
                    </widget>
                   </item>
@@ -674,9 +668,6 @@
    <property name="text">
     <string>Help</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+H</string>
-   </property>
   </action>
   <action name="action_paper">
    <property name="enabled">
@@ -705,9 +696,6 @@
   <action name="action_abort">
    <property name="text">
     <string>Abort</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Q</string>
    </property>
   </action>
   <action name="action_view_results">

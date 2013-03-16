@@ -16,6 +16,7 @@ from os import path, makedirs
 #THE NUCLEAR OPTION
 from shutil import rmtree
 import gc
+from PyQt4 import QtCore
 
 
 """
@@ -332,6 +333,7 @@ class Back(rectangle_grid.pc):
 
     def heat_load_matrix(self):
         """function wrapper"""
+        QtCore.QCoreApplication.processEvents()
         #if path.exists("mathematica_output"):
         #    rmtree("mathematica_output")
         
@@ -354,7 +356,8 @@ class Back(rectangle_grid.pc):
 
         s="Title: "+self.title
         s+="\nIntegrated source power without filtering: "+str(integrated_s_power)+" W\n"
-
+        
+        QtCore.QCoreApplication.processEvents()
         f_flux=self.filter_flux(s_flux)
         if self.MATHEMATICA_OUTPUT: 
             self.mathematica_output(f_flux, "filter_flux")
@@ -367,20 +370,23 @@ class Back(rectangle_grid.pc):
 
         s+="Integrated source power after filtering: "+str(integrated_power_after_filtering)+" W\n"
         
+        QtCore.QCoreApplication.processEvents()
         region_filtered_fluxv=self.region_filtered_flux(f_flux)        
 
         slice_transmissionv=self.slice_transmission()
         
+        QtCore.QCoreApplication.processEvents()
         voxel_absorbed_fluxv=self.voxel_absorbed_flux(f_flux,slice_transmissionv)
         #if self.MATHEMATICA_OUTPUT: self.mathematica_output(voxel_absorbed_fluxv, "absorbed_flux")
 
         f_flux = None
         gc.collect()
 
-
+        QtCore.QCoreApplication.processEvents()
         voxel_absorbed_powerv=self.voxel_flux_to_power(voxel_absorbed_fluxv)
         if self.MATHEMATICA_OUTPUT: self.mathematica_output(voxel_absorbed_powerv, "power")
         
+        QtCore.QCoreApplication.processEvents()
         voxel_absorbed_power_densityv=self.voxel_absorbed_power_density(voxel_absorbed_powerv, slice_volumesv)
         if self.MATHEMATICA_OUTPUT: 
             self.mathematica_output(voxel_absorbed_power_densityv, "absorbed_power_density")
@@ -567,6 +573,7 @@ class Back(rectangle_grid.pc):
             f=open(jobdir+'\\'+ xop_pgm + ".inp", "w")
             f.write(s)
             f.close()
+            QtCore.QCoreApplication.processEvents()
             return
         
         # runs xop
@@ -676,6 +683,7 @@ class Back(rectangle_grid.pc):
         # Phase 1 - Generate input files for XOP programs          
         for i in range(0,ilimit):
             for j in range(0,jlimit):
+                if j==0: QtCore.QCoreApplication.processEvents()
                 x_offset=pc[j][i][0]
                 y_offset=pc[j][i][1]
                 x_dim=dimensions[j][i][0]
