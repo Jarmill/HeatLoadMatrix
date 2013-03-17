@@ -13,16 +13,14 @@ def cusum(l):
         o.append(s)
     return o
 
-class pc2():
+class pc():
     def rect_initialize(self):
         """only used for testing, if run through rectangle_grid.py"""
-        self.h=1
-        self.v=1
-        self.d=.01
-        self.hd=5
-        # self.hd=5
-        self.vd=5
-        # self.vd=4
+        self.h=2
+        self.v=2
+        self.d=.1
+        self.hd=2
+        self.vd=2
         self.LIP=True
         self.thickness=[1, 2]
         self.title="rect_grid_test"
@@ -74,7 +72,7 @@ class pc2():
         return [(self.ypar[i+1]+self.ypar[i])/2 for i in range(len(self.ypar)-1)]
 
     def rect_centers(self):
-        return [[((self.xpar[i+1]+self.xpar[i])/2, (self.ypar[j+1]-self.ypar[j])/2) for i in range(len(self.xpar)-1)] for j in range(len(self.ypar)-1)]
+        return [[((self.xpar[i+1]+self.xpar[i])/2, (self.ypar[j+1]+self.ypar[j])/2) for i in range(len(self.xpar)-1)] for j in range(len(self.ypar)-1)]
     
     def rect_param(self):
         self.centers=self.rect_centers()
@@ -85,10 +83,10 @@ class pc2():
         return "X coord:\t"+str(self.xpar)+"\nY coord:\t"+str(self.ypar)
     
 if __name__=="__main__":
-    p=pc2()
+    p=pc()
     p.rect_initialize()
     p.rect_setup()
     print(p)
-    print(p.rect_areas())
-    print(p.rect_centers())
-    print(p.rect_dimensions())
+    print("areas:\n", p.rect_areas(), "\n")
+    print("centers:\n", p.rect_centers(), "\n")
+    print("dimensions:\n", p.rect_dimensions(), "\n")

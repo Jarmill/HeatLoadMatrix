@@ -8,7 +8,7 @@ from copy import deepcopy
 import _pickle as pickle
 import json
 # grid functionality
-import rect_partition
+from rect_partition import pc
 # subprocess modules
 from multiprocessing import cpu_count
 import subprocess
@@ -91,7 +91,7 @@ Bending magnet supprot
 class UserAbortException(Exception):
     pass
 
-class Back(QtCore.QThread, rect_partition.pc2):
+class Back(QtCore.QThread, pc):
     """This class contains all the misc functions that allow heatloadmatrix to run. The main event is heat_load_matrix()"""
     def __init__(self):
         super(Back, self).__init__()
@@ -100,29 +100,6 @@ class Back(QtCore.QThread, rect_partition.pc2):
 
     def __del__(self):
         self.wait()
-
-    def updateStatus(self, section, pctdoneinsection, msg=""):
-
-        QtGui.qApp.processEvents(QtCore.QEventLoop.AllEvents)
-
-        if self.abort:
-            raise UserAbortException()
-
-        if section==1:
-            pctdone=0+(pctdoneinsection*0.10)
-        elif section==2:
-            pctdone=10+(pctdoneinsection*0.65)
-        else:
-            pctdone=75+(pctdoneinsection*0.25)
-
-        # print("updateStatus(" + str(section) + "," + str(pctdoneinsection) + ") --> " + str(pctdone) + "%")
-
-        self.emit(QtCore.SIGNAL("progvalue"), pctdone)
-
-        if msg!="":
-            self.emit(QtCore.SIGNAL("update(QString)"), msg)
-
-        # self.yieldCurrentThread()
 
     def back_values(self):
         """pseudoglobal values. These are initialized as part of WDialog and UDialog's __init__() method, to avoid the diamond of death"""
@@ -182,6 +159,11 @@ class Back(QtCore.QThread, rect_partition.pc2):
         self.mesh=run["mesh"]
         if run["title"]=="": self.title="output"
         else: self.title=run["title"]
+        if run["mesh"]=="progressive":
+            self.mesh_level=run["mesh_level"]
+            self.mesh="progressive"
+        else: self.mesh="uniform"
+        
         
         # intrinsic parameters DO NOT TOUCH! Only for undulators
         self.mode=int(adv["mode"])
@@ -308,7 +290,7 @@ class Back(QtCore.QThread, rect_partition.pc2):
                 for j in range(0, jlimit):
                     # W/mm^2->W/m^2
                     # slice_volumes[k][i][j]=patch_area*self.thickness[k]*10*(10**-9)
-                    sik[j]=areas[j][i]*thickness*10*(10**-9)        
+                    sik[j]=areas[i][j]*thickness*10*(10**-9)        
 
         if self.print_matrix_sums:
             print_sum_matrix_by_layer(slice_volumes, 'calc_slice_volumes')
@@ -370,7 +352,6 @@ class Back(QtCore.QThread, rect_partition.pc2):
 
 
     def run_heat_load_matrix(self):
-
         try:
             self.emit(QtCore.SIGNAL("startofrun"))
             self.updateStatus(1, 0)
@@ -386,10 +367,7 @@ class Back(QtCore.QThread, rect_partition.pc2):
 
 
     def heat_load_matrix(self):
-        """function wrapper"""
-        # if path.exists("mathematica_output"):
-        #    rmtree("mathematica_output")
-
+        """main execution"""
         self.abort=False
 
         self.updateStatus(1, 0, "Beginning run")
@@ -399,12 +377,6 @@ class Back(QtCore.QThread, rect_partition.pc2):
         if path.exists(".\\job"):
             self.updateStatus(1, 2, "Removing old job files")
             rmtree(".\\job")
-
-        self.updateStatus(1, 70, "Calculating slice volumes")
-
-        slice_volumesv=self.calc_slice_volumes()
-
-        self.updateStatus(1, 90)
 
         s_flux=self.source_flux()  # calculate flux in each pixel before filtering, xop
 
@@ -462,6 +434,10 @@ class Back(QtCore.QThread, rect_partition.pc2):
         if self.MATHEMATICA_OUTPUT:
             self.updateStatus(3, 65, "Mathematica - Voxel absorbed powerv")
             self.mathematica_output(voxel_absorbed_powerv, "power")
+            
+        self.updateStatus(1, 65, "Calculating slice volumes")
+
+        slice_volumesv=self.calc_slice_volumes()
 
         self.updateStatus(3, 70, "Voxel absorbed power density")
 
@@ -555,7 +531,7 @@ class Back(QtCore.QThread, rect_partition.pc2):
             for j in range(0, len(s_flux[0])):
                 sij=si[j]
                 for m in range(0, len(ea)):
-                    intpow+=(sij[m]*ea[m]*1.60217646E-19)*(areas[j][i]/full_area)  # the dA element of the integral
+                    intpow+=(sij[m]*ea[m]*1.60217646E-19)*(areas[i][j]/full_area)  # the dA element of the integral
 
         if self.print_matrix_sums:
             print_number(intpow, 'integrated_source_power intpow')
@@ -579,7 +555,7 @@ class Back(QtCore.QThread, rect_partition.pc2):
             # 2d data like power and power density
             assert len(vr)==len(data[0])
             assert len(hr)==len(data[0][0])
-            s=("\n".join([str(hr[i])+"\t"+str(vr[j])+"\t"+str(data[0][j][i]) for i in range(0, len(hr)-1) for j in range(0, len(vr))]))
+            s=("\n".join([str(hr[i])+"\t"+str(vr[j])+"\t"+str(data[0][i][j]) for i in range(0, len(hr)-1) for j in range(0, len(vr))]))
             f=open(root+"\\"+name+".dat", "w")
             f.write(s)
             f.close()
@@ -593,12 +569,12 @@ class Back(QtCore.QThread, rect_partition.pc2):
             assert len(ea)==len(data[0][0])
             area=self.areas
             for m in self.mathematica_sampling:
-                s=("\n".join([str(hr[i])+"\t"+str(vr[j])+"\t"+str(data[j][i][m]) for i in range(1, len(hr)-1) for j in range(1, len(vr)-1)]))
+                s=("\n".join([str(hr[i])+"\t"+str(vr[j])+"\t"+str(data[i][j][m]) for i in range(1, len(hr)-1) for j in range(1, len(vr)-1)]))
                 f=open(root+"\\"+name+"_"+str(m)+".dat", "w")
                 f.write(s)
                 f.close()
                 
-                s2=("\n".join([str(hr[i])+"\t"+str(vr[j])+"\t"+str(data[j][i][m]/area[i][j]) for i in range(1, len(hr)-1) for j in range(1, len(vr)-1)]))
+                s2=("\n".join([str(hr[i])+"\t"+str(vr[j])+"\t"+str(data[i][j][m]/area[i][j]) for i in range(1, len(hr)-1) for j in range(1, len(vr)-1)]))
                 f2=open(root+"\\"+name+"_"+str(m)+"unit.dat", "w")
                 f2.write(s2)
                 f2.close()
@@ -792,17 +768,14 @@ class Back(QtCore.QThread, rect_partition.pc2):
         numPointsPerStatusUpdate=numPoints/10
 
         pointsProcessed=0
-
+        
+        # Phase 1 - Set up a directory for each sample point, and seed with ws/us.in files
         for i in range(0, ilimit):
             for j in range(0, jlimit):
-                x_offset=pc[j][i][0]
-                y_offset=pc[j][i][1]
-                x_dim=dimensions[j][i][0]
-                y_dim=dimensions[j][i][1]
                 jobdir=jobdirroot+'\\'+str(i)+'-'+str(j)
                 if not path.exists(jobdir):
                     makedirs(jobdir)
-                self.patch_flux(x_offset, y_offset, 1, jobdir, x_dim, y_dim)
+                self.patch_flux(pc[i][j][0], pc[i][j][1], 1, jobdir, dimensions[i][j][0], dimensions[i][j][1])
                 pointsProcessed+=1
                 if pointsProcessed%numPointsPerStatusUpdate==0:
                     self.updateStatus(2, 10+(pointsProcessed/numPointsPerStatusUpdate))
@@ -810,12 +783,8 @@ class Back(QtCore.QThread, rect_partition.pc2):
         # Phase 2 - Run XOP programs, multi-processing           
         for i in range(0, ilimit):
             for j in range(0, jlimit):
-                x_offset=pc[j][i][0]
-                y_offset=pc[j][i][1]
                 jobdir=jobdirroot+'\\'+str(i)+'-'+str(j)
-                x_dim=dimensions[j][i][0]
-                y_dim=dimensions[j][i][1]
-                self.patch_flux(x_offset, y_offset, 2, jobdir, x_dim, y_dim)
+                self.patch_flux(pc[i][j][0], pc[i][j][1], 2, jobdir, dimensions[i][j][0], dimensions[i][j][1])
 
         self.patch_flux(0, 0, 2, 'waitforall')  # wait for remaining jobs to finish              
 
@@ -825,23 +794,11 @@ class Back(QtCore.QThread, rect_partition.pc2):
         # Phase 3 - Read output files from XOP programs and incorporate data
         for i in range(0, ilimit):
             for j in range(0, jlimit):
-                x_offset=pc[j][i][0]
-                y_offset=pc[j][i][1]
                 jobdir=jobdirroot+'\\'+str(i)+'-'+str(j)
-                x_dim=dimensions[j][i][0]
-                y_dim=dimensions[j][i][1]
-                s_flux[i][j]=self.patch_flux(x_offset, y_offset, 3, jobdir, x_dim, y_dim)
+                s_flux[i][j]=self.patch_flux(pc[i][j][0], pc[i][j][1], 3, jobdir, dimensions[i][j][0], dimensions[i][j][1])
                 uncorrected_flux[i][j]=s_flux[i][j]
 
-                # print(len(s_flux),len(s_flux[i]),len(s_flux[i][j]),len(ea))
-                
                 assert depth(s_flux)==3
-                if self.LIP:
-                    assert ilimit==self.vd+2
-                    assert jlimit==self.hd+2 
-                else:
-                    assert ilimit==self.vd 
-                    assert jlimit==self.hd 
                 assert ilimit==len(s_flux)
                 assert jlimit==len(s_flux[i])
                 assert len(ea)==len(s_flux[i][j])
@@ -886,9 +843,9 @@ class Back(QtCore.QThread, rect_partition.pc2):
             for i in range(0, ilimit):
                 vki=vk[i]
                 for j in range(0, jlimit):
-                    # total_integrated_power+=v_power[k][i][j]*(areas[j][i]/full_area)*self.thickness[k]/sumthick #dV element
-                    total_integrated_power+=vki[j]*(areas[j][i]/full_area)  # ## *self.thickness[k]/sumthick ### TESTING FIX
-                    # print(v_power[k][i][j], areas[j][i], full_area, self.thickness[k], sumthick, total_integrated_power)
+                    # total_integrated_power+=v_power[k][i][j]*(areas[i][j]/full_area)*self.thickness[k]/sumthick #dV element
+                    total_integrated_power+=vki[j]*areas[i][j]/full_area  # ## *self.thickness[k]/sumthick ### TESTING FIX
+                    # print(v_power[k][i][j], areas[i][j], full_area, self.thickness[k], sumthick, total_integrated_power)
                     
         # This takes the sum of all elements in total_integrated_power, equivalent to the above triple integral.
         # Inaccurate, does not account for area.
@@ -916,6 +873,30 @@ class Back(QtCore.QThread, rect_partition.pc2):
     def us(self, x_offset=0, y_offset=0, phase=0, jobdir="", x_dim=0, y_dim=0):
         """writes the matrix to us.inp, runs ws.exe, and processes the result"""
         return self.run_xop('us', x_offset, y_offset, phase, jobdir, x_dim, y_dim)
+    
+    def updateStatus(self, section, pctdoneinsection, msg=""):
+
+        QtGui.qApp.processEvents(QtCore.QEventLoop.AllEvents)
+
+        if self.abort:
+            raise UserAbortException()
+
+        if section==1:
+            pctdone=0+(pctdoneinsection*0.10)
+        elif section==2:
+            pctdone=10+(pctdoneinsection*0.65)
+        else:
+            pctdone=75+(pctdoneinsection*0.25)
+
+        # print("updateStatus(" + str(section) + "," + str(pctdoneinsection) + ") --> " + str(pctdone) + "%")
+
+        self.emit(QtCore.SIGNAL("progvalue"), pctdone)
+
+        if msg!="":
+            self.emit(QtCore.SIGNAL("update(QString)"), msg)
+
+        # self.yieldCurrentThread()
+
     
     def voxel_absorbed_flux(self, f_flux, slice_t):
         """Finds the power flux from source and transmission through each layer. s_flux=3d, slice_t=2d"""
@@ -1028,16 +1009,17 @@ class Back(QtCore.QThread, rect_partition.pc2):
        
         v_power_density=matchdim(v_power)
         
-        # The indeces here are brutal and do not conform to the rest of the index convention. This monstrosity will be fixed later.
+        # The indices here are brutal and do not conform to the rest of the index convention. This monstrosity will be fixed later.
+        # print("indices voxel conflict:", len(v_power), len(v_power[0]), len(v_power[0][0]), ", ", len(v_power_density), len(v_power_density[0]), len(v_power_density[0][0]), ", ", len(slice_volumes), len(slice_volumes[0]), len(slice_volumes[0][0]))
         for k in range(0, len(v_power)):
             vk=v_power[k]
             sk=slice_volumes[k]
-            for j in range(0, len(v_power[0])):
-                vkj=vk[j]
-                skj=sk[j]
-                for i in range(0, len(v_power[0][0])):
+            for i in range(0, len(v_power[0])):
+                vki=vk[i]
+                ski=sk[i]
+                for j in range(0, len(v_power[0][0])):
                     # v_power_density[k][i][j]=v_power[k][i][j]/slice_volumes[k][i][j]
-                    v_power_density[k][j][i]=vkj[i]/skj[i]  # ## TESTING FIX
+                    v_power_density[k][i][j]=vki[j]/ski[j]  # ## TESTING FIX
                     
         if self.print_matrix_sums:
             print_sum_matrix_by_layer(v_power_density, 'voxel_absorbed_power_density v_power_density')
@@ -1165,12 +1147,17 @@ class Back(QtCore.QThread, rect_partition.pc2):
                     # flipdim unnecesary
                     power_temp[i][j]=vd[k][i][j]
             
-        
+            """        
+            dudx=[[-(power_temp[i][j+1]-power_temp[i][j])/power_temp[i][j+1]*100 for j in range(xlen-1)] for i in range(ylen-1)]
+            dudy=[[-(power_temp[i+1][j]-power_temp[i][j])/power_temp[i+1][j]*100 for j in range(xlen-1)] for i in range(ylen-1)]
+            
+            print("dudx\n", dudx, "\n")
+            print("dudy\n", dudy, "\n")                
+            """
             # vertical zero padding
             for i in range(0, ylen):
                 power_temp[i].insert(0, 0)
                 power_temp[i].append(0)
-                
         
             # horizantal zero padding
             power_temp.append(cell1(xlen+2))
@@ -1180,7 +1167,7 @@ class Back(QtCore.QThread, rect_partition.pc2):
                 print('len(power_temp) >= i', k, len(power_temp), i, len(vr))
 
             for i in range(0, len(vr)):
-                power_temp[i].insert(0, vr[i])  # ## BUG
+                power_temp[i].insert(0, vr[i])
             
             hr.insert(0, 10*self.thickness[k])
             power_temp.insert(0, hr)

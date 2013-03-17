@@ -27,10 +27,8 @@ class pc():
         self.h=1
         self.v=1
         self.d=.1
-        self.hd=5
-        # self.hd=5
-        self.vd=5
-        # self.vd=4
+        self.hd=2
+        self.vd=2
         self.LIP=True
         self.thickness=[1, 2]
         self.title="rect_grid_test"
@@ -87,12 +85,6 @@ class pc():
                 corners[i][j]=(r.x, r.y)
                 dimensions[i][j]=(r.h, r.v)
                 areas[i][j]=r.h*r.v
-        if __name__=="__main__":
-            print(centers)
-            print(corners)
-            print(dimensions)
-            print(areas)
-            print(grid2[0][0])
         self.centers=centers
         self.corners=corners
         self.dimensions=dimensions
@@ -120,6 +112,7 @@ if __name__=="__main__":
     p=pc()
     p.rect_initialize()
     p.rect_setup()
-    print(p.rect_center_x())
-    print(p.rect_center_y())
+    print(p.rect_areas(), "\n")
+    print(p.rect_centers(), "\n")
+    print(p.rect_dimensions(), "\n")
     print("rect run.")
