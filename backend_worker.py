@@ -1,6 +1,6 @@
 # The big import block
 # basic algorithms/operations
-from basic_functions import  cell1, cell2, cell3, mult, mu3, depth, matchdim, print_sum_matrix_by_layer, print_number, print_sum_matrix
+from basic_functions import  cell1, cell2, cell3, mult, mu3, depth, matchdim
 import math
 from time import time, sleep
 from copy import deepcopy
