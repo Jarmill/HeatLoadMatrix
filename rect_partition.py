@@ -2,7 +2,7 @@
 This is testing code to create the partition, compatible with progressive meshing.
 """
 
-from basic_functions import chunks, matchdim
+from basic_functions import chunks, matchdim, cell2
 
 def cusum(l):
     o=[]
@@ -78,6 +78,12 @@ class pc():
         self.centers=self.rect_centers()
         self.areas=self.rect_areas()
         self.dimensions=self.rect_dimensions()
+    
+    def blank(self):
+        if self.LIP: 
+            return cell2(self.hd+2, self.vd+2)
+        else:
+            return cell2(self.hd, self.vd) 
     
     def __repr__(self):
         return "X coord:\t"+str(self.xpar)+"\nY coord:\t"+str(self.ypar)
