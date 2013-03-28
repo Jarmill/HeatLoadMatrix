@@ -24,7 +24,7 @@ class gauss_mesh(pc):
         self.thickness=[1]
         self.title="gauss testing"
         self.rect_setup()
-        self.mesh_level=0
+        self.mesh_level=1
         self.ea=[500+(100000-500)/(5000)*i for i in range(5000)]
         self.x_tolerance=20.0
         self.y_tolerance=30.0
@@ -132,6 +132,7 @@ class gauss_mesh(pc):
     
     def find_split(self, pdiff, tolerance):
         """Determines how many times to split a cell"""
+        if pdiff<1: return 0
         return round(log(pdiff, tolerance))
     
     def rect_flux_split(self, s_flux, s_power):
@@ -143,45 +144,35 @@ class gauss_mesh(pc):
         # px = percent change
         px=[[-(s_power[i][j+1]-s_power[i][j])/s_power[i][j+1]*100 for j in range(xlen-1)] for i in range(ylen)]
         py=[[-(s_power[i+1][j]-s_power[i][j])/s_power[i+1][j]*100 for j in range(xlen)] for i in range(ylen-1)]
-        """
+        
         domy=[max(i) for i in py]
-            
+        domx=[0]*(len(px)-1)
         for i in range(xlen-1):
             domx[i]=max([px[j][i] for j in range(ylen-1)]) 
         
-        x_split=[self.find_split(i, self.x_tolerance) for i in domy]
-        y_split=[self.find_split(i, self.y_tolerance) for i in domx]
-        """
-        x_split=[1]*(xlen-1)
-        y_split=[1]*(ylen-1)
+        x_split=[self.find_split(i, self.x_tolerance) for i in domx]
+        y_split=[self.find_split(i, self.y_tolerance) for i in domy]
+        
+        dxchain=[[self.xpar[i+1]-(self.xpar[i+1]-self.xpar[i])/(x_split[i]+1)*(j+1) for j in range(x_split[i])] for i in range(xlen-1)]
+        dychain=[[self.ypar[i+1]-(self.ypar[i+1]-self.ypar[i])/(y_split[i]+1)*(j+1) for j in range(y_split[i])] for i in range(ylen-1)]
+
+        # x_split=[1]*(xlen-1)
+        # y_split=[1]*(ylen-1)
         print("X split:\n", x_split, "\nY split:\n", y_split)
         # rest of code goes here
         
         #Split on x axis------------------------------------------------------------------------------
-        x_index=0
-        for x_control in range(xlen-1):
-            curr_split_x=x_split[x_control]
-            new_par_dist=(self.xpar[x_index+1]-self.xpar[x_index])/(curr_split_x+1)
-            par_initial=self.xpar[x_index]
-            for i in range(curr_split_x):
-                for j in s_flux:
-                    j.insert(x_index, 0)
-                self.xpar.insert(x_index, par_initial+new_par_dist*(i+1))
-                x_index+=1
-            x_index+=1
-        
+        for i in reversed(range(len(x_split))):
+            for k in dxchain[i]:
+                s_flux[i].insert(i, 0)
+                self.xpar.insert(i+1, k)
+                
         #Split on y axis------------------------------------------------------------------------------ 
-        y_index=0
-        for y_control in range(ylen-1):
-            curr_split_y=y_split[y_control]
-            new_par_dist=(self.ypar[y_index+1]-self.ypar[y_index])/(curr_split_y+1)
-            par_initial=self.ypar[y_index]
-            listlen=len(s_flux[0])
-            for i in range(curr_split_y):
-                s_flux.insert(y_index, [0]*listlen)
-                self.ypar.insert(y_index, par_initial+new_par_dist*(i+1))
-                y_index+=1
-            y_index+=1
+        newlen=len(s_flux[0])
+        for i in reversed(range(len(y_split))):
+            s_flux.insert(i, [0]*newlen)
+            for k in dychain[i]:
+                self.ypar.insert(i+1, k)
             
         # print(self.voxel_flux_to_power([s_flux])[0])
         # also generate all areas/dimensions/centers
@@ -207,8 +198,8 @@ class gauss_mesh(pc):
         
         s_flux=self.source_flux()
         s_power=self.voxel_flux_to_power([s_flux])[0]
-        s_flux=self.rect_flux_split(s_flux, s_power)
-        """
+        # s_flux=self.rect_flux_split(s_flux, s_power)
+
         while self.mesh_level>0:
             s_flux=self.rect_flux_split(s_flux, s_power)
             # find a way to handle filtering, hopefully already done.
@@ -219,7 +210,7 @@ class gauss_mesh(pc):
     
         if os.path.exists("job"):
             os.rmtree("job")
-        """
+            
         return s_power
 
 if __name__=="__main__":
