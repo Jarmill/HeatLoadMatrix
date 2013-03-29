@@ -24,7 +24,7 @@ class gauss_mesh(pc):
         self.thickness=[1]
         self.title="gauss testing"
         self.rect_setup()
-        self.mesh_level=1
+        self.mesh_level=3
         self.ea=[500+(100000-500)/(5000)*i for i in range(5000)]
         self.x_tolerance=20.0
         self.y_tolerance=30.0
@@ -42,25 +42,27 @@ class gauss_mesh(pc):
         ea=self.ea
         dE=ea[1]-ea[0]
         jobdirroot=".\\job"
+        print("i", len(s_flux), len(self.ypar), "j", len(s_flux[0]), len(self.xpar))
         #Phase 1 - generate folders------------------------------------------------------------------------------ 
         for i in range(0, len(s_flux)):
             for j in range(0, len(s_flux[0])):
-                if depth(s_flux[i][j])==0:
+                if s_flux[i][j]==0:
+                    # All unprocessed points are 0, all processed points are a list of flux.
                     jobdir=jobdirroot+"\\"+str(i)+'-'+str(j)
                     if not os.path.exists(jobdir):
                         os.makedirs(jobdir)
         #Phase 2 - run gauss on each folder, create "out.pkl" on each------------------------------------------------------------------------------ 
-        samp_points=[x for x in list(os.walk(".\\job"))[0][1]]
+        samp_points=[x.split("-") for x in list(os.walk(".\\job"))[0][1]]
         for p in samp_points:
             i=int(p[0])
-            j=int(p[2])
-            filedir=jobdirroot+"\\"+p+"\\"
+            j=int(p[1])
+            filedir=jobdirroot+"\\"+p[0]+"-"+p[1]+"\\"
             self.gen_flux(pc[i][j][0], pc[i][j][1], filedir, dimensions[i][j][0], dimensions[i][j][1])
         #Phase 3 - read in  "out.pkl" for each point------------------------------------------------------------------------------
         for p in samp_points:
             i=int(p[0])
-            j=int(p[2])
-            filename=jobdirroot+"\\"+p+"\\out.pkl"
+            j=int(p[1])
+            filename=jobdirroot+"\\"+p[0]+"-"+p[1]+"\\out.pkl"
             with open(filename, "rb") as f2:
                 s_flux[i][j]=pickle.load(f2)
             # for m in range(0, len(ea)):
@@ -158,28 +160,29 @@ class gauss_mesh(pc):
 
         # x_split=[1]*(xlen-1)
         # y_split=[1]*(ylen-1)
-        print("X split:\n", x_split, "\nY split:\n", y_split)
+        # print("X split:\n", x_split, "\nY split:\n", y_split)
         # rest of code goes here
         
         #Split on x axis------------------------------------------------------------------------------
         for i in reversed(range(len(x_split))):
             for k in dxchain[i]:
-                s_flux[i].insert(i, 0)
-                self.xpar.insert(i+1, k)
+                self.xpar.insert(i, k)
+                for a in range(len(s_flux)):
+                    s_flux[a].insert(i, 0)
                 
         #Split on y axis------------------------------------------------------------------------------ 
         newlen=len(s_flux[0])
         for i in reversed(range(len(y_split))):
-            s_flux.insert(i, [0]*newlen)
             for k in dychain[i]:
-                self.ypar.insert(i+1, k)
+                self.ypar.insert(i, k)
+                s_flux.insert(i, [0]*newlen)
             
         # print(self.voxel_flux_to_power([s_flux])[0])
         # also generate all areas/dimensions/centers
         self.rect_param()
         # return modified source flux
-        return s_flux      
-        
+        # print("split i", len(s_flux), len(self.ypar), "j", len(s_flux[0]), len(self.xpar))
+        return s_flux        
         
     def integrated_total_power(self, s_power):
         """Finds total power in region, triple integral of power flux. 3d->scalar. Only uses interior points for power calculation. Exterior points used for interpolation correction"""
