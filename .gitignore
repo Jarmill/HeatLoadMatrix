@@ -8,6 +8,8 @@ pickle/*
 *.xls
 source_parameters/*
 heatload_output/*
+job/*
+mathematica_output/*
 *.csv
 *.txt
 *.tar
